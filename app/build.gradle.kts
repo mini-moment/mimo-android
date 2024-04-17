@@ -64,4 +64,15 @@ dependencies {
 
     // retrofit,
     implementation("com.squareup.retrofit2:retrofit:2.9.0")
+
+    // gilde
+    implementation("com.github.bumptech.glide:glide:4.12.0")
+    annotationProcessor("com.github.bumptech.glide:compiler:4.12.0")
+
+    // timber
+    implementation ("com.jakewharton.timber:timber:4.7.1")
+
+    // tedPermission
+    implementation("io.github.ParkSangGwon:tedpermission-normal:3.3.0")
+    implementation("io.github.ParkSangGwon:tedpermission-coroutine:3.3.0")
 }
