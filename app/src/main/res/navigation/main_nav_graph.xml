@@ -2,6 +2,20 @@
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/main_nav_graph"
-    >
+    xmlns:tools="http://schemas.android.com/tools"
+    app:startDestination="@id/mapFragment">
+
+
+    <fragment
+        android:id="@+id/mapFragment"
+        android:name="com.mimo.android.presentation.map.MapFragment"
+        tools:layout="@layout/fragment_map">
+    </fragment>
+
+    <fragment
+        android:id="@+id/myPageFragment"
+        android:name="com.mimo.android.presentation.mypage.MyPageFragment"
+        tools:layout="@layout/fragment_my_page">
+    </fragment>
 
 </navigation>
