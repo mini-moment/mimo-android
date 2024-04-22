@@ -12,7 +12,7 @@ import com.google.android.material.snackbar.Snackbar
 
 abstract class BaseFragment<T : ViewDataBinding>(private val layoutResId: Int) : Fragment() {
     private var _binding: T? = null
-    private val binding get() = _binding!!
+    val binding get() = _binding!!
 
     override fun onCreateView(
         inflater: LayoutInflater,
