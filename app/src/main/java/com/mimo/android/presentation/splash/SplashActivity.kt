@@ -6,6 +6,6 @@ import com.mimo.android.presentation.base.BaseActivity
 
 class SplashActivity : BaseActivity<ActivitySplashBinding>(R.layout.activity_splash) {
     override fun init() {
-        //TODO("Not yet implemented")
+
     }
 }
