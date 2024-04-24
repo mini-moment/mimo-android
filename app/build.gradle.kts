@@ -1,4 +1,4 @@
-import com.android.build.gradle.internal.cxx.configure.gradleLocalProperties
+import java.util.Properties
 
 plugins {
     id("com.android.application")
@@ -6,23 +6,30 @@ plugins {
     kotlin("kapt")
     id("com.google.dagger.hilt.android")
     id("com.google.android.libraries.mapsplatform.secrets-gradle-plugin")
-
 }
-
 android {
     namespace = "com.mimo.android"
     compileSdk = 34
 
+    val properties = Properties()
+    properties.load(project.rootProject.file("local.properties").inputStream())
+    val clientId = properties["NAVER_CLIENT_ID"] ?: ""
+    val clientSecret = properties["NAVER_CLIENT_SECRET"] ?: ""
+    val accessTokenKey = properties["ACCESS_TOKEN_KEY"] ?: ""
+    val refreshTokenKey = properties["REFRESH_TOKEN_KEY"] ?: ""
+    val dataStoreName = properties["DATASTORE_NAME"] ?: ""
     defaultConfig {
         applicationId = "com.mimo.android"
         minSdk = 26
         targetSdk = 34
         versionCode = 1
         versionName = "1.0"
-
+        buildConfigField("String", "CLIENT_ID", "$clientId")
+        buildConfigField("String", "CLIENT_SECRET", "$clientSecret")
+        buildConfigField("String", "ACCESS_TOKEN_KEY", "$accessTokenKey")
+        buildConfigField("String", "REFRESH_TOKEN_KEY", "$refreshTokenKey")
+        buildConfigField("String", "DATASTORE_NAME", "$dataStoreName")
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
-
-
     }
 
     buildTypes {
@@ -76,17 +83,36 @@ dependencies {
     annotationProcessor("com.github.bumptech.glide:compiler:4.12.0")
 
     // timber
-    implementation ("com.jakewharton.timber:timber:4.7.1")
+    implementation("com.jakewharton.timber:timber:4.7.1")
 
     // tedPermission
     implementation("io.github.ParkSangGwon:tedpermission-normal:3.3.0")
     implementation("io.github.ParkSangGwon:tedpermission-coroutine:3.3.0")
 
-    //naverMap
+    // naver oauth aar
+    implementation(files("libs/oauth-5.9.1.aar"))
+    implementation("com.airbnb.android:lottie:3.1.0")
+    implementation("org.jetbrains.kotlin:kotlin-stdlib:1.6.21")
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.3.9")
+    implementation("androidx.appcompat:appcompat:1.3.1")
+    implementation("androidx.legacy:legacy-support-core-utils:1.0.0")
+    implementation("androidx.browser:browser:1.4.0")
+    implementation("androidx.constraintlayout:constraintlayout:1.1.3")
+    implementation("androidx.security:security-crypto:1.1.0-alpha06")
+    implementation("androidx.core:core-ktx:1.3.0")
+    implementation("androidx.fragment:fragment-ktx:1.3.6")
+    implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.4.0")
+    implementation("com.squareup.retrofit2:retrofit:2.9.0")
+    implementation("com.squareup.retrofit2:converter-gson:2.9.0")
+    implementation("com.squareup.moshi:moshi-kotlin:1.11.0")
+    implementation("com.squareup.okhttp3:logging-interceptor:4.2.1")
+
+    // DataStore
+    implementation("androidx.datastore:datastore-preferences:1.0.0")
+    implementation("androidx.datastore:datastore-preferences-core:1.1.0")
+
+    // naverMap
     implementation("com.naver.maps:map-sdk:3.18.0")
-
-
-    //gms
+    // gms
     implementation("com.google.android.gms:play-services-location:21.2.0")
 }
-
