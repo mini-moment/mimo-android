@@ -28,10 +28,9 @@ class MapFragment : Fragment(), OnMapReadyCallback {
 
     private lateinit var mapView: MapView
     private lateinit var naverMap: NaverMap
-    private lateinit var locationSource: FusedLocationSource
 
     //현재 위치
-
+    private lateinit var locationSource: FusedLocationSource
     private lateinit var fusedLocationClient: FusedLocationProviderClient
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -44,10 +43,7 @@ class MapFragment : Fragment(), OnMapReadyCallback {
         return binding.root
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
 
-    }
 
     override fun onMapReady(naverMap: NaverMap) {
         initNaverMap(naverMap)
@@ -81,43 +77,38 @@ class MapFragment : Fragment(), OnMapReadyCallback {
                         LatLng(location.latitude, location.longitude)
                     map.cameraPosition = CameraPosition(loc, DEFAULT_ZOOM)
                     map.locationTrackingMode = LocationTrackingMode.Follow
-
                 }
         }
-
-
     }
 
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+    }
     override fun onStart() {
         super.onStart()
         mapView.onStart()
     }
-
     override fun onResume() {
         super.onResume()
         mapView.onResume()
     }
-
     override fun onPause() {
         super.onPause()
         mapView.onPause()
     }
-
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
         mapView.onSaveInstanceState(outState)
     }
-
     override fun onStop() {
         super.onStop()
         mapView.onStop()
     }
-
     override fun onDestroyView() {
         super.onDestroyView()
         mapView.onDestroy()
     }
-
     override fun onLowMemory() {
         super.onLowMemory()
         mapView.onLowMemory()
