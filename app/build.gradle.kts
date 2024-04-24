@@ -84,5 +84,9 @@ dependencies {
 
     //naverMap
     implementation("com.naver.maps:map-sdk:3.18.0")
+
+
+    //gms
+    implementation("com.google.android.gms:play-services-location:21.2.0")
 }
 
