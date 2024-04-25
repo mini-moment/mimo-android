@@ -1,7 +1,9 @@
 package com.mimo.android.presentation.splash
 
 import android.content.Intent
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import com.mimo.android.R
 import com.mimo.android.core.dataStore
 import com.mimo.android.data.repository.DataStoreRepository
@@ -25,14 +27,16 @@ class SplashActivity : BaseActivity<ActivitySplashBinding>(R.layout.activity_spl
 
     private fun collectUserPreferences() {
         lifecycleScope.launch {
-            viewModel.event.collectLatest { loginEvent ->
-                when (loginEvent) {
-                    is LoginEvent.Success -> {
-                        startActivity(Intent(this@SplashActivity, MainActivity::class.java))
-                    }
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.event.collectLatest { loginEvent ->
+                    when (loginEvent) {
+                        is LoginEvent.Success -> {
+                            startActivity(Intent(this@SplashActivity, MainActivity::class.java))
+                        }
 
-                    is LoginEvent.Error -> {
-                        startActivity(Intent(this@SplashActivity, LoginActivity::class.java))
+                        is LoginEvent.Error -> {
+                            startActivity(Intent(this@SplashActivity, LoginActivity::class.java))
+                        }
                     }
                 }
             }
