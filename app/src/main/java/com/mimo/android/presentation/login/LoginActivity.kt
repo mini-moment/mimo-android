@@ -1,7 +1,9 @@
 package com.mimo.android.presentation.login
 
 import android.content.Intent
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import com.mimo.android.R
 import com.mimo.android.core.dataStore
 import com.mimo.android.data.network.login.NaverLoginManager
@@ -34,15 +36,17 @@ class LoginActivity : BaseActivity<ActivityLoginBinding>(R.layout.activity_login
 
     private fun collectLoginEvent() {
         lifecycleScope.launch {
-            loginViewModel.event.collectLatest { loginEvent ->
-                when (loginEvent) {
-                    is LoginEvent.Success -> {
-                        val intent = Intent(this@LoginActivity, MainActivity::class.java)
-                        startActivity(intent)
-                    }
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                loginViewModel.event.collectLatest { loginEvent ->
+                    when (loginEvent) {
+                        is LoginEvent.Success -> {
+                            val intent = Intent(this@LoginActivity, MainActivity::class.java)
+                            startActivity(intent)
+                        }
 
-                    is LoginEvent.Error -> {
-                        showMessage(loginEvent.errorMessage)
+                        is LoginEvent.Error -> {
+                            showMessage(loginEvent.errorMessage)
+                        }
                     }
                 }
             }
