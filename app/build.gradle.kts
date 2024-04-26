@@ -1,3 +1,5 @@
+import java.util.Properties
+
 plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
@@ -17,6 +19,8 @@ android {
     val accessTokenKey = properties["ACCESS_TOKEN_KEY"] ?: ""
     val refreshTokenKey = properties["REFRESH_TOKEN_KEY"] ?: ""
     val dataStoreName = properties["DATASTORE_NAME"] ?: ""
+    val naverMapClientKey = properties["NAVER_MAP_CLIENT_KEY"]
+
     defaultConfig {
         applicationId = "com.mimo.android"
         minSdk = 26
@@ -28,10 +32,15 @@ android {
         buildConfigField("String", "ACCESS_TOKEN_KEY", "$accessTokenKey")
         buildConfigField("String", "REFRESH_TOKEN_KEY", "$refreshTokenKey")
         buildConfigField("String", "DATASTORE_NAME", "$dataStoreName")
+        buildConfigField("String", "DATASTORE_NAME", "$naverMapClientKey")
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
 
     buildTypes {
+        debug {
+            isMinifyEnabled = false
+            manifestPlaceholders["NAVER_MAP_CLIENT_KEY"] = naverMapClientKey as String
+        }
         release {
             isMinifyEnabled = false
             proguardFiles(
@@ -106,7 +115,12 @@ dependencies {
     implementation("com.squareup.retrofit2:converter-gson:2.9.0")
     implementation("com.squareup.moshi:moshi-kotlin:1.11.0")
     implementation("com.squareup.okhttp3:logging-interceptor:4.2.1")
+
     // DataStore
     implementation("androidx.datastore:datastore-preferences:1.0.0")
     implementation("androidx.datastore:datastore-preferences-core:1.1.0")
+    // naverMap
+    implementation("com.naver.maps:map-sdk:3.18.0")
+    // gms
+    implementation("com.google.android.gms:play-services-location:21.2.0")
 }

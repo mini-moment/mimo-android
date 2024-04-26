@@ -7,28 +7,26 @@ import android.os.Build
 import androidx.core.app.ActivityCompat
 import com.gun0912.tedpermission.PermissionListener
 import com.gun0912.tedpermission.normal.TedPermission
+import com.mimo.android.R
 import timber.log.Timber
 
-//사진 권한 허용
-fun requestMapPermission(complete: () -> Unit) {
+fun Context.requestMapPermission(complete: () -> Unit) {
     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
         TedPermission.create()
-            .setDeniedMessage("파일 권한을 허용해주세요.")// 권한이 없을 때 띄워주는 Dialog Message
-            .setDeniedCloseButtonText("닫기")
-            .setGotoSettingButtonText("설정")
+            .setDeniedMessage(this.getString(R.string.permission_denied_message)) // 권한이 없을 때 띄워주는 Dialog Message
+            .setDeniedCloseButtonText(this.getString(R.string.permission_denied_closed_button_message))
+            .setGotoSettingButtonText(this.getString(R.string.permission_go_to_setting_button_message))
             .setPermissions(
-                android.Manifest.permission.ACCESS_FINE_LOCATION,
-                android.Manifest.permission.ACCESS_COARSE_LOCATION
-            )// 얻으려는 권한(여러개 가능)
+                Manifest.permission.ACCESS_FINE_LOCATION,
+                Manifest.permission.ACCESS_COARSE_LOCATION,
+            )
             .setPermissionListener(object : PermissionListener {
-                //권한이 허용됐을 때
-                override fun onPermissionGranted() {
+                override fun onPermissionGranted() { // 권한이 허용됐을 때
                     Timber.d("권한 허용 완료!")
                     complete()
                 }
 
-                //권한이 거부됐을 때
-                override fun onPermissionDenied(deniedPermissions: MutableList<String>?) {
+                override fun onPermissionDenied(deniedPermissions: MutableList<String>?) { // 권한이 거부됐을 때
                     Timber.d("권한 허용이 거부됨")
                 }
             })
@@ -36,14 +34,13 @@ fun requestMapPermission(complete: () -> Unit) {
     }
 }
 
-
-fun checkLocationPermission(context : Context){
+fun checkLocationPermission(context: Context) {
     if (ActivityCompat.checkSelfPermission(
             context,
-            Manifest.permission.ACCESS_FINE_LOCATION
+            Manifest.permission.ACCESS_FINE_LOCATION,
         ) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(
             context,
-            Manifest.permission.ACCESS_COARSE_LOCATION
+            Manifest.permission.ACCESS_COARSE_LOCATION,
         ) != PackageManager.PERMISSION_GRANTED
     ) {
         return
