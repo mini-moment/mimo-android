@@ -11,6 +11,5 @@
         android:layout_height="match_parent"
         tools:context=".presentation.mypage.MyPageFragment">
 
-
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

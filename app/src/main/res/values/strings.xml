@@ -2,4 +2,7 @@
     <string name="app_name">MiniMoment</string>
     <string name="access_token_key">access_token</string>
     <string name="refresh_token_key">refresh_token</string>
+    <string name="permission_denied_message">파일 권한을 허용해주세요</string>
+    <string name="permission_denied_closed_button_message">닫기</string>
+    <string name="permission_go_to_setting_button_message">설정</string>
 </resources>

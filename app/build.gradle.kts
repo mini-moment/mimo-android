@@ -1,3 +1,5 @@
+import java.util.Properties
+
 plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
@@ -17,6 +19,8 @@ android {
     val accessTokenKey = properties["ACCESS_TOKEN_KEY"] ?: ""
     val refreshTokenKey = properties["REFRESH_TOKEN_KEY"] ?: ""
     val dataStoreName = properties["DATASTORE_NAME"] ?: ""
+    val naverMapClientKey = properties["NAVER_MAP_CLIENT_KEY"]
+
     defaultConfig {
         applicationId = "com.mimo.android"
         minSdk = 26
@@ -28,10 +32,15 @@ android {
         buildConfigField("String", "ACCESS_TOKEN_KEY", "$accessTokenKey")
         buildConfigField("String", "REFRESH_TOKEN_KEY", "$refreshTokenKey")
         buildConfigField("String", "DATASTORE_NAME", "$dataStoreName")
+        buildConfigField("String", "DATASTORE_NAME", "$naverMapClientKey")
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
 
     buildTypes {
+        debug {
+            isMinifyEnabled = false
+            manifestPlaceholders["NAVER_MAP_CLIENT_KEY"] = naverMapClientKey as String
+        }
         release {
             isMinifyEnabled = false
             proguardFiles(
@@ -91,15 +100,9 @@ dependencies {
 
     // naver oauth aar
     implementation(files("libs/oauth-5.9.1.aar"))
-
-    //animation
     implementation("com.airbnb.android:lottie:3.1.0")
-
-    //kotlin
     implementation("org.jetbrains.kotlin:kotlin-stdlib:1.6.21")
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.3.9")
-
-    //androidx
     implementation("androidx.appcompat:appcompat:1.3.1")
     implementation("androidx.legacy:legacy-support-core-utils:1.0.0")
     implementation("androidx.browser:browser:1.4.0")
@@ -108,16 +111,16 @@ dependencies {
     implementation("androidx.core:core-ktx:1.3.0")
     implementation("androidx.fragment:fragment-ktx:1.3.6")
     implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.4.0")
-
-
-    //network
     implementation("com.squareup.retrofit2:retrofit:2.9.0")
     implementation("com.squareup.retrofit2:converter-gson:2.9.0")
     implementation("com.squareup.moshi:moshi-kotlin:1.11.0")
     implementation("com.squareup.okhttp3:logging-interceptor:4.2.1")
 
-
     // DataStore
     implementation("androidx.datastore:datastore-preferences:1.0.0")
     implementation("androidx.datastore:datastore-preferences-core:1.1.0")
+    // naverMap
+    implementation("com.naver.maps:map-sdk:3.18.0")
+    // gms
+    implementation("com.google.android.gms:play-services-location:21.2.0")
 }
