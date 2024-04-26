@@ -11,9 +11,11 @@ import com.mimo.android.data.repository.DataStoreRepository
 import com.mimo.android.databinding.ActivityLoginBinding
 import com.mimo.android.presentation.MainActivity
 import com.mimo.android.presentation.base.BaseActivity
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
+@AndroidEntryPoint
 class LoginActivity : BaseActivity<ActivityLoginBinding>(R.layout.activity_login) {
 
     private lateinit var dataStoreRepository: DataStoreRepository

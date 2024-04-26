@@ -5,11 +5,13 @@ import androidx.lifecycle.viewModelScope
 import com.mimo.android.data.repository.DataStoreRepository
 import com.mimo.android.data.response.ApiResponse
 import com.mimo.android.presentation.login.LoginEvent
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
+@HiltViewModel
 class SplashViewModel(private val dataStoreRepository: DataStoreRepository) : ViewModel() {
     private val _event = MutableSharedFlow<LoginEvent>()
     val event: SharedFlow<LoginEvent> = _event

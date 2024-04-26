@@ -12,9 +12,11 @@ import com.mimo.android.presentation.MainActivity
 import com.mimo.android.presentation.base.BaseActivity
 import com.mimo.android.presentation.login.LoginActivity
 import com.mimo.android.presentation.login.LoginEvent
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
+@AndroidEntryPoint
 class SplashActivity : BaseActivity<ActivitySplashBinding>(R.layout.activity_splash) {
 
     private lateinit var viewModel: SplashViewModel
