@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">MiniMoment</string>
+    <string name="access_token_key">access_token</string>
+    <string name="refresh_token_key">refresh_token</string>
 </resources>
