@@ -21,60 +21,54 @@ import com.naver.maps.map.OnMapReadyCallback
 import com.naver.maps.map.util.FusedLocationSource
 import timber.log.Timber
 
-
 class MapFragment : Fragment(), OnMapReadyCallback {
+
     private var _binding: FragmentMapBinding? = null
     private val binding get() = _binding!!
-
     private lateinit var mapView: MapView
     private lateinit var naverMap: NaverMap
-
-    //현재 위치
-    private lateinit var locationSource: FusedLocationSource
+    private lateinit var locationSource: FusedLocationSource // 현재 위치
     private lateinit var fusedLocationClient: FusedLocationProviderClient
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
+        savedInstanceState: Bundle?,
+    ): View {
         _binding = DataBindingUtil.inflate(inflater, R.layout.fragment_map, container, false)
         binding.lifecycleOwner = viewLifecycleOwner
         initMapView()
         return binding.root
     }
 
-
-
     override fun onMapReady(naverMap: NaverMap) {
         initNaverMap(naverMap)
-        Timber.d("호출됨! ${naverMap}")
+        Timber.d("호출됨! $naverMap")
     }
 
-
-
-    //mapView 초기화
-    private fun initMapView() {
+    private fun initMapView() { // mapView 초기화
         mapView = binding.mapView
         mapView.getMapAsync(this)
         locationSource = FusedLocationSource(this, LOCATION_PERMISSION_REQUEST_CODE)
     }
 
-    //위치 및 naverMap 세팅
-    private fun initNaverMap(naverMap: NaverMap) {
+    private fun initNaverMap(naverMap: NaverMap) { // 위치 및 naverMap 세팅
         this.naverMap = naverMap
         this.naverMap.locationSource = locationSource
         getLastLocation(naverMap)
     }
 
-    //마지막 위치 가져오기
-    private fun getLastLocation(map: NaverMap) {
+    private fun getLastLocation(map: NaverMap) { // 마지막 위치 가져오기
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(requireContext())
         checkLocationPermission(requireActivity())
-        requestMapPermission {
+        requireContext().requestMapPermission {
             fusedLocationClient.lastLocation
                 .addOnSuccessListener { location ->
-                    val loc = if (location == null) LatLng(DEFAULT_LATITUDE, DEFAULT_LONGITUDE) else
+                    val loc = if (location == null) {
+                        LatLng(DEFAULT_LATITUDE, DEFAULT_LONGITUDE)
+                    } else {
                         LatLng(location.latitude, location.longitude)
+                    }
                     map.cameraPosition = CameraPosition(loc, DEFAULT_ZOOM)
                     map.locationTrackingMode = LocationTrackingMode.Follow
                 }
@@ -83,37 +77,42 @@ class MapFragment : Fragment(), OnMapReadyCallback {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
     }
+
     override fun onStart() {
         super.onStart()
         mapView.onStart()
     }
+
     override fun onResume() {
         super.onResume()
         mapView.onResume()
     }
+
     override fun onPause() {
         super.onPause()
         mapView.onPause()
     }
+
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
         mapView.onSaveInstanceState(outState)
     }
+
     override fun onStop() {
         super.onStop()
         mapView.onStop()
     }
+
     override fun onDestroyView() {
         super.onDestroyView()
         mapView.onDestroy()
     }
+
     override fun onLowMemory() {
         super.onLowMemory()
         mapView.onLowMemory()
     }
-
 
     companion object {
         const val DEFAULT_LATITUDE = 37.563242272383114
@@ -121,5 +120,4 @@ class MapFragment : Fragment(), OnMapReadyCallback {
         const val DEFAULT_ZOOM = 15.0
         const val LOCATION_PERMISSION_REQUEST_CODE = 1000
     }
-
 }
