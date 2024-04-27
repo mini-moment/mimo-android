@@ -66,11 +66,18 @@ android {
 
 dependencies {
 
-    implementation("androidx.core:core-ktx:1.12.0")
+    //androidx
     implementation("androidx.appcompat:appcompat:1.6.1")
     implementation("com.google.android.material:material:1.11.0")
     implementation("androidx.constraintlayout:constraintlayout:2.1.4")
     implementation("androidx.databinding:databinding-common:8.3.2")
+    implementation("androidx.legacy:legacy-support-core-utils:1.0.0")
+    implementation("androidx.browser:browser:1.4.0")
+    implementation("androidx.security:security-crypto:1.1.0-alpha06")
+    implementation("androidx.core:core-ktx:1.3.0")
+    implementation("androidx.fragment:fragment-ktx:1.3.6")
+    implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.4.0")
+
     // test
     testImplementation("junit:junit:4.13.2")
     androidTestImplementation("androidx.test.ext:junit:1.1.5")
@@ -86,6 +93,9 @@ dependencies {
 
     // retrofit,
     implementation("com.squareup.retrofit2:retrofit:2.9.0")
+    implementation("com.squareup.retrofit2:converter-gson:2.9.0")
+    implementation("com.squareup.moshi:moshi-kotlin:1.11.0")
+    implementation("com.squareup.okhttp3:logging-interceptor:4.2.1")
 
     // gilde
     implementation("com.github.bumptech.glide:glide:4.12.0")
@@ -103,24 +113,15 @@ dependencies {
     implementation("com.airbnb.android:lottie:3.1.0")
     implementation("org.jetbrains.kotlin:kotlin-stdlib:1.6.21")
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.3.9")
-    implementation("androidx.appcompat:appcompat:1.3.1")
-    implementation("androidx.legacy:legacy-support-core-utils:1.0.0")
-    implementation("androidx.browser:browser:1.4.0")
-    implementation("androidx.constraintlayout:constraintlayout:1.1.3")
-    implementation("androidx.security:security-crypto:1.1.0-alpha06")
-    implementation("androidx.core:core-ktx:1.3.0")
-    implementation("androidx.fragment:fragment-ktx:1.3.6")
-    implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.4.0")
-    implementation("com.squareup.retrofit2:retrofit:2.9.0")
-    implementation("com.squareup.retrofit2:converter-gson:2.9.0")
-    implementation("com.squareup.moshi:moshi-kotlin:1.11.0")
-    implementation("com.squareup.okhttp3:logging-interceptor:4.2.1")
+
 
     // DataStore
     implementation("androidx.datastore:datastore-preferences:1.0.0")
     implementation("androidx.datastore:datastore-preferences-core:1.1.0")
+
     // naverMap
     implementation("com.naver.maps:map-sdk:3.18.0")
+
     // gms
     implementation("com.google.android.gms:play-services-location:21.2.0")
 }
