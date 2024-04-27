@@ -10,10 +10,13 @@ import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
 
 @HiltViewModel
-class LoginViewModel(private val dataStoreRepository: DataStoreRepository) : ViewModel() {
+class LoginViewModel @Inject constructor(
+    private val dataStoreRepository: DataStoreRepository
+) : ViewModel() {
 
     private val _event = MutableSharedFlow<LoginEvent>()
     val event: SharedFlow<LoginEvent> = _event
