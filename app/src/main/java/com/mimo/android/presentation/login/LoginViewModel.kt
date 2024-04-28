@@ -4,7 +4,10 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.mimo.android.data.network.login.NaverLoginManager
 import com.mimo.android.data.repository.DataStoreRepository
+import com.mimo.android.data.repository.UserRepository
+import com.mimo.android.data.request.UserRequest
 import com.mimo.android.data.response.ApiResponse
+import com.mimo.android.data.response.LoginResponse
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.SharedFlow
@@ -12,10 +15,10 @@ import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-
 @HiltViewModel
 class LoginViewModel @Inject constructor(
-    private val dataStoreRepository: DataStoreRepository
+    private val dataStoreRepository: DataStoreRepository,
+    private val userRepository: UserRepository,
 ) : ViewModel() {
 
     private val _event = MutableSharedFlow<LoginEvent>()
@@ -31,7 +34,7 @@ class LoginViewModel @Inject constructor(
                 when (loginResponse) {
                     is ApiResponse.Success -> {
                         dataStoreRepository.saveAccessToken(loginResponse.data)
-                        _event.emit(LoginEvent.Success)
+                        userSignUp(loginResponse.data)
                     }
 
                     is ApiResponse.Error -> {
@@ -45,6 +48,28 @@ class LoginViewModel @Inject constructor(
 
                     is ApiResponse.Failure -> {}
                 }
+            }
+        }
+    }
+
+    private suspend fun userSignUp(loginResponse: LoginResponse) {
+        userRepository.signUp(
+            UserRequest(
+                userName = loginResponse.userName,
+                userContract = loginResponse.userContract,
+                accessToken = loginResponse.accessToken,
+                refreshToken = loginResponse.refreshToken,
+            ),
+        ).collectLatest { signUpResponse ->
+            when (signUpResponse) {
+                is ApiResponse.Success -> _event.emit(LoginEvent.Success)
+                is ApiResponse.Failure -> {}
+                is ApiResponse.Error -> _event.emit(
+                    LoginEvent.Error(
+                        errorCode = signUpResponse.errorCode,
+                        errorMessage = signUpResponse.errorMessage,
+                    ),
+                )
             }
         }
     }
