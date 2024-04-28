@@ -5,6 +5,8 @@
     <!-- 위치권한-->
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <!-- 인터넷 권한 -->
+    <uses-permission android:name="android.permission.INTERNET" />
 
     <application
         android:name=".core.MimoApplication"
@@ -16,12 +18,13 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.MiniMoment"
+        android:usesCleartextTraffic="true"
         tools:targetApi="31">
 
         <!-- NaverMap -->
         <meta-data
-        android:name="com.naver.maps.map.CLIENT_ID"
-         android:value="${NAVER_MAP_CLIENT_KEY}"/>
+            android:name="com.naver.maps.map.CLIENT_ID"
+            android:value="${NAVER_MAP_CLIENT_KEY}" />
 
         <activity
             android:name=".presentation.login.LoginActivity"
