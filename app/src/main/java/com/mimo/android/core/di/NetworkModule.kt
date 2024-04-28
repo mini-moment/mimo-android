@@ -5,7 +5,6 @@ import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
-import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
@@ -19,8 +18,8 @@ object NetworkModule {
     @Singleton
     @Provides
     fun provideRetrofit(okHttpClient: OkHttpClient): Retrofit {
-        val apiKey =
-            ""  //추후 if(BuildConfig.DEBUG){BuildConfig.DEBUG_API_KEY} else{BuildConfig.API_KEY}
+        // val apiKey = "http://192.168.0.115:8080/"
+        val apiKey = "http://192.168.123.112:8080/"
         return Retrofit.Builder()
             .addConverterFactory(GsonConverterFactory.create(GsonBuilder().setLenient().create()))
             .baseUrl(apiKey)
@@ -30,14 +29,11 @@ object NetworkModule {
 
     @Singleton
     @Provides
-    fun provideOkHttpClient(interceptor: Interceptor): OkHttpClient =
-        OkHttpClient.Builder()
-            .run {
-                connectTimeout(120, TimeUnit.SECONDS)
-                readTimeout(120, TimeUnit.SECONDS)
-                writeTimeout(120, TimeUnit.SECONDS)
-                HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY)
-                addInterceptor(interceptor)
-                build()
-            }
+    fun provideOkHttpClient() = OkHttpClient.Builder().run {
+        addInterceptor(HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY))
+        connectTimeout(120, TimeUnit.SECONDS)
+        readTimeout(120, TimeUnit.SECONDS)
+        writeTimeout(120, TimeUnit.SECONDS)
+        build()
+    }
 }
