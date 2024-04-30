@@ -1,6 +1,7 @@
 package com.mimo.android.data.repositoryimpl
 
-import com.mimo.android.data.network.api.LoginApi
+import com.mimo.android.data.datasource.local.LocalDataSource
+import com.mimo.android.data.datasource.remote.UserRemoteDataSource
 import com.mimo.android.data.repository.UserRepository
 import com.mimo.android.data.request.UserRequest
 import com.mimo.android.data.response.ApiResponse
@@ -8,24 +9,28 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import javax.inject.Inject
 
-class UserRepositoryImpl @Inject constructor(private val api: LoginApi) : UserRepository {
+class UserRepositoryImpl @Inject constructor(
+    private val userRemoteDataSource: UserRemoteDataSource,
+    private val localDataSource: LocalDataSource,
+) : UserRepository {
     override fun signUp(userRequest: UserRequest): Flow<ApiResponse<Boolean>> = flow {
-        val response = api.signUp(userRequest)
         runCatching {
-            response
+            userRemoteDataSource.signUp(userRequest)
         }.onSuccess {
             if (it.isSuccessful) {
+                localDataSource.saveAccessToken(userRequest.accessToken)
+                localDataSource.saveRefreshToken(userRequest.refreshToken)
                 emit(ApiResponse.Success(data = true))
-            } else {
-                emit(ApiResponse.Failure)
+            } else { // 네트워크 요청의 실패 다른 에러코드
+                emit(
+                    ApiResponse.Error(
+                        errorCode = it.code(),
+                        errorMessage = it.message(),
+                    ),
+                )
             }
-        }.onFailure {
-            emit(
-                ApiResponse.Error(
-                    errorCode = response.code(),
-                    errorMessage = it.message ?: "",
-                ),
-            )
+        }.onFailure { // 다른 예외가 발생한 경우 -> 서버가 닫힌 경우
+            emit(ApiResponse.Error(errorMessage = it.message ?: ""))
         }
     }
 }
