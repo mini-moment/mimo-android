@@ -3,7 +3,6 @@ package com.mimo.android.presentation.login
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.mimo.android.data.network.login.NaverLoginManager
-import com.mimo.android.data.repository.DataStoreRepository
 import com.mimo.android.data.repository.UserRepository
 import com.mimo.android.data.request.UserRequest
 import com.mimo.android.data.response.ApiResponse
@@ -17,7 +16,6 @@ import javax.inject.Inject
 
 @HiltViewModel
 class LoginViewModel @Inject constructor(
-    private val dataStoreRepository: DataStoreRepository,
     private val userRepository: UserRepository,
 ) : ViewModel() {
 
@@ -33,7 +31,6 @@ class LoginViewModel @Inject constructor(
             NaverLoginManager.loginResult.collectLatest { loginResponse ->
                 when (loginResponse) {
                     is ApiResponse.Success -> {
-                        dataStoreRepository.saveAccessToken(loginResponse.data)
                         userSignUp(loginResponse.data)
                     }
 
