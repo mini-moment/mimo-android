@@ -1,6 +1,6 @@
 package com.mimo.android.core.di
 
-import com.mimo.android.data.network.api.LoginApi
+import com.mimo.android.data.network.api.UserApi
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -14,7 +14,7 @@ import javax.inject.Singleton
 object ApiModule {
     @Provides
     @Singleton
-    fun provideLoginApi(
+    fun provideUserApi(
         retrofit: Retrofit,
-    ): LoginApi = retrofit.create()
+    ): UserApi = retrofit.create()
 }
