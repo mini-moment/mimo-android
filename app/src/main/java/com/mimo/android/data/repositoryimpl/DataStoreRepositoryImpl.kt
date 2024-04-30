@@ -16,15 +16,21 @@ class DataStoreRepositoryImpl @Inject constructor(
         val accessToken = localDataSource.getAccessToken()
         val refreshToken = localDataSource.getRefreshToken()
         if (accessToken.isBlank().not() && refreshToken.isBlank().not()) {
-            ApiResponse.Success(
-                LoginResponse(
-                    accessToken = accessToken,
-                    refreshToken = refreshToken,
+            emit(
+                ApiResponse.Success(
+                    LoginResponse(
+                        accessToken = accessToken,
+                        refreshToken = refreshToken,
+                    ),
                 ),
             )
+        } else if (accessToken.isBlank()) {
+            emit(
+                ApiResponse.Error(errorMessage = ErrorMessage.NO_ACCESS_TOKEN_MESSAGE),
+            )
         } else {
-            ApiResponse.Error(
-                errorMessage = ErrorMessage.NO_ACCESS_TOKEN_MESSAGE,
+            emit(
+                ApiResponse.Error(errorMessage = ErrorMessage.NO_REFRESH_TOKEN_MESSAGE),
             )
         }
     }
