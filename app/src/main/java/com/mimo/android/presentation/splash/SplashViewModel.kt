@@ -14,7 +14,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class SplashViewModel @Inject constructor(
-    private val dataStoreRepository: DataStoreRepository
+    private val dataStoreRepository: DataStoreRepository,
 ) : ViewModel() {
     private val _event = MutableSharedFlow<LoginEvent>()
     val event: SharedFlow<LoginEvent> = _event
@@ -25,19 +25,20 @@ class SplashViewModel @Inject constructor(
 
     private fun getUserPreferences() {
         viewModelScope.launch {
-            dataStoreRepository.getAccessToken().collectLatest { loginResponse ->
-                when (loginResponse) {
+            dataStoreRepository.getUserToken().collectLatest { apiResponse ->
+                when (apiResponse) {
                     is ApiResponse.Success -> _event.emit(LoginEvent.Success)
-                    is ApiResponse.Error -> _event.emit(
-                        LoginEvent.Error(
-                            errorCode = loginResponse.errorCode,
-                            errorMessage = loginResponse.errorMessage,
-                        ),
-                    )
 
-                    is ApiResponse.Failure -> {
-                        _event.emit(LoginEvent.Error())
+                    is ApiResponse.Error -> {
+                        _event.emit(
+                            LoginEvent.Error(
+                                errorCode = apiResponse.errorCode,
+                                errorMessage = apiResponse.errorMessage,
+                            ),
+                        )
                     }
+
+                    is ApiResponse.Failure -> {}
                 }
             }
         }
