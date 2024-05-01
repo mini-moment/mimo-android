@@ -1,4 +1,6 @@
-package com.mimo.android.data.response
+package com.mimo.android.data.model.response
+
+import com.mimo.android.util.ErrorCode
 
 sealed class ApiResponse<out T : Any?> {
     data class Success<out T : Any?>(
@@ -6,7 +8,7 @@ sealed class ApiResponse<out T : Any?> {
     ) : ApiResponse<T>()
 
     data class Error(
-        val errorCode: Int = 0,
+        val errorCode: ErrorCode = ErrorCode.NONE,
         val errorMessage: String = "",
     ) : ApiResponse<Nothing>()
 
