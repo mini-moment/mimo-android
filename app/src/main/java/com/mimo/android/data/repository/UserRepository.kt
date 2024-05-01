@@ -1,7 +1,7 @@
 package com.mimo.android.data.repository
 
-import com.mimo.android.data.request.UserRequest
-import com.mimo.android.data.response.ApiResponse
+import com.mimo.android.data.model.request.UserRequest
+import com.mimo.android.data.model.response.ApiResponse
 import kotlinx.coroutines.flow.Flow
 
 interface UserRepository {

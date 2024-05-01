@@ -2,8 +2,8 @@ package com.mimo.android.data.repositoryimpl
 
 import com.mimo.android.data.datasource.local.LocalDataSource
 import com.mimo.android.data.repository.DataStoreRepository
-import com.mimo.android.data.response.ApiResponse
-import com.mimo.android.data.response.LoginResponse
+import com.mimo.android.data.model.response.ApiResponse
+import com.mimo.android.data.model.response.LoginResponse
 import com.mimo.android.util.ErrorMessage
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow

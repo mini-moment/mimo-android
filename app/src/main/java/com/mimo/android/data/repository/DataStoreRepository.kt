@@ -1,7 +1,7 @@
 package com.mimo.android.data.repository
 
-import com.mimo.android.data.response.ApiResponse
-import com.mimo.android.data.response.LoginResponse
+import com.mimo.android.data.model.response.ApiResponse
+import com.mimo.android.data.model.response.LoginResponse
 import kotlinx.coroutines.flow.Flow
 
 interface DataStoreRepository {

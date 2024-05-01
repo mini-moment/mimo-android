@@ -3,7 +3,7 @@ package com.mimo.android.presentation.splash
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.mimo.android.data.repository.DataStoreRepository
-import com.mimo.android.data.response.ApiResponse
+import com.mimo.android.data.model.response.ApiResponse
 import com.mimo.android.presentation.login.LoginEvent
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableSharedFlow

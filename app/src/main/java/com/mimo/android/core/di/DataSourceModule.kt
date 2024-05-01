@@ -22,6 +22,6 @@ interface DataSourceModule {
     @Singleton
     @Binds
     fun provideUserRemoteDataSource(
-       userRemoteDataSourceImpl: UserRemoteDataSourceImpl,
+        userRemoteDataSourceImpl: UserRemoteDataSourceImpl,
     ): UserRemoteDataSource
 }
