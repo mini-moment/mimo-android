@@ -10,6 +10,7 @@ import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
 import com.mimo.android.R
 import com.mimo.android.databinding.FragmentMapBinding
+import com.mimo.android.presentation.base.BaseMapFragment
 import com.mimo.android.presentation.util.checkLocationPermission
 import com.mimo.android.presentation.util.requestMapPermission
 import com.naver.maps.geometry.LatLng
@@ -21,34 +22,33 @@ import com.naver.maps.map.OnMapReadyCallback
 import com.naver.maps.map.util.FusedLocationSource
 import timber.log.Timber
 
-class MapFragment : Fragment(), OnMapReadyCallback {
+class MapFragment : BaseMapFragment<FragmentMapBinding>(R.layout.fragment_map) {
 
-    private var _binding: FragmentMapBinding? = null
-    private val binding get() = _binding!!
-    private lateinit var mapView: MapView
+
     private lateinit var naverMap: NaverMap
     private lateinit var locationSource: FusedLocationSource // 현재 위치
     private lateinit var fusedLocationClient: FusedLocationProviderClient
 
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?,
-    ): View {
-        _binding = DataBindingUtil.inflate(inflater, R.layout.fragment_map, container, false)
-        binding.lifecycleOwner = viewLifecycleOwner
+
+    override var mapView: MapView?= null
+
+
+    override fun initOnCreateView() {
         initMapView()
-        return binding.root
     }
 
-    override fun onMapReady(naverMap: NaverMap) {
+    override fun initOnMapReady(naverMap : NaverMap) {
+        Timber.d("네이버 지도 확인")
         initNaverMap(naverMap)
-        Timber.d("호출됨! $naverMap")
+    }
+    override fun iniViewCreated() {
+
     }
 
     private fun initMapView() { // mapView 초기화
+        Timber.d("initMapView 호출됨 ${mapView}")
         mapView = binding.mapView
-        mapView.getMapAsync(this)
+        mapView?.getMapAsync(this)
         locationSource = FusedLocationSource(this, LOCATION_PERMISSION_REQUEST_CODE)
     }
 
@@ -65,8 +65,10 @@ class MapFragment : Fragment(), OnMapReadyCallback {
             fusedLocationClient.lastLocation
                 .addOnSuccessListener { location ->
                     val loc = if (location == null) {
+                        Timber.d("위치 확인 안됨")
                         LatLng(DEFAULT_LATITUDE, DEFAULT_LONGITUDE)
                     } else {
+                        Timber.d("현재 위치 확인")
                         LatLng(location.latitude, location.longitude)
                     }
                     map.cameraPosition = CameraPosition(loc, DEFAULT_ZOOM)
@@ -75,44 +77,8 @@ class MapFragment : Fragment(), OnMapReadyCallback {
         }
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-    }
 
-    override fun onStart() {
-        super.onStart()
-        mapView.onStart()
-    }
 
-    override fun onResume() {
-        super.onResume()
-        mapView.onResume()
-    }
-
-    override fun onPause() {
-        super.onPause()
-        mapView.onPause()
-    }
-
-    override fun onSaveInstanceState(outState: Bundle) {
-        super.onSaveInstanceState(outState)
-        mapView.onSaveInstanceState(outState)
-    }
-
-    override fun onStop() {
-        super.onStop()
-        mapView.onStop()
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        mapView.onDestroy()
-    }
-
-    override fun onLowMemory() {
-        super.onLowMemory()
-        mapView.onLowMemory()
-    }
 
     companion object {
         const val DEFAULT_LATITUDE = 37.563242272383114
