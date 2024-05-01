@@ -1,8 +1,8 @@
-package com.mimo.android.data.request
+package com.mimo.android.data.model.request
 
 data class UserRequest(
     val userName: String = "",
-    val userContract: String = "",
+    val userContact: String = "",
     val accessToken: String = "",
     val refreshToken: String = "",
 )
