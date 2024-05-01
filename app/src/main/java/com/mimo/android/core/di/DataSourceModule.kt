@@ -1,11 +1,27 @@
 package com.mimo.android.core.di
 
+import com.mimo.android.data.datasource.local.LocalDataSource
+import com.mimo.android.data.datasource.local.LocalDataSourceImpl
+import com.mimo.android.data.datasource.remote.UserRemoteDataSource
+import com.mimo.android.data.datasource.remote.UserRemoteDataSourceImpl
+import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
+import javax.inject.Singleton
 
-@Module
 @InstallIn(SingletonComponent::class)
+@Module
 interface DataSourceModule {
+    @Singleton
+    @Binds
+    fun provideLocalDataSource(
+        localDataSourceImpl: LocalDataSourceImpl,
+    ): LocalDataSource
 
+    @Singleton
+    @Binds
+    fun provideUserRemoteDataSource(
+        userRemoteDataSourceImpl: UserRemoteDataSourceImpl,
+    ): UserRemoteDataSource
 }
