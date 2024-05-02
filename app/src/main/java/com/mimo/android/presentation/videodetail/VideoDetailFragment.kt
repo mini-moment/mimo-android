@@ -1,31 +1,17 @@
 package com.mimo.android.presentation.mypage
 
-import android.annotation.SuppressLint
-import android.app.Activity
-import android.content.Context
-import android.os.Build
-import android.os.Bundle
-import android.util.Log
-import android.view.View
-import androidx.core.view.WindowCompat
-import androidx.core.view.WindowInsetsCompat
-import androidx.core.view.WindowInsetsControllerCompat
+
 import androidx.media3.common.MediaItem
-import androidx.media3.common.MimeTypes
 import androidx.media3.common.Player
 import androidx.media3.exoplayer.ExoPlayer
 import com.mimo.android.R
 import com.mimo.android.databinding.FragmentVideoDetailBinding
-import com.mimo.android.presentation.MainActivity
 import com.mimo.android.presentation.base.BaseFragment
 
 class VideoDetailFragment : BaseFragment<FragmentVideoDetailBinding>(R.layout.fragment_video_detail) {
 
-    private lateinit var fragmentActivity : MainActivity
-
     private val playbackStateListener: Player.Listener = playbackStateListener()
     private var player: Player? = null
-
     private var playWhenReady = true
     private var mediaItemIndex = 0
     private var playbackPosition = 0L
@@ -44,7 +30,7 @@ class VideoDetailFragment : BaseFragment<FragmentVideoDetailBinding>(R.layout.fr
     }
 
     private fun initializePlayer() {    //player 연결
-        player = ExoPlayer.Builder(fragmentActivity)
+        player = ExoPlayer.Builder(requireActivity())
             .build()
             .also { exoPlayer ->
                 binding.playerviewVideo.player = exoPlayer
@@ -69,11 +55,6 @@ class VideoDetailFragment : BaseFragment<FragmentVideoDetailBinding>(R.layout.fr
         player = null
     }
 
-    override fun onAttach(context: Context) {
-        super.onAttach(context)
-        fragmentActivity = context as MainActivity
-    }
-
     override fun onResume() {
         super.onResume()
         if (player == null) {
@@ -81,20 +62,11 @@ class VideoDetailFragment : BaseFragment<FragmentVideoDetailBinding>(R.layout.fr
         }
     }
 
-    override fun onPause() {
-        super.onPause()
-        releasePlayer()
-    }
-
-    override fun onStop() {
-        super.onStop()
-        releasePlayer()
-    }
-
     override fun onDestroyView() {
         super.onDestroyView()
         releasePlayer()
     }
+
 }
 
 private fun playbackStateListener() = object : Player.Listener {
