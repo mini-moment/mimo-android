@@ -30,7 +30,7 @@ abstract class BaseFragment<T : ViewDataBinding>(private val layoutResId: Int) :
         savedInstanceState: Bundle?,
     ) {
         super.onViewCreated(view, savedInstanceState)
-
+        initView()
     }
 
     abstract fun initView()
