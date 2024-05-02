@@ -19,8 +19,6 @@ import com.mimo.android.databinding.FragmentVideoDetailBinding
 import com.mimo.android.presentation.MainActivity
 import com.mimo.android.presentation.base.BaseFragment
 
-
-private const val TAG = "VideoDetailFragment_싸피"
 class VideoDetailFragment : BaseFragment<FragmentVideoDetailBinding>(R.layout.fragment_video_detail) {
 
     private lateinit var fragmentActivity : MainActivity
