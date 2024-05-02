@@ -1,9 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
-    <item
-        android:id="@+id/mapFragment"
-        android:title="@string/menu_map" />
-    <item
-        android:id="@+id/myPageFragment"
-        android:title="@string/menu_my_page" />
+  <item
+    android:id="@+id/mapFragment"
+    android:icon="@drawable/selector_ic_map"
+    android:title="@string/menu_map" />
+
+  <item
+    android:id="@+id/blank"
+    android:enabled="false"
+    android:title="" />
+
+  <item
+    android:id="@+id/myPageFragment"
+    android:icon="@drawable/selector_ic_user"
+    android:title="@string/menu_my_page" />
 </menu>
