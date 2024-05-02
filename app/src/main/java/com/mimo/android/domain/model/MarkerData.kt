@@ -7,7 +7,7 @@ data class MarkerData(
   val latitude: Double,
   val longitude: Double
 ) : ClusteringKey {
-  override fun getPosition(): LatLng =  LatLng(latitude, longitude)
+  override fun getPosition(): LatLng = LatLng(latitude, longitude)
 
   companion object {
     val DEFAULT = mutableListOf<MarkerData>(
@@ -22,6 +22,4 @@ data class MarkerData(
       MarkerData(36.106047, 128.420559)
     )
   }
-
-
 }

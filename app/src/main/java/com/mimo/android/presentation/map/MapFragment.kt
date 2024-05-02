@@ -16,9 +16,11 @@ import com.naver.maps.map.LocationTrackingMode
 import com.naver.maps.map.MapView
 import com.naver.maps.map.NaverMap
 import com.naver.maps.map.util.FusedLocationSource
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 import timber.log.Timber
 
+@AndroidEntryPoint
 class MapFragment : BaseMapFragment<FragmentMapBinding>(R.layout.fragment_map) {
 
 
@@ -76,7 +78,7 @@ class MapFragment : BaseMapFragment<FragmentMapBinding>(R.layout.fragment_map) {
     }
   }
 
-  private fun setMarker() { // 마커 찍기
+  private fun setMarker() { // Cluster 붙이기
     viewLifecycleOwner.lifecycleScope.launch {
       val markers = makeMarker(MarkerData.DEFAULT)
       markers.map = naverMap
