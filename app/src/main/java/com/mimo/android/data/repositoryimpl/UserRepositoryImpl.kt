@@ -1,12 +1,12 @@
 package com.mimo.android.data.repositoryimpl
 
 import com.google.gson.Gson
+import com.mimo.android.data.datasource.local.LocalDataSource
 import com.mimo.android.data.datasource.remote.UserRemoteDataSource
 import com.mimo.android.data.model.request.UserRequest
 import com.mimo.android.data.model.response.ApiResponse
 import com.mimo.android.data.model.response.ErrorResponse
 import com.mimo.android.data.model.response.apiHandler
-import com.mimo.android.data.repository.DataStoreRepository
 import com.mimo.android.data.repository.UserRepository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
@@ -14,7 +14,7 @@ import javax.inject.Inject
 
 class UserRepositoryImpl @Inject constructor(
     private val userRemoteDataSource: UserRemoteDataSource,
-    private val dataStoreRepository: DataStoreRepository,
+    private val localDataSource: LocalDataSource,
 ) : UserRepository {
     override fun signUp(userRequest: UserRequest): Flow<ApiResponse<Boolean>> = flow {
         val response = apiHandler {
@@ -24,8 +24,8 @@ class UserRepositoryImpl @Inject constructor(
         }
         when (response) {
             is ApiResponse.Success -> {
-                dataStoreRepository.saveAccessToken(userRequest.accessToken)
-                dataStoreRepository.saveRefreshToken(userRequest.refreshToken)
+                localDataSource.saveAccessToken(userRequest.accessToken)
+                localDataSource.saveRefreshToken(userRequest.refreshToken)
                 emit(ApiResponse.Success(data = response.data.data ?: false))
             }
 
