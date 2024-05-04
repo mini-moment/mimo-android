@@ -7,7 +7,6 @@ import com.mimo.android.databinding.ActivityMainBinding
 import com.mimo.android.presentation.base.BaseActivity
 import com.mimo.android.presentation.video.VideoActivity
 import dagger.hilt.android.AndroidEntryPoint
-import timber.log.Timber
 
 @AndroidEntryPoint
 class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main) {
@@ -25,7 +24,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main) {
                 setupWithNavController(navHostFragment.navController)
             }
             btnUploadVideo.setOnClickListener {
-                startActivity(this@MainActivity,VideoActivity::class.java)
+                startActivity(this@MainActivity, VideoActivity::class.java)
             }
         }
     }
