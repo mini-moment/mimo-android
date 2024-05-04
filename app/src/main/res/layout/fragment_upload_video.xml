@@ -83,16 +83,24 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/gl_mid" />
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recycler_view_tag"
+        <HorizontalScrollView
+            android:id="@+id/tag_scroll_view"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
-            android:orientation="horizontal"
-            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tv_hash_tag" />
+            app:layout_constraintTop_toBottomOf="@id/tv_hash_tag">
+
+            <com.google.android.material.chip.ChipGroup
+                android:id="@+id/recycler_view_tag"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                app:chipSpacingHorizontal="10dp"
+                app:singleLine="true" />
+
+        </HorizontalScrollView>
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/text_input_layout_hash_tag"
@@ -105,7 +113,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHeight_percent="0.07"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/recycler_view_tag">
+            app:layout_constraintTop_toBottomOf="@id/tag_scroll_view">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/et_hash_tag"
