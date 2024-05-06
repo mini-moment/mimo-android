@@ -1,6 +1,5 @@
 package com.mimo.android.presentation.login
 
-import android.content.Intent
 import androidx.activity.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
@@ -33,8 +32,7 @@ class LoginActivity : BaseActivity<ActivityLoginBinding>(R.layout.activity_login
                 loginViewModel.event.collectLatest { loginEvent ->
                     when (loginEvent) {
                         is LoginEvent.Success -> {
-                            val intent = Intent(this@LoginActivity, MainActivity::class.java)
-                            startActivity(intent)
+                            startActivity(this@LoginActivity, MainActivity::class.java)
                         }
 
                         is LoginEvent.Error -> {

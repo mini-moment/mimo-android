@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="hash_tag_title">해시태그</string>
+    <string name="video_topic_title">주제</string>
+</resources>

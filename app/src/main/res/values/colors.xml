@@ -6,4 +6,5 @@
     <color name="purple">#7F00FE</color>
     <color name="splash_background">#C28E8E</color>
     <color name="splash_logo_message_color">#2EE281</color>
+    <color name="gray">#FFAD9A99</color>
 </resources>

@@ -1,6 +1,5 @@
 package com.mimo.android.presentation.splash
 
-import android.content.Intent
 import androidx.activity.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
@@ -29,11 +28,11 @@ class SplashActivity : BaseActivity<ActivitySplashBinding>(R.layout.activity_spl
                 viewModel.event.collectLatest { loginEvent ->
                     when (loginEvent) {
                         is LoginEvent.Success -> {
-                            startActivity(Intent(this@SplashActivity, MainActivity::class.java))
+                            startActivity(this@SplashActivity, MainActivity::class.java)
                         }
 
                         is LoginEvent.Error -> {
-                            startActivity(Intent(this@SplashActivity, LoginActivity::class.java))
+                            startActivity(this@SplashActivity, LoginActivity::class.java)
                         }
                     }
                 }
