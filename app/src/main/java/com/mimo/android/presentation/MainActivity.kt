@@ -22,10 +22,4 @@ class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main) {
             setupWithNavController(navHostFragment.navController)
         }
     }
-
-    private fun clickPostUpload(){ //영상 업로드 이동
-        binding.fabPostUpload.setOnClickListener {
-
-        }
-    }
 }
