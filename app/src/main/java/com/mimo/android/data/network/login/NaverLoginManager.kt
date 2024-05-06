@@ -3,7 +3,6 @@ package com.mimo.android.data.network.login
 import android.content.Context
 import com.mimo.android.data.model.response.ApiResponse
 import com.mimo.android.data.model.response.LoginResponse
-import com.mimo.android.util.ErrorCode
 import com.navercorp.nid.NaverIdLoginSDK
 import com.navercorp.nid.oauth.NidOAuthLogin
 import com.navercorp.nid.oauth.OAuthLoginCallback
@@ -31,7 +30,7 @@ object NaverLoginManager {
 
         override fun onFailure(httpStatus: Int, message: String) {
             _loginResult.value = ApiResponse.Error(
-                errorCode = ErrorCode.FAILED_LOGIN,
+                errorCode = httpStatus,
                 errorMessage = message,
             )
         }
@@ -47,7 +46,7 @@ object NaverLoginManager {
 
         override fun onFailure(httpStatus: Int, message: String) {
             _loginResult.value = ApiResponse.Error(
-                errorCode = ErrorCode.FAILED_LOGIN,
+                errorCode = httpStatus,
                 errorMessage = message,
             )
         }

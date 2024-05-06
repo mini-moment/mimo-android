@@ -1,39 +1,44 @@
 package com.mimo.android.data.repositoryimpl
 
+import com.google.gson.Gson
+import com.mimo.android.data.datasource.local.LocalDataSource
 import com.mimo.android.data.datasource.remote.UserRemoteDataSource
-import com.mimo.android.data.repository.DataStoreRepository
-import com.mimo.android.data.repository.UserRepository
 import com.mimo.android.data.model.request.UserRequest
 import com.mimo.android.data.model.response.ApiResponse
-import com.mimo.android.util.ErrorCode
+import com.mimo.android.data.model.response.ErrorResponse
+import com.mimo.android.data.model.response.apiHandler
+import com.mimo.android.data.repository.UserRepository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import javax.inject.Inject
 
 class UserRepositoryImpl @Inject constructor(
     private val userRemoteDataSource: UserRemoteDataSource,
-    private val dataStoreRepository: DataStoreRepository,
+    private val localDataSource: LocalDataSource,
 ) : UserRepository {
     override fun signUp(userRequest: UserRequest): Flow<ApiResponse<Boolean>> = flow {
-        runCatching {
-            userRemoteDataSource.signUp(userRequest)
-        }.onSuccess { response ->
-            response.body()?.let {
-                it.data?.let {
-                    dataStoreRepository.saveAccessToken(userRequest.accessToken)
-                    dataStoreRepository.saveRefreshToken(userRequest.refreshToken)
-                    emit(ApiResponse.Success(data = it))
-                } ?: run {
-                    emit(
-                        ApiResponse.Error(
-                            errorCode = it.statusCode ?: ErrorCode.NONE,
-                            errorMessage = it.message ?: "",
-                        ),
-                    )
-                }
+        val response = apiHandler {
+            val result = userRemoteDataSource.signUp(userRequest)
+            val errorData = Gson().fromJson(result.errorBody()?.string(), ErrorResponse::class.java)
+            Pair(result, errorData)
+        }
+        when (response) {
+            is ApiResponse.Success -> {
+                localDataSource.saveAccessToken(userRequest.accessToken)
+                localDataSource.saveRefreshToken(userRequest.refreshToken)
+                emit(ApiResponse.Success(data = response.data.data ?: false))
             }
-        }.onFailure { // 다른 예외가 발생한 경우 -> 서버가 닫힌 경우
-            emit(ApiResponse.Error(errorMessage = it.message ?: ""))
+
+            is ApiResponse.Error -> {
+                emit(
+                    ApiResponse.Error(
+                        errorCode = response.errorCode,
+                        errorMessage = response.errorMessage,
+                    ),
+                )
+            }
+
+            else -> {}
         }
     }
 }
