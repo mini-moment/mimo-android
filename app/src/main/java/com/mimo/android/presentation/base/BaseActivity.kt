@@ -1,5 +1,7 @@
 package com.mimo.android.presentation.base
 
+import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
@@ -28,5 +30,10 @@ abstract class BaseActivity<T : ViewDataBinding>(private val layoutResId: Int) :
     override fun onDestroy() {
         super.onDestroy()
         _binding = null
+    }
+
+    fun <T : AppCompatActivity> startActivity(context: Context, clazz: Class<T>) {
+        val intent = Intent(context, clazz)
+        startActivity(intent)
     }
 }

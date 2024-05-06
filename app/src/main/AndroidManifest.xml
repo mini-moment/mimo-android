@@ -1,11 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
-
-    <!-- 위치권한-->
+    <!-- 위치권한 -->
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
-    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
-    <!-- 인터넷 권한 -->
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" /> <!-- 인터넷 권한 -->
     <uses-permission android:name="android.permission.INTERNET" />
 
     <application
@@ -20,7 +18,10 @@
         android:theme="@style/Theme.MiniMoment"
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
-
+        <activity
+            android:name=".presentation.video.VideoActivity"
+            android:exported="false"
+            android:windowSoftInputMode="adjustPan"/>
         <!-- NaverMap -->
         <meta-data
             android:name="com.naver.maps.map.CLIENT_ID"
@@ -31,9 +32,7 @@
             android:exported="false" />
         <activity
             android:name=".presentation.MainActivity"
-            android:exported="false">
-
-        </activity>
+            android:exported="false" />
         <activity
             android:name=".presentation.splash.SplashActivity"
             android:exported="true">
