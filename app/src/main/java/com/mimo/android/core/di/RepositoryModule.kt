@@ -1,8 +1,10 @@
 package com.mimo.android.core.di
 
 import com.mimo.android.data.repository.DataStoreRepository
+import com.mimo.android.data.repository.TagRepository
 import com.mimo.android.data.repository.UserRepository
 import com.mimo.android.data.repositoryimpl.DataStoreRepositoryImpl
+import com.mimo.android.data.repositoryimpl.TagRepositoryImpl
 import com.mimo.android.data.repositoryimpl.UserRepositoryImpl
 import dagger.Binds
 import dagger.Module
@@ -25,4 +27,10 @@ interface RepositoryModule {
     fun provideUserRepository(
         userRepositoryImpl: UserRepositoryImpl,
     ): UserRepository
+
+    @Singleton
+    @Binds
+    fun provideTagRepository(
+        tagRepositoryImpl: TagRepositoryImpl,
+    ): TagRepository
 }
