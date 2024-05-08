@@ -7,6 +7,6 @@
 
     <fragment
         android:id="@+id/uploadVideoFragment"
-        android:name="com.mimo.android.presentation.video.UploadVideoFragment"
+        android:name="com.mimo.android.presentation.video.upload.UploadVideoFragment"
         android:label="UploadVideoFragment" />
 </navigation>
