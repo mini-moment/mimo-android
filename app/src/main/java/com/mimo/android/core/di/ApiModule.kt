@@ -1,5 +1,6 @@
 package com.mimo.android.core.di
 
+import com.mimo.android.data.network.api.MapApi
 import com.mimo.android.data.network.api.UserApi
 import dagger.Module
 import dagger.Provides
@@ -17,4 +18,10 @@ object ApiModule {
     fun provideUserApi(
         retrofit: Retrofit,
     ): UserApi = retrofit.create()
+
+    @Provides
+    @Singleton
+    fun provideMapApi(
+        retrofit: Retrofit
+    ) : MapApi = retrofit.create()
 }
