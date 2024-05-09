@@ -26,7 +26,7 @@ class MapViewModel @Inject constructor(
     }
 
 
-    fun getMarkerList(latitude : Long, longitude : Long, radius : Long ){
+    fun getMarkerList(latitude : Double, longitude : Double, radius : Double ){
         viewModelScope.launch {
             when(val response = mapRepository.getMarkers(latitude, longitude, radius)){
                 is ApiResponse.Success -> {

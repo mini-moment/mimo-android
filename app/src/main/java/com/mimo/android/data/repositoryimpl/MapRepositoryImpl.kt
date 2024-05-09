@@ -15,9 +15,9 @@ class MapRepositoryImpl @Inject constructor(
     private val mapRemoteDataSource: MapRemoteDataSource
 ) : MapRepository {
     override suspend fun getMarkers(
-        latitude: Long,
-        longitude: Long,
-        radius: Long
+        latitude: Double,
+        longitude: Double,
+        radius: Double
     ): ApiResponse<List<MarkerData>> {
         val response = apiHandler {
             val result = mapRemoteDataSource.getMarkers(latitude, longitude, radius)

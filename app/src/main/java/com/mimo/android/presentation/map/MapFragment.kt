@@ -44,7 +44,7 @@ class MapFragment : BaseMapFragment<FragmentMapBinding>(R.layout.fragment_map) {
     }
 
     override fun iniViewCreated() {
-        mapViewModel.getMarkerList(0, 0, 0)
+        mapViewModel.getMarkerList(0.0, 0.0, 0.0)
     }
 
     private fun initMapView() { // mapView 초기화

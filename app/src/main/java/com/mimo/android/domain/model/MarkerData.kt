@@ -5,6 +5,7 @@ import com.naver.maps.geometry.LatLng
 import com.naver.maps.map.clustering.ClusteringKey
 
 data class MarkerData(
+
     val latitude: Double,
     val longitude: Double
 ) : ClusteringKey {
@@ -29,8 +30,8 @@ data class MarkerData(
 fun MarkerResponse.toMarkerData(): List<MarkerData> {
     return this.data.map {
         MarkerData(
-            latitude = it.latitude.toDouble(),
-            longitude = it.longitude.toDouble()
+            latitude = it.latitude,
+            longitude = it.longitude
         )
     }
 }

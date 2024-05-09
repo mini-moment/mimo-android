@@ -5,5 +5,5 @@ import com.mimo.android.domain.model.MarkerData
 
 interface MapRepository {
 
-   suspend fun getMarkers(latitude : Long, longitude : Long, radius : Long) : ApiResponse<List<MarkerData>>
+   suspend fun getMarkers(latitude : Double, longitude : Double, radius : Double) : ApiResponse<List<MarkerData>>
 }

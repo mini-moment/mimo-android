@@ -10,9 +10,9 @@ interface MapApi {
 
   @GET("markers")
   suspend fun getMarkers(
-    @Query("latitude") latitude: Long,
-    @Query("longitude") longitude: Long,
-    @Query("radius") radius: Long
+    @Query("latitude") latitude: Double,
+    @Query("longitude") longitude: Double,
+    @Query("radius") radius: Double
   ): Response<MarkerResponse>
 
 }

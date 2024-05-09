@@ -7,9 +7,9 @@ data class MarkerResponse(
 ) {
     data class MarkerItemResponse(
         val id: Int,
-        val name: String,
-        val latitude: String,
-        val longitude: String
+        val name: String?,
+        val latitude: Double,
+        val longitude: Double
     )
 }
 

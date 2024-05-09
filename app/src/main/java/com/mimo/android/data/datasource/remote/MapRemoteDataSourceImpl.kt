@@ -10,9 +10,9 @@ class MapRemoteDataSourceImpl @Inject constructor(
 ) : MapRemoteDataSource {
 
     override suspend fun getMarkers(
-        latitude: Long,
-        longitude: Long,
-        radius: Long
+        latitude: Double,
+        longitude: Double,
+        radius: Double
     ): Response<MarkerResponse> {
         return mapApi.getMarkers(latitude, longitude, radius)
     }
