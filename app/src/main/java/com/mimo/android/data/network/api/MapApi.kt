@@ -13,6 +13,6 @@ interface MapApi {
     @Query("latitude") latitude: Long,
     @Query("longitude") longitude: Long,
     @Query("radius") radius: Long
-  ): Response<List<MarkerResponse>>
+  ): Response<MarkerResponse>
 
 }

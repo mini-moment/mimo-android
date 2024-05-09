@@ -2,6 +2,8 @@ package com.mimo.android.core.di
 
 import com.mimo.android.data.datasource.local.LocalDataSource
 import com.mimo.android.data.datasource.local.LocalDataSourceImpl
+import com.mimo.android.data.datasource.remote.MapRemoteDataSource
+import com.mimo.android.data.datasource.remote.MapRemoteDataSourceImpl
 import com.mimo.android.data.datasource.remote.UserRemoteDataSource
 import com.mimo.android.data.datasource.remote.UserRemoteDataSourceImpl
 import dagger.Binds
@@ -24,4 +26,11 @@ interface DataSourceModule {
     fun provideUserRemoteDataSource(
         userRemoteDataSourceImpl: UserRemoteDataSourceImpl,
     ): UserRemoteDataSource
+
+    @Singleton
+    @Binds
+    fun provideMapRemoteDataSource(
+        mapRemoteDataSourceImpl: MapRemoteDataSourceImpl
+    ): MapRemoteDataSource
+
 }

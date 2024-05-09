@@ -6,5 +6,5 @@ import retrofit2.Response
 
 interface MapRemoteDataSource {
 
-  suspend fun getMarkers(latitude : Long, longitude : Long, radius : Long) : Response<List<MarkerResponse>>
+  suspend fun getMarkers(latitude : Long, longitude : Long, radius : Long) : Response<MarkerResponse>
 }
