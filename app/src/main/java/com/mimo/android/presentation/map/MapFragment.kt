@@ -41,10 +41,11 @@ class MapFragment : BaseMapFragment<FragmentMapBinding>(R.layout.fragment_map) {
         Timber.d("네이버 지도 확인")
         initNaverMap(naverMap)
         setMarker()
+        mapViewModel.getMarkerList(0.0, 0.0, 0.0)
     }
 
     override fun iniViewCreated() {
-        mapViewModel.getMarkerList(0.0, 0.0, 0.0)
+
     }
 
     private fun initMapView() { // mapView 초기화
@@ -82,6 +83,7 @@ class MapFragment : BaseMapFragment<FragmentMapBinding>(R.layout.fragment_map) {
     private fun setMarker() { // Cluster 붙이기
         mapViewModel.markerList.observe(viewLifecycleOwner) {
             viewLifecycleOwner.lifecycleScope.launch {
+                Timber.d("요요 마커용")
                 val markers = makeMarker(it)
                 markers.map = naverMap
             }

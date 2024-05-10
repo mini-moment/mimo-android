@@ -5,7 +5,6 @@ import com.naver.maps.geometry.LatLng
 import com.naver.maps.map.clustering.ClusteringKey
 
 data class MarkerData(
-
     val latitude: Double,
     val longitude: Double
 ) : ClusteringKey {
