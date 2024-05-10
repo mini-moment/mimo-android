@@ -1,6 +1,7 @@
 package com.mimo.android.core.di
 
 import com.google.gson.GsonBuilder
+import com.mimo.android.data.network.AccessTokenInterceptor
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -30,8 +31,11 @@ object NetworkModule {
 
     @Singleton
     @Provides
-    fun provideOkHttpClient() = OkHttpClient.Builder().run {
+    fun provideOkHttpClient(
+        accessTokenInterceptor: AccessTokenInterceptor,
+    ) = OkHttpClient.Builder().run {
         addInterceptor(HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY))
+        addNetworkInterceptor(accessTokenInterceptor)
         connectTimeout(120, TimeUnit.SECONDS)
         readTimeout(120, TimeUnit.SECONDS)
         writeTimeout(120, TimeUnit.SECONDS)
