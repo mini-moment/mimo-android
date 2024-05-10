@@ -42,4 +42,10 @@ interface DataSourceModule {
     fun provideVideoRemoteDataSource(
         videoRemoteDataSourceImpl: VideoRemoteDataSourceImpl,
     ): VideoRemoteDataSource
+
+    @Singleton
+    @Binds
+    fun providePostRemoteDataSource(
+        postRemoteDataSourceImpl: PostRemoteDataSourceImpl
+    ): PostRemoteDataSource
 }
