@@ -43,4 +43,10 @@ interface RepositoryModule {
     fun provideVideoRepository(
         videoRepositoryImpl: VideoRepositoryImpl,
     ): VideoRepository
+
+    @Singleton
+    @Binds
+    fun providePostRepository(
+        postRepositoryImpl: PostRepositoryImpl
+    ): PostRepository
 }
