@@ -4,7 +4,7 @@ import com.mimo.android.data.datasource.local.LocalDataSource
 import com.mimo.android.data.repository.DataStoreRepository
 import com.mimo.android.data.model.response.ApiResponse
 import com.mimo.android.data.model.response.LoginResponse
-import com.mimo.android.util.ErrorMessage
+import com.mimo.android.presentation.util.ErrorMessage
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import javax.inject.Inject
