@@ -22,7 +22,6 @@ import com.naver.maps.map.overlay.CircleOverlay
 import com.naver.maps.map.util.FusedLocationSource
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
-import timber.log.Timber
 
 @AndroidEntryPoint
 class MapFragment : BaseMapFragment<FragmentMapBinding>(R.layout.fragment_map) {
@@ -42,7 +41,6 @@ class MapFragment : BaseMapFragment<FragmentMapBinding>(R.layout.fragment_map) {
     }
 
     override fun initOnMapReady(naverMap: NaverMap) {
-        Timber.d("네이버 지도 확인")
         initNaverMap(naverMap)
         setMarker()
         setCameraChangeListener()
@@ -111,13 +109,12 @@ class MapFragment : BaseMapFragment<FragmentMapBinding>(R.layout.fragment_map) {
         circle.center = LatLng(location.latitude, location.longitude)
         radius = 3 * Math.pow(2.0, 22 - zoom) / 1000
         circle.radius = radius * 1000
-        circle.color = ContextCompat.getColor(requireContext(), R.color.light_purple_opacity_5)
+        circle.color = ContextCompat.getColor(requireContext(), R.color.purple_opacity_5)
         circle.map = naverMap
     }
 
     private fun setCameraChangeListener() { //제스처시 현재 위치 검색
         naverMap.addOnCameraChangeListener { reason, animated ->
-            Timber.d("reason 확인 $reason")
             if (reason == CameraUpdate.REASON_GESTURE) {
                 binding.locationSearchVisible = true
             }
