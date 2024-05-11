@@ -1,6 +1,7 @@
 package com.mimo.android.core.di
 
 import com.mimo.android.data.network.api.MapApi
+import com.mimo.android.data.network.api.TagApi
 import com.mimo.android.data.network.api.UserApi
 import dagger.Module
 import dagger.Provides
@@ -24,4 +25,7 @@ object ApiModule {
     fun provideMapApi(
         retrofit: Retrofit
     ) : MapApi = retrofit.create()
+    fun provideTagApi(
+        retrofit: Retrofit,
+    ): TagApi = retrofit.create()
 }

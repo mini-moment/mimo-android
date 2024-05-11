@@ -5,6 +5,10 @@ import com.mimo.android.data.repository.MapRepository
 import com.mimo.android.data.repository.UserRepository
 import com.mimo.android.data.repositoryimpl.DataStoreRepositoryImpl
 import com.mimo.android.data.repositoryimpl.MapRepositoryImpl
+import com.mimo.android.data.repository.TagRepository
+import com.mimo.android.data.repository.UserRepository
+import com.mimo.android.data.repositoryimpl.DataStoreRepositoryImpl
+import com.mimo.android.data.repositoryimpl.TagRepositoryImpl
 import com.mimo.android.data.repositoryimpl.UserRepositoryImpl
 import dagger.Binds
 import dagger.Module
@@ -33,5 +37,8 @@ interface RepositoryModule {
     fun provideMapRepository(
         mapRepositoryImpl: MapRepositoryImpl
     ): MapRepository
-
+  
+    fun provideTagRepository(
+        tagRepositoryImpl: TagRepositoryImpl,
+    ): TagRepository
 }

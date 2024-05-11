@@ -4,6 +4,8 @@ import com.mimo.android.data.datasource.local.LocalDataSource
 import com.mimo.android.data.datasource.local.LocalDataSourceImpl
 import com.mimo.android.data.datasource.remote.MapRemoteDataSource
 import com.mimo.android.data.datasource.remote.MapRemoteDataSourceImpl
+import com.mimo.android.data.datasource.remote.TagRemoteDataSource
+import com.mimo.android.data.datasource.remote.TagRemoteDataSourceImpl
 import com.mimo.android.data.datasource.remote.UserRemoteDataSource
 import com.mimo.android.data.datasource.remote.UserRemoteDataSourceImpl
 import dagger.Binds
@@ -32,5 +34,8 @@ interface DataSourceModule {
     fun provideMapRemoteDataSource(
         mapRemoteDataSourceImpl: MapRemoteDataSourceImpl
     ): MapRemoteDataSource
-
+  
+    fun provideTagRemoteDataSource(
+        tagRemoteDataSourceImpl: TagRemoteDataSourceImpl,
+    ): TagRemoteDataSource
 }
