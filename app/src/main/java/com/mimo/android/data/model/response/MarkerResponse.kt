@@ -11,6 +11,7 @@ data class MarkerResponse(
         val latitude: Double,
         val longitude: Double
     )
+
 }
 
 

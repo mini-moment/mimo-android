@@ -12,6 +12,7 @@ import com.mimo.android.presentation.util.makeMarker
 import com.mimo.android.presentation.util.requestMapPermission
 import com.naver.maps.geometry.LatLng
 import com.naver.maps.map.CameraPosition
+import com.naver.maps.map.CameraUpdate
 import com.naver.maps.map.LocationTrackingMode
 import com.naver.maps.map.MapView
 import com.naver.maps.map.NaverMap
@@ -41,15 +42,14 @@ class MapFragment : BaseMapFragment<FragmentMapBinding>(R.layout.fragment_map) {
         Timber.d("네이버 지도 확인")
         initNaverMap(naverMap)
         setMarker()
-        mapViewModel.getMarkerList(0.0, 0.0, 0.0)
+        setCameraChangeListener()
     }
 
     override fun iniViewCreated() {
-
+        clickLocationSearchBtn()
     }
 
     private fun initMapView() { // mapView 초기화
-        Timber.d("initMapView 호출됨 ${mapView}")
         mapView = binding.mapView
         mapView?.getMapAsync(this)
         locationSource = FusedLocationSource(this, LOCATION_PERMISSION_REQUEST_CODE)
@@ -71,25 +71,47 @@ class MapFragment : BaseMapFragment<FragmentMapBinding>(R.layout.fragment_map) {
                         Timber.d("위치 확인 안됨")
                         LatLng(DEFAULT_LATITUDE, DEFAULT_LONGITUDE)
                     } else {
-                        Timber.d("현재 위치 확인")
                         LatLng(location.latitude, location.longitude)
                     }
                     map.cameraPosition = CameraPosition(loc, DEFAULT_ZOOM)
                     map.locationTrackingMode = LocationTrackingMode.Follow
+                    getMarkerList(loc.latitude, loc.longitude, DEFAULT_ZOOM)
                 }
         }
+    }
+
+    private fun getMarkerList(latitude: Double, longitude: Double, round: Double) {
+        mapViewModel.getMarkerList(
+            latitude, longitude, 3 * Math.pow(2.0, 22 - round) / 1000
+        )
     }
 
     private fun setMarker() { // Cluster 붙이기
         mapViewModel.markerList.observe(viewLifecycleOwner) {
             viewLifecycleOwner.lifecycleScope.launch {
-                Timber.d("요요 마커용")
                 val markers = makeMarker(it)
                 markers.map = naverMap
             }
         }
     }
 
+    private fun setCameraChangeListener() { //제스처시 현재 위치 검색
+        naverMap.addOnCameraChangeListener { reason, animated ->
+            Timber.d("reason 확인 $reason")
+            if (reason == CameraUpdate.REASON_GESTURE) {
+                binding.locationSearchVisible = true
+            }
+        }
+    }
+
+    private fun clickLocationSearchBtn() {//현재 위치 검색 클릭
+        binding.btnLocationSearch.setOnClickListener {
+            binding.locationSearchVisible = false
+            naverMap.cameraPosition.apply {
+                getMarkerList(this.target.latitude, this.target.longitude, this.zoom)
+            }
+        }
+    }
 
     companion object {
         const val DEFAULT_LATITUDE = 37.563242272383114
@@ -98,3 +120,7 @@ class MapFragment : BaseMapFragment<FragmentMapBinding>(R.layout.fragment_map) {
         const val LOCATION_PERMISSION_REQUEST_CODE = 1000
     }
 }
+
+
+
+

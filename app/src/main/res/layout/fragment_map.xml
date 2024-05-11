@@ -1,9 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
 
+        <import type="android.view.View" />
+
+        <variable
+            name="locationSearchVisible"
+            type="Boolean" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -11,10 +17,28 @@
         android:layout_height="match_parent"
         tools:context=".presentation.map.MapFragment">
 
+
         <com.naver.maps.map.MapView
             android:id="@+id/map_view"
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
+
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btn_location_search"
+            style="@style/Typography.Body01.Bold"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="40dp"
+            android:background="@drawable/rectangle_fill_light_purple_radius_40"
+            android:paddingHorizontal="53dp"
+            android:paddingVertical="12dp"
+            android:text="@string/location_search"
+            android:textColor="@color/bold_purple"
+            android:visibility="@{locationSearchVisible ? View.VISIBLE : View.GONE, default = gone}"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
