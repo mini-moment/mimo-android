@@ -115,8 +115,33 @@ class UploadVideoViewModel @Inject constructor(
         }
     }
 
+    private suspend fun validationPost(): Boolean {
+        with(uiState.value) {
+            if (videoUri == null) {
+                _event.emit(
+                    UploadVideoEvent.Error(
+                        errorMessage = ErrorMessage.NO_POST_VIDEO_URL,
+                    ),
+                )
+                return false
+            }
+            if (topic == null) {
+                _event.emit(
+                    UploadVideoEvent.Error(
+                        errorMessage = ErrorMessage.NO_POST_TOPIC,
+                    ),
+                )
+                return false
+            }
+        }
+        return true
+    }
+
     fun insertPost() {
         viewModelScope.launch {
+            if (validationPost().not()) {
+                return@launch
+            }
             postRepository.insertPost(
                 postRequest = InsertPostRequest(
                     title = uiState.value.topic,
