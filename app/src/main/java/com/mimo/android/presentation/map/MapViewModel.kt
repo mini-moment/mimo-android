@@ -7,6 +7,7 @@ import androidx.lifecycle.viewModelScope
 import com.mimo.android.data.model.response.ApiResponse
 import com.mimo.android.data.repository.MapRepository
 import com.mimo.android.domain.model.MarkerData
+import com.naver.maps.map.clustering.Clusterer
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import timber.log.Timber
@@ -23,6 +24,13 @@ class MapViewModel @Inject constructor(
 
     fun setMarkerList(markers : List<MarkerData>){
         _markerList.value = markers
+    }
+
+    private val _currentMarkerList = MutableLiveData<Clusterer<MarkerData>>()
+    val currentMarkerList : LiveData<Clusterer<MarkerData>> get() = _currentMarkerList
+
+    fun setCurrentMarkerList(value : Clusterer<MarkerData>){
+        _currentMarkerList.value = value
     }
 
 

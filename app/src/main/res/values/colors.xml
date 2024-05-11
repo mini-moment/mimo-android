@@ -5,6 +5,7 @@
     <color name="transparent">#00000000</color>
     <color name="purple">#7F00FE</color>
     <color name="bold_purple">#4F378B</color>
+    <color name="light_purple_opacity_5">#0D4F378B</color>
     <color name="light_purple">#F3EDF7</color>
     <color name="splash_background">#C28E8E</color>
     <color name="splash_logo_message_color">#2EE281</color>

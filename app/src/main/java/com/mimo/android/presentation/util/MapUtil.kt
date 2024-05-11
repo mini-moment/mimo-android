@@ -15,3 +15,9 @@ suspend fun makeMarker(marker: List<MarkerData>): Clusterer<MarkerData> { // clu
   }
   return cluster
 }
+
+suspend fun deleteMarker(marker : Clusterer<MarkerData>){
+  withContext(Dispatchers.Default){
+    marker.map = null
+  }
+}

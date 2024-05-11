@@ -62,7 +62,7 @@ abstract class BaseMapFragment<T : ViewDataBinding>(private val layoutResId: Int
         super.onResume()
         mapView?.onResume()
     }
-
+    abstract fun initOnResume()
     override fun onPause() {
         super.onPause()
         mapView?.onPause()
