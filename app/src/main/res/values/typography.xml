@@ -31,6 +31,11 @@
         <item name="android:textSize">16sp</item>
     </style>
 
+    <style name="Typography.Body01.Bold" parent="Typography">
+        <item name="fontFamily">@font/pretendard_bold</item>
+        <item name="android:textSize">16sp</item>
+    </style>
+
     <style name="Typography.Body01.Regular" parent="Typography">
         <item name="fontFamily">@font/pretendard_regular</item>
         <item name="android:textSize">16sp</item>

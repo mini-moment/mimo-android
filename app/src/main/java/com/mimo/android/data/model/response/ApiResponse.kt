@@ -1,6 +1,7 @@
 package com.mimo.android.data.model.response
 
 import retrofit2.Response
+import timber.log.Timber
 
 sealed class ApiResponse<out T : Any?> {
     data class Success<out T : Any?>(
@@ -21,6 +22,7 @@ suspend fun <T> apiHandler(
     runCatching {
         val action = apiResponse.invoke()
         val response = action.first
+        Timber.d("데이터 들어오는거 확인 ${response}")
         if (response.isSuccessful) {
             response.body()?.let { body ->
                 return ApiResponse.Success(body)

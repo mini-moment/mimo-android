@@ -1,6 +1,10 @@
 package com.mimo.android.core.di
 
 import com.mimo.android.data.repository.DataStoreRepository
+import com.mimo.android.data.repository.MapRepository
+import com.mimo.android.data.repository.UserRepository
+import com.mimo.android.data.repositoryimpl.DataStoreRepositoryImpl
+import com.mimo.android.data.repositoryimpl.MapRepositoryImpl
 import com.mimo.android.data.repository.PostRepository
 import com.mimo.android.data.repository.TagRepository
 import com.mimo.android.data.repository.UserRepository
@@ -34,6 +38,10 @@ interface RepositoryModule {
 
     @Singleton
     @Binds
+    fun provideMapRepository(
+        mapRepositoryImpl: MapRepositoryImpl
+    ): MapRepository
+  
     fun provideTagRepository(
         tagRepositoryImpl: TagRepositoryImpl,
     ): TagRepository

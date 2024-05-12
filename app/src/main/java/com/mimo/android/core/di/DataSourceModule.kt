@@ -2,6 +2,8 @@ package com.mimo.android.core.di
 
 import com.mimo.android.data.datasource.local.LocalDataSource
 import com.mimo.android.data.datasource.local.LocalDataSourceImpl
+import com.mimo.android.data.datasource.remote.MapRemoteDataSource
+import com.mimo.android.data.datasource.remote.MapRemoteDataSourceImpl
 import com.mimo.android.data.datasource.remote.PostRemoteDataSource
 import com.mimo.android.data.datasource.remote.PostRemoteDataSourceImpl
 import com.mimo.android.data.datasource.remote.TagRemoteDataSource
@@ -33,6 +35,10 @@ interface DataSourceModule {
 
     @Singleton
     @Binds
+    fun provideMapRemoteDataSource(
+        mapRemoteDataSourceImpl: MapRemoteDataSourceImpl
+    ): MapRemoteDataSource
+  
     fun provideTagRemoteDataSource(
         tagRemoteDataSourceImpl: TagRemoteDataSourceImpl,
     ): TagRemoteDataSource

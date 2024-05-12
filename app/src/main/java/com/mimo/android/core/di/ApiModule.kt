@@ -1,5 +1,6 @@
 package com.mimo.android.core.di
 
+import com.mimo.android.data.network.api.MapApi
 import com.mimo.android.data.network.api.PostApi
 import com.mimo.android.data.network.api.TagApi
 import com.mimo.android.data.network.api.UserApi
@@ -23,6 +24,9 @@ object ApiModule {
 
     @Provides
     @Singleton
+    fun provideMapApi(
+        retrofit: Retrofit
+    ) : MapApi = retrofit.create()
     fun provideTagApi(
         retrofit: Retrofit,
     ): TagApi = retrofit.create()
