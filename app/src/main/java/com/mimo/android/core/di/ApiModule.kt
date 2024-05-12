@@ -1,8 +1,10 @@
 package com.mimo.android.core.di
 
 import com.mimo.android.data.network.api.MapApi
+import com.mimo.android.data.network.api.PostApi
 import com.mimo.android.data.network.api.TagApi
 import com.mimo.android.data.network.api.UserApi
+import com.mimo.android.data.network.api.VideoApi
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -28,4 +30,16 @@ object ApiModule {
     fun provideTagApi(
         retrofit: Retrofit,
     ): TagApi = retrofit.create()
+
+    @Provides
+    @Singleton
+    fun provideVideoApi(
+        retrofit: Retrofit,
+    ): VideoApi = retrofit.create()
+
+    @Provides
+    @Singleton
+    fun providePostApi(
+        retrofit: Retrofit,
+    ): PostApi = retrofit.create()
 }

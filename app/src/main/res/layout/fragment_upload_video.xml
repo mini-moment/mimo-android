@@ -50,7 +50,6 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="30dp"
-            android:indeterminate="true"
             android:max="100"
             android:min="0"
             app:indicatorColor="@color/splash_background"
@@ -154,6 +153,7 @@
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/et_video_topic"
                 android:layout_width="match_parent"
+                android:onTextChanged="@{viewModel.onTextChanged}"
                 android:layout_height="match_parent" />
         </com.google.android.material.textfield.TextInputLayout>
 
