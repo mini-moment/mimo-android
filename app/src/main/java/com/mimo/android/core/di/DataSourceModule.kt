@@ -38,7 +38,9 @@ interface DataSourceModule {
     fun provideMapRemoteDataSource(
         mapRemoteDataSourceImpl: MapRemoteDataSourceImpl
     ): MapRemoteDataSource
-  
+
+    @Singleton
+    @Binds
     fun provideTagRemoteDataSource(
         tagRemoteDataSourceImpl: TagRemoteDataSourceImpl,
     ): TagRemoteDataSource

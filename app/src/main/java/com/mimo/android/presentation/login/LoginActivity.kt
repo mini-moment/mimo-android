@@ -33,6 +33,7 @@ class LoginActivity : BaseActivity<ActivityLoginBinding>(R.layout.activity_login
                     when (loginEvent) {
                         is LoginEvent.Success -> {
                             startActivity(this@LoginActivity, MainActivity::class.java)
+                            finish()
                         }
 
                         is LoginEvent.Error -> {

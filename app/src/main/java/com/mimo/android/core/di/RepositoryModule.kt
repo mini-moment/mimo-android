@@ -2,14 +2,12 @@ package com.mimo.android.core.di
 
 import com.mimo.android.data.repository.DataStoreRepository
 import com.mimo.android.data.repository.MapRepository
-import com.mimo.android.data.repository.UserRepository
-import com.mimo.android.data.repositoryimpl.DataStoreRepositoryImpl
-import com.mimo.android.data.repositoryimpl.MapRepositoryImpl
 import com.mimo.android.data.repository.PostRepository
 import com.mimo.android.data.repository.TagRepository
 import com.mimo.android.data.repository.UserRepository
 import com.mimo.android.data.repository.VideoRepository
 import com.mimo.android.data.repositoryimpl.DataStoreRepositoryImpl
+import com.mimo.android.data.repositoryimpl.MapRepositoryImpl
 import com.mimo.android.data.repositoryimpl.PostRepositoryImpl
 import com.mimo.android.data.repositoryimpl.TagRepositoryImpl
 import com.mimo.android.data.repositoryimpl.UserRepositoryImpl
@@ -24,37 +22,39 @@ import javax.inject.Singleton
 @InstallIn(SingletonComponent::class)
 interface RepositoryModule {
 
-    @Singleton
-    @Binds
-    fun provideDataStoreRepository(
-        dataStoreRepositoryImpl: DataStoreRepositoryImpl,
-    ): DataStoreRepository
+  @Singleton
+  @Binds
+  fun provideDataStoreRepository(
+    dataStoreRepositoryImpl: DataStoreRepositoryImpl,
+  ): DataStoreRepository
 
-    @Singleton
-    @Binds
-    fun provideUserRepository(
-        userRepositoryImpl: UserRepositoryImpl,
-    ): UserRepository
+  @Singleton
+  @Binds
+  fun provideUserRepository(
+    userRepositoryImpl: UserRepositoryImpl,
+  ): UserRepository
 
-    @Singleton
-    @Binds
-    fun provideMapRepository(
-        mapRepositoryImpl: MapRepositoryImpl
-    ): MapRepository
-  
-    fun provideTagRepository(
-        tagRepositoryImpl: TagRepositoryImpl,
-    ): TagRepository
+  @Singleton
+  @Binds
+  fun provideMapRepository(
+    mapRepositoryImpl: MapRepositoryImpl
+  ): MapRepository
 
-    @Singleton
-    @Binds
-    fun provideVideoRepository(
-        videoRepositoryImpl: VideoRepositoryImpl,
-    ): VideoRepository
+  @Singleton
+  @Binds
+  fun provideTagRepository(
+    tagRepositoryImpl: TagRepositoryImpl,
+  ): TagRepository
 
-    @Singleton
-    @Binds
-    fun providePostRepository(
-        postRepositoryImpl: PostRepositoryImpl
-    ): PostRepository
+  @Singleton
+  @Binds
+  fun provideVideoRepository(
+    videoRepositoryImpl: VideoRepositoryImpl,
+  ): VideoRepository
+
+  @Singleton
+  @Binds
+  fun providePostRepository(
+    postRepositoryImpl: PostRepositoryImpl
+  ): PostRepository
 }
