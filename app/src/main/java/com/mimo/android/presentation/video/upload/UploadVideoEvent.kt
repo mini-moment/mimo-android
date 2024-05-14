@@ -2,7 +2,8 @@ package com.mimo.android.presentation.video.upload
 
 interface UploadVideoEvent {
 
-    data object Success : UploadVideoEvent
+    data object VideoUploadSuccess : UploadVideoEvent
+    data object PostUploadSuccess : UploadVideoEvent
 
     data class Error(
         val errorCode: Int = 0,

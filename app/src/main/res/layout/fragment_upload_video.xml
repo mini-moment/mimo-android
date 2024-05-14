@@ -5,6 +5,8 @@
 
     <data>
 
+        <import type="android.view.View" />
+
         <variable
             name="viewModel"
             type="com.mimo.android.presentation.video.upload.UploadVideoViewModel" />
@@ -23,11 +25,10 @@
             android:orientation="horizontal"
             app:layout_constraintGuide_percent="0.05" />
 
-        <ImageView
-            android:id="@+id/iv_video_thumbnail"
+        <androidx.media3.ui.PlayerView
+            android:id="@+id/player_view_video"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:background="@color/gray"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHeight_percent="0.25"
             app:layout_constraintStart_toStartOf="parent"
@@ -38,11 +39,12 @@
             android:id="@+id/btn_upload_video"
             android:layout_width="50dp"
             android:layout_height="50dp"
-            android:background="@drawable/ic_upload"
-            app:layout_constraintBottom_toBottomOf="@id/iv_video_thumbnail"
-            app:layout_constraintEnd_toEndOf="@id/iv_video_thumbnail"
-            app:layout_constraintStart_toStartOf="@id/iv_video_thumbnail"
-            app:layout_constraintTop_toTopOf="@id/iv_video_thumbnail" />
+            android:background="@drawable/ic_upload_video"
+            android:visibility="@{viewModel.uiState.videoUri != null ? View.GONE : View.VISIBLE}"
+            app:layout_constraintBottom_toBottomOf="@id/player_view_video"
+            app:layout_constraintEnd_toEndOf="@id/player_view_video"
+            app:layout_constraintStart_toStartOf="@id/player_view_video"
+            app:layout_constraintTop_toTopOf="@id/player_view_video" />
 
 
         <com.google.android.material.progressindicator.LinearProgressIndicator
@@ -53,9 +55,10 @@
             android:max="100"
             android:min="0"
             app:indicatorColor="@color/splash_background"
+            app:layout_constraintBottom_toTopOf="@id/tv_progress"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/iv_video_thumbnail" />
+            app:layout_constraintTop_toBottomOf="@id/player_view_video" />
 
         <TextView
             android:id="@+id/tv_progress"
@@ -63,6 +66,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
+            app:layout_constraintBottom_toTopOf="@id/gl_mid"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/progress_upload_video"
@@ -83,7 +87,7 @@
             android:text="@string/hash_tag_title"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/gl_mid" />
+            app:layout_constraintTop_toBottomOf="@id/tv_progress" />
 
         <androidx.core.widget.NestedScrollView
             android:id="@+id/tag_scroll_view"
@@ -153,8 +157,8 @@
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/et_video_topic"
                 android:layout_width="match_parent"
-                android:onTextChanged="@{viewModel.onTextChanged}"
-                android:layout_height="match_parent" />
+                android:layout_height="match_parent"
+                android:onTextChanged="@{viewModel.onTextChanged}" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <Button

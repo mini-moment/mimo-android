@@ -93,11 +93,9 @@ class UploadVideoViewModel @Inject constructor(
             videoRepository.uploadVideo(file).collectLatest { response ->
                 when (response) {
                     is ApiResponse.Success -> {
-                        _uiState.update { uiState ->
-                            uiState.copy(
-                                videoUri = response.data,
-                            )
-                        }
+                        _event.emit(
+                            UploadVideoEvent.VideoUploadSuccess,
+                        )
                     }
 
                     is ApiResponse.Error -> {
@@ -156,7 +154,7 @@ class UploadVideoViewModel @Inject constructor(
                                 videoUri = response.data,
                             )
                         }
-                        _event.emit(UploadVideoEvent.Success)
+                        _event.emit(UploadVideoEvent.PostUploadSuccess)
                     }
 
                     is ApiResponse.Error -> {
@@ -171,6 +169,14 @@ class UploadVideoViewModel @Inject constructor(
                     else -> {}
                 }
             }
+        }
+    }
+
+    fun selectVideoUri(uri: String) {
+        _uiState.update { state ->
+            state.copy(
+                videoUri = uri,
+            )
         }
     }
 
