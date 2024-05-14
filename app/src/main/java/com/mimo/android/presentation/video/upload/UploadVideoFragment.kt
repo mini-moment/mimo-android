@@ -1,5 +1,6 @@
 package com.mimo.android.presentation.video.upload
 
+import android.net.Uri
 import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts.*
 import androidx.core.net.toUri
@@ -7,6 +8,9 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
+import androidx.media3.common.MediaItem
+import androidx.media3.common.Player
+import androidx.media3.exoplayer.ExoPlayer
 import com.google.android.flexbox.FlexDirection
 import com.google.android.flexbox.FlexWrap
 import com.google.android.flexbox.FlexboxLayoutManager
@@ -28,12 +32,28 @@ class UploadVideoFragment :
 
     private val uploadVideoViewModel: UploadVideoViewModel by viewModels()
     private val tagListAdapter = TagListAdapter()
+    private var player: Player? = null
+
     private val pickMedia =
         registerForActivityResult(PickVisualMedia()) { uri ->
             if (uri != null) {
                 uploadVideoViewModel.selectVideoUri(uri.toString())
+                playVideo(uri)
             }
         }
+
+    private fun playVideo(uri: Uri) {
+        player = ExoPlayer.Builder(requireActivity())
+            .build()
+            .also { exoPlayer ->
+                binding.playerViewVideo.player = exoPlayer
+                binding.playerViewVideo.useController = false
+                val mediaItem = MediaItem.fromUri(uri)
+                exoPlayer.setMediaItems(listOf(mediaItem))
+                exoPlayer.prepare()
+                exoPlayer.play()
+            }
+    }
 
     override fun initView() {
         with(binding) {
@@ -109,6 +129,13 @@ class UploadVideoFragment :
                     }
                 }
             }
+        }
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        player?.let { player ->
+            player.release()
         }
     }
 }
