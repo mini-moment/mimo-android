@@ -5,6 +5,7 @@ import com.naver.maps.geometry.LatLng
 import com.naver.maps.map.clustering.ClusteringKey
 
 data class MarkerData(
+    val id: Int,
     val latitude: Double,
     val longitude: Double,
     val postId: Int
@@ -16,6 +17,7 @@ data class MarkerData(
 fun MarkerResponse.toMarkerData(): List<MarkerData> {
     return this.data.map {
         MarkerData(
+            id = it.id,
             latitude = it.latitude,
             longitude = it.longitude,
             postId = it.postId
