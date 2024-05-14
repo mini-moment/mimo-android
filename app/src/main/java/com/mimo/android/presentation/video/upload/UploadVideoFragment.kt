@@ -2,6 +2,7 @@ package com.mimo.android.presentation.video.upload
 
 import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts.*
+import androidx.core.net.toUri
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
@@ -30,26 +31,14 @@ class UploadVideoFragment :
     private val pickMedia =
         registerForActivityResult(PickVisualMedia()) { uri ->
             if (uri != null) {
-                val filePath = getRealPathFromURI(requireContext(), uri)
-                val file = File(filePath)
-                val videoRequestBody =
-                    ProgressRequestBody(file, "video/*".toMediaTypeOrNull()) { uploaded, total ->
-                        val progress = (uploaded.toFloat() / total.toFloat() * 100).toInt()
-                        viewLifecycleOwner.lifecycleScope.launch {
-                            binding.progressUploadVideo.progress = progress
-                            binding.tvProgress.text = "$progress%"
-                        }
-                    }
-                val videoFile =
-                    MultipartBody.Part.createFormData("video", file.name, videoRequestBody)
-                uploadVideoViewModel.uploadVideo(videoFile)
+                uploadVideoViewModel.selectVideoUri(uri.toString())
             }
         }
 
     override fun initView() {
         with(binding) {
             btnFinishUpload.setOnClickListener {
-                uploadVideoViewModel.insertPost()
+                loadVideo()
             }
             btnUploadVideo.setOnClickListener {
                 pickMedia.launch(PickVisualMediaRequest(PickVisualMedia.VideoOnly))
@@ -58,6 +47,32 @@ class UploadVideoFragment :
         }
         setRecyclerView()
         collectUiEvent()
+    }
+
+    private fun loadVideo() {
+        uploadVideoViewModel.uiState.value.videoUri?.let { uri ->
+            val filePath =
+                getRealPathFromURI(requireContext(), uri.toUri())
+            val file = File(filePath)
+            val videoRequestBody =
+                ProgressRequestBody(
+                    file,
+                    requireContext().getString(R.string.multipart_content_type).toMediaTypeOrNull(),
+                ) { uploaded, total ->
+                    val progress = (uploaded.toFloat() / total.toFloat() * 100).toInt()
+                    viewLifecycleOwner.lifecycleScope.launch {
+                        binding.progressUploadVideo.progress = progress
+                        binding.tvProgress.text = "$progress%"
+                    }
+                }
+            val videoFile =
+                MultipartBody.Part.createFormData(
+                    requireContext().getString(R.string.multipart_value),
+                    file.name,
+                    videoRequestBody,
+                )
+            uploadVideoViewModel.uploadVideo(videoFile)
+        }
     }
 
     private fun setRecyclerView() {
@@ -84,7 +99,11 @@ class UploadVideoFragment :
                             showMessage(uiEvent.errorMessage)
                         }
 
-                        is UploadVideoEvent.Success -> {
+                        is UploadVideoEvent.VideoUploadSuccess -> {
+                            uploadVideoViewModel.insertPost()
+                        }
+
+                        is UploadVideoEvent.PostUploadSuccess -> {
                             requireActivity().finish()
                         }
                     }
