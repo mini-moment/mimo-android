@@ -13,7 +13,6 @@ data class MarkerData(
 
 }
 
-
 fun MarkerResponse.toMarkerData(): List<MarkerData> {
     return this.data.map {
         MarkerData(
