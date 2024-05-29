@@ -34,3 +34,10 @@ fun ChipGroup.bindSelectedChips(items: List<TagData>, click: () -> Unit) {
         }
     }
 }
+
+@BindingAdapter("app:thumbnails")
+fun RecyclerView.bindThumbnails(items: List<VideoThumbnail>) {
+    if (this.adapter != null) {
+        (this.adapter as ThumbNailAdapter).submitList(items.toMutableList())
+    }
+}
