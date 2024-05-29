@@ -1,27 +1,30 @@
-package com.mimo.android.presentation.mypage
+package com.mimo.android.presentation.videodetail
 
 
+import android.os.Build
 import androidx.media3.common.MediaItem
 import androidx.media3.common.Player
 import androidx.media3.exoplayer.ExoPlayer
-import androidx.navigation.fragment.navArgs
 import com.mimo.android.R
-import com.mimo.android.databinding.FragmentVideoDetailBinding
-import com.mimo.android.presentation.base.BaseFragment
+import com.mimo.android.databinding.ActivityVideoDetailBinding
+import com.mimo.android.domain.model.MarkerData
+import com.mimo.android.presentation.base.BaseActivity
+import dagger.hilt.android.AndroidEntryPoint
 import timber.log.Timber
-import java.util.Arrays
 
-class VideoDetailFragment : BaseFragment<FragmentVideoDetailBinding>(R.layout.fragment_video_detail) {
+@AndroidEntryPoint
+class VideoDetailActivity :
+    BaseActivity<ActivityVideoDetailBinding>(R.layout.activity_video_detail) {
     private val playbackStateListener: Player.Listener = playbackStateListener()
     private var player: Player? = null
     private var playWhenReady = true
     private var mediaItemIndex = 0
     private var playbackPosition = 0L
 
-    override fun initView() {
+    override fun init() {
         initData()
         initializePlayer()
-        with(binding){
+        with(binding) {
             tvVideodetailUsername.text = "UserName"
             tvVideodetailTimestamp.text = "1min"
             tvVideodetailLocation.text = "인동 에이바웃"
@@ -31,16 +34,20 @@ class VideoDetailFragment : BaseFragment<FragmentVideoDetailBinding>(R.layout.fr
         }
     }
 
-    private fun initData(){
-        val safeArgs : VideoDetailFragmentArgs by navArgs()
-        Timber.d("포스트 전체 리스트 ${safeArgs.postList.contentToString()}")
-        Timber.d("포스트 인덱스 ${safeArgs.postIndex}")
-
+    private fun initData() {
+        val postList = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            intent.getParcelableArrayExtra("postList", MarkerData::class.java)
+        } else {
+            intent.getParcelableArrayExtra("postList")
+        }
+        val postIndex = intent.getIntExtra("postIndex", 0)
+        Timber.d("포스트 전체 리스트 ${postList}")
+        Timber.d("포스트 인덱스 ${postIndex}")
     }
 
 
     private fun initializePlayer() {    //player 연결
-        player = ExoPlayer.Builder(requireActivity())
+        player = ExoPlayer.Builder(this)
             .build()
             .also { exoPlayer ->
                 binding.playerviewVideo.player = exoPlayer
@@ -72,8 +79,8 @@ class VideoDetailFragment : BaseFragment<FragmentVideoDetailBinding>(R.layout.fr
         }
     }
 
-    override fun onDestroyView() {
-        super.onDestroyView()
+    override fun onDestroy() {
+        super.onDestroy()
         releasePlayer()
     }
 

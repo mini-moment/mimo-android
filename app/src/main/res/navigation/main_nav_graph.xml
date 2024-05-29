@@ -9,31 +9,13 @@
     <fragment
         android:id="@+id/mapFragment"
         android:name="com.mimo.android.presentation.map.MapFragment"
-        tools:layout="@layout/fragment_map" >
-        <action
-            android:id="@+id/action_mapFragment_to_videoDetailFragment"
-            app:destination="@id/videoDetailFragment" />
+        tools:layout="@layout/fragment_map">
+
     </fragment>
 
     <fragment
         android:id="@+id/myPageFragment"
         android:name="com.mimo.android.presentation.mypage.MyPageFragment"
         tools:layout="@layout/fragment_my_page" />
-
-    <fragment
-        android:id="@+id/videoDetailFragment"
-        android:name="com.mimo.android.presentation.mypage.VideoDetailFragment"
-        tools:layout="@layout/fragment_video_detail">
-
-        <argument
-            android:name="postList"
-            app:argType="com.mimo.android.domain.model.MarkerData[]"/>
-
-        <argument
-            android:name="postIndex"
-            app:argType="integer"
-            android:defaultValue="0"/>
-
-    </fragment>
 
 </navigation>
