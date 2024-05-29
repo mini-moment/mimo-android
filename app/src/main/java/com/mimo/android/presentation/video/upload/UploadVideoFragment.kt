@@ -18,12 +18,15 @@ import com.mimo.android.R
 import com.mimo.android.databinding.FragmentUploadVideoBinding
 import com.mimo.android.domain.model.TagData
 import com.mimo.android.presentation.base.BaseFragment
+import com.mimo.android.presentation.dialog.LoadingDialog
 import com.mimo.android.presentation.util.getRealPathFromURI
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
+import okhttp3.RequestBody
+import okhttp3.RequestBody.Companion.asRequestBody
 import java.io.File
 
 @AndroidEntryPoint
@@ -68,26 +71,21 @@ class UploadVideoFragment :
         }
         setRecyclerView()
         collectUiEvent()
+        showLoadingDialog()
     }
 
     private fun loadVideo() {
         uploadVideoViewModel.uiState.value.videoUri?.let { uri ->
             val filePath = getRealPathFromURI(requireContext(), uri.toUri())
             val file = File(filePath)
-            val videoRequestBody = ProgressRequestBody(
-                file,
-                requireContext().getString(R.string.multipart_content_type).toMediaTypeOrNull(),
-            ) { uploaded, total ->
-                val progress = (uploaded.toFloat() / total.toFloat() * 100).toInt()
-                viewLifecycleOwner.lifecycleScope.launch {
-                    binding.progressUploadVideo.progress = progress
-                    binding.tvProgress.text = "$progress%"
-                }
-            }
+            val requestBody: RequestBody = file.asRequestBody(
+                requireContext().getString(R.string.multipart_content_type)
+                    .toMediaTypeOrNull(),
+            )
             val videoFile = MultipartBody.Part.createFormData(
                 requireContext().getString(R.string.multipart_value),
                 file.name,
-                videoRequestBody,
+                requestBody,
             )
             uploadVideoViewModel.uploadVideo(videoFile)
         }
@@ -131,6 +129,30 @@ class UploadVideoFragment :
                         is UploadVideoEvent.ThumbnailsGetSuccess -> {
                             playVideo(uploadVideoViewModel.uiState.value.videoUri.toUri())
                         }
+                    }
+                }
+            }
+        }
+    }
+
+    private fun showLoadingDialog() {
+        val dialog = LoadingDialog()
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                uploadVideoViewModel.uiState.collectLatest { uiState ->
+                    when (uiState.isLoading) {
+                        LoadingUiState.Finish -> {
+                            dialog.dismiss()
+                        }
+
+                        LoadingUiState.Loading -> {
+                            dialog.show(
+                                requireActivity().supportFragmentManager,
+                                "",
+                            )
+                        }
+
+                        LoadingUiState.Init -> {}
                     }
                 }
             }

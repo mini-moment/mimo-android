@@ -123,6 +123,11 @@ class UploadVideoViewModel @Inject constructor(
 
     fun uploadVideo(file: MultipartBody.Part) {
         viewModelScope.launch {
+            _uiState.update { uiState ->
+                uiState.copy(
+                    isLoading = LoadingUiState.Loading,
+                )
+            }
             videoRepository.uploadVideo(file).collectLatest { response ->
                 when (response) {
                     is ApiResponse.Success -> {
@@ -148,7 +153,7 @@ class UploadVideoViewModel @Inject constructor(
 
     private suspend fun validationPost(): Boolean {
         with(uiState.value) {
-            if (videoUri == null) {
+            if (videoUri == "") {
                 _event.emit(
                     UploadVideoEvent.Error(
                         errorMessage = ErrorMessage.NO_POST_VIDEO_URL,
@@ -156,7 +161,7 @@ class UploadVideoViewModel @Inject constructor(
                 )
                 return false
             }
-            if (topic == null) {
+            if (topic == "") {
                 _event.emit(
                     UploadVideoEvent.Error(
                         errorMessage = ErrorMessage.NO_POST_TOPIC,
@@ -185,12 +190,18 @@ class UploadVideoViewModel @Inject constructor(
                         _uiState.update { uiState ->
                             uiState.copy(
                                 videoUri = response.data,
+                                isLoading = LoadingUiState.Finish,
                             )
                         }
                         _event.emit(UploadVideoEvent.PostUploadSuccess)
                     }
 
                     is ApiResponse.Error -> {
+                        _uiState.update { uiState ->
+                            uiState.copy(
+                                isLoading = LoadingUiState.Finish,
+                            )
+                        }
                         _event.emit(
                             UploadVideoEvent.Error(
                                 errorCode = response.errorCode,
