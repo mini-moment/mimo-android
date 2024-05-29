@@ -5,11 +5,13 @@ import androidx.core.os.bundleOf
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
+import androidx.navigation.fragment.navArgs
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
 import com.mimo.android.R
 import com.mimo.android.databinding.FragmentMapBinding
 import com.mimo.android.domain.model.MarkerData
+import com.mimo.android.domain.model.findMarkerIndex
 import com.mimo.android.presentation.base.BaseMapFragment
 import com.mimo.android.presentation.util.checkLocationPermission
 import com.mimo.android.presentation.util.clickMarker
@@ -134,6 +136,7 @@ class MapFragment : BaseMapFragment<FragmentMapBinding>(R.layout.fragment_map) {
     }
 
     private fun clickLocationSearchBtn() {//현재 위치 검색 클릭
+
         binding.btnLocationSearch.setOnClickListener {
             binding.locationSearchVisible = false
             naverMap.cameraPosition.apply {
@@ -144,9 +147,10 @@ class MapFragment : BaseMapFragment<FragmentMapBinding>(R.layout.fragment_map) {
 
     private fun clickMarkerEvent() { // 마커 클릭시
         clickMarker(markerBuilder) {
+            val markerList = mapViewModel.markerList.value
             val bundle = bundleOf(
-                "postList" to mapViewModel.markerList.value,
-                "postIndex" to 0
+                "postList" to markerList?.toTypedArray(),
+                "postIndex" to markerList?.findMarkerIndex(it)
             )
             this.findNavController()
                 .navigate(R.id.action_mapFragment_to_videoDetailFragment, bundle)

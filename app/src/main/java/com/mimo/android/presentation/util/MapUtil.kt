@@ -5,7 +5,6 @@ import com.mimo.android.domain.model.MarkerData
 import com.naver.maps.map.clustering.ClusterMarkerInfo
 import com.naver.maps.map.clustering.Clusterer
 import com.naver.maps.map.clustering.DefaultClusterMarkerUpdater
-import com.naver.maps.map.clustering.DefaultClusterOnClickListener
 import com.naver.maps.map.clustering.DefaultLeafMarkerUpdater
 import com.naver.maps.map.clustering.LeafMarkerInfo
 import com.naver.maps.map.overlay.Marker
@@ -40,9 +39,9 @@ suspend fun deleteMarker(marker: Clusterer<MarkerData>) {
 
 fun clickMarker(
     builder: Clusterer.ComplexBuilder<MarkerData>,
-    markerInfo: (LeafMarkerInfo) -> Unit
+    markerInfo: (MarkerData) -> Unit
 ) {
-    builder.clusterMarkerUpdater(object : DefaultClusterMarkerUpdater()  {
+    builder.clusterMarkerUpdater(object : DefaultClusterMarkerUpdater() {
         override fun updateClusterMarker(info: ClusterMarkerInfo, marker: Marker) {
             super.updateClusterMarker(info, marker)
 
@@ -56,12 +55,15 @@ fun clickMarker(
             super.updateLeafMarker(info, marker)
             marker.onClickListener = Overlay.OnClickListener {
                 Timber.d("마커 클릭 정보 ${info.key}, $marker")
-                markerInfo(info)
+                val markerData = info.key as MarkerData
+                markerInfo(markerData)
                 true
             }
         }
     })
 }
+
+
 
 
 

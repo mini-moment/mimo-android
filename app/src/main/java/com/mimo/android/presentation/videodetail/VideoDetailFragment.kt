@@ -8,9 +8,10 @@ import androidx.navigation.fragment.navArgs
 import com.mimo.android.R
 import com.mimo.android.databinding.FragmentVideoDetailBinding
 import com.mimo.android.presentation.base.BaseFragment
+import timber.log.Timber
+import java.util.Arrays
 
 class VideoDetailFragment : BaseFragment<FragmentVideoDetailBinding>(R.layout.fragment_video_detail) {
-
     private val playbackStateListener: Player.Listener = playbackStateListener()
     private var player: Player? = null
     private var playWhenReady = true
@@ -18,8 +19,8 @@ class VideoDetailFragment : BaseFragment<FragmentVideoDetailBinding>(R.layout.fr
     private var playbackPosition = 0L
 
     override fun initView() {
+        initData()
         initializePlayer()
-
         with(binding){
             tvVideodetailUsername.text = "UserName"
             tvVideodetailTimestamp.text = "1min"
@@ -31,7 +32,9 @@ class VideoDetailFragment : BaseFragment<FragmentVideoDetailBinding>(R.layout.fr
     }
 
     private fun initData(){
-
+        val safeArgs : VideoDetailFragmentArgs by navArgs()
+        Timber.d("포스트 전체 리스트 ${safeArgs.postList.contentToString()}")
+        Timber.d("포스트 인덱스 ${safeArgs.postIndex}")
 
     }
 

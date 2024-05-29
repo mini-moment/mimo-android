@@ -26,11 +26,11 @@
         tools:layout="@layout/fragment_video_detail">
 
         <argument
-            android:name="photoList"
+            android:name="postList"
             app:argType="com.mimo.android.domain.model.MarkerData[]"/>
 
         <argument
-            android:name="photoIndex"
+            android:name="postIndex"
             app:argType="integer"
             android:defaultValue="0"/>
 

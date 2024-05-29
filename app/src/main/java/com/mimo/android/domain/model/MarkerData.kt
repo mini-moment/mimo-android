@@ -1,16 +1,19 @@
 package com.mimo.android.domain.model
 
+import android.os.Parcelable
 import com.mimo.android.data.model.response.MarkerResponse
 import com.naver.maps.geometry.LatLng
 import com.naver.maps.map.clustering.ClusteringKey
+import kotlinx.parcelize.Parcelize
 
 
+@Parcelize
 data class MarkerData(
     val id: Int,
     val latitude: Double,
     val longitude: Double,
     val postId: Int
-) : ClusteringKey {
+) : ClusteringKey, Parcelable {
     override fun getPosition(): LatLng = LatLng(latitude, longitude)
 
 }
@@ -24,4 +27,8 @@ fun MarkerResponse.toMarkerData(): List<MarkerData> {
             postId = it.postId
         )
     }
+}
+
+fun List<MarkerData>.findMarkerIndex(markerData : MarkerData) : Int{
+    return this.indexOf(markerData)
 }
