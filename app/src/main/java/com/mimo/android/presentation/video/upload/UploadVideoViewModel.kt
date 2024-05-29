@@ -8,7 +8,9 @@ import com.mimo.android.data.repository.PostRepository
 import com.mimo.android.data.repository.TagRepository
 import com.mimo.android.data.repository.VideoRepository
 import com.mimo.android.presentation.util.ErrorMessage
+import com.mimo.android.presentation.video.VideoThumbnailUtil
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharedFlow
@@ -16,6 +18,7 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import okhttp3.MultipartBody
 import javax.inject.Inject
 
@@ -84,6 +87,36 @@ class UploadVideoViewModel @Inject constructor(
                     tags = newTags,
                     selectedTags = newSelectedTags,
                 )
+            }
+        }
+    }
+
+    fun setVideo(uri: String) {
+        _uiState.update { state ->
+            state.copy(
+                videoUri = uri,
+            )
+        }
+    }
+
+    fun getThumbnails(width: Int, path: String) {
+        viewModelScope.launch {
+            withContext(Dispatchers.IO) {
+                val thumbnails = VideoThumbnailUtil().getVideoThumbnails(width, path)
+                if (thumbnails.isEmpty()) {
+                    _event.emit(
+                        UploadVideoEvent.Error(
+                            errorMessage = ErrorMessage.GET_THUMBNAILS_ERROR_MESSAGE,
+                        ),
+                    )
+                } else {
+                    _uiState.update { state ->
+                        state.copy(
+                            thumbnails = thumbnails,
+                        )
+                    }
+                    _event.emit(UploadVideoEvent.ThumbnailsGetSuccess)
+                }
             }
         }
     }
@@ -169,14 +202,6 @@ class UploadVideoViewModel @Inject constructor(
                     else -> {}
                 }
             }
-        }
-    }
-
-    fun selectVideoUri(uri: String) {
-        _uiState.update { state ->
-            state.copy(
-                videoUri = uri,
-            )
         }
     }
 
