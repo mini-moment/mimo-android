@@ -6,7 +6,6 @@ import com.navercorp.nid.NaverIdLoginSDK
 import dagger.hilt.android.HiltAndroidApp
 import timber.log.Timber
 
-
 @HiltAndroidApp
 class MimoApplication : Application() {
     override fun onCreate() {
