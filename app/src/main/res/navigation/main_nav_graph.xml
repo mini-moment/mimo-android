@@ -9,7 +9,9 @@
     <fragment
         android:id="@+id/mapFragment"
         android:name="com.mimo.android.presentation.map.MapFragment"
-        tools:layout="@layout/fragment_map" />
+        tools:layout="@layout/fragment_map">
+
+    </fragment>
 
     <fragment
         android:id="@+id/myPageFragment"
