@@ -8,3 +8,4 @@ data class PostData(
     val latitude: Long? = null,
     val longitude: Long? = null,
 )
+

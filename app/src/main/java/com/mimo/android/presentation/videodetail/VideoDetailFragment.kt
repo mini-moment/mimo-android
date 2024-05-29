@@ -29,6 +29,8 @@ class VideoDetailFragment : BaseFragment<FragmentVideoDetailBinding>(R.layout.fr
         }
     }
 
+
+
     private fun initializePlayer() {    //player 연결
         player = ExoPlayer.Builder(requireActivity())
             .build()

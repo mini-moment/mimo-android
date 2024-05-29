@@ -1,14 +1,18 @@
 package com.mimo.android.presentation.map
 
 import androidx.core.content.ContextCompat
+import androidx.core.os.bundleOf
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
 import com.mimo.android.R
 import com.mimo.android.databinding.FragmentMapBinding
+import com.mimo.android.domain.model.MarkerData
 import com.mimo.android.presentation.base.BaseMapFragment
 import com.mimo.android.presentation.util.checkLocationPermission
+import com.mimo.android.presentation.util.clickMarker
 import com.mimo.android.presentation.util.deleteMarker
 import com.mimo.android.presentation.util.makeMarker
 import com.mimo.android.presentation.util.requestMapPermission
@@ -18,6 +22,7 @@ import com.naver.maps.map.CameraUpdate
 import com.naver.maps.map.LocationTrackingMode
 import com.naver.maps.map.MapView
 import com.naver.maps.map.NaverMap
+import com.naver.maps.map.clustering.Clusterer
 import com.naver.maps.map.overlay.CircleOverlay
 import com.naver.maps.map.util.FusedLocationSource
 import dagger.hilt.android.AndroidEntryPoint
@@ -33,6 +38,8 @@ class MapFragment : BaseMapFragment<FragmentMapBinding>(R.layout.fragment_map) {
     private lateinit var fusedLocationClient: FusedLocationProviderClient
     private lateinit var circle: CircleOverlay
 
+    private lateinit var markerBuilder: Clusterer.ComplexBuilder<MarkerData>
+
     override var mapView: MapView? = null
     var radius = 0.0
 
@@ -44,6 +51,7 @@ class MapFragment : BaseMapFragment<FragmentMapBinding>(R.layout.fragment_map) {
         initNaverMap(naverMap)
         setMarker()
         setCameraChangeListener()
+        clickMarkerEvent()
     }
 
     override fun iniViewCreated() {
@@ -64,6 +72,7 @@ class MapFragment : BaseMapFragment<FragmentMapBinding>(R.layout.fragment_map) {
         this.naverMap = naverMap
         this.naverMap.locationSource = locationSource
         circle = CircleOverlay()
+        markerBuilder = Clusterer.ComplexBuilder<MarkerData>()
         getLastLocation(naverMap)
     }
 
@@ -97,7 +106,10 @@ class MapFragment : BaseMapFragment<FragmentMapBinding>(R.layout.fragment_map) {
                 mapViewModel.currentMarkerList.value?.let {
                     deleteMarker(it)
                 }
-                val markers = makeMarker(it)
+                val markers = makeMarker(it, markerBuilder)
+
+
+
                 mapViewModel.setCurrentMarkerList(markers)
                 markers.map = naverMap
             }
@@ -130,6 +142,17 @@ class MapFragment : BaseMapFragment<FragmentMapBinding>(R.layout.fragment_map) {
         }
     }
 
+    private fun clickMarkerEvent() { // 마커 클릭시
+        clickMarker(markerBuilder) {
+            val bundle = bundleOf(
+                "postList" to mapViewModel.markerList.value,
+                "postIndex" to 0
+            )
+            this.findNavController()
+                .navigate(R.id.action_mapFragment_to_videoDetailFragment, bundle)
+        }
+    }
+
     companion object {
         const val DEFAULT_LATITUDE = 37.563242272383114
         const val DEFAULT_LONGITUDE = 126.92566852521531
@@ -137,7 +160,3 @@ class MapFragment : BaseMapFragment<FragmentMapBinding>(R.layout.fragment_map) {
         const val LOCATION_PERMISSION_REQUEST_CODE = 1000
     }
 }
-
-
-
-
