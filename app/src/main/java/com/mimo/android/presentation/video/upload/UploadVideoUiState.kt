@@ -8,4 +8,13 @@ data class UploadVideoUiState(
     val topic: String = "",
     val selectedTags: List<TagData> = listOf(),
     val thumbnails: List<VideoThumbnail> = listOf(),
+    val isLoading: LoadingUiState = LoadingUiState.Init,
 )
+
+sealed class LoadingUiState {
+    data object Init : LoadingUiState()
+
+    data object Loading : LoadingUiState()
+
+    data object Finish : LoadingUiState()
+}
