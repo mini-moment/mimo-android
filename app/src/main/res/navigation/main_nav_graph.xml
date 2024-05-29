@@ -27,7 +27,7 @@
 
         <argument
             android:name="photoList"
-            app:argType="com.mimo.android.domain.MarkerData[]"/>
+            app:argType="com.mimo.android.domain.model.MarkerData[]"/>
 
         <argument
             android:name="photoIndex"

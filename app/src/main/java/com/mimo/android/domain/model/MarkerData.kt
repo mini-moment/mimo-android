@@ -4,6 +4,7 @@ import com.mimo.android.data.model.response.MarkerResponse
 import com.naver.maps.geometry.LatLng
 import com.naver.maps.map.clustering.ClusteringKey
 
+
 data class MarkerData(
     val id: Int,
     val latitude: Double,

@@ -4,6 +4,7 @@ package com.mimo.android.presentation.mypage
 import androidx.media3.common.MediaItem
 import androidx.media3.common.Player
 import androidx.media3.exoplayer.ExoPlayer
+import androidx.navigation.fragment.navArgs
 import com.mimo.android.R
 import com.mimo.android.databinding.FragmentVideoDetailBinding
 import com.mimo.android.presentation.base.BaseFragment
@@ -29,6 +30,10 @@ class VideoDetailFragment : BaseFragment<FragmentVideoDetailBinding>(R.layout.fr
         }
     }
 
+    private fun initData(){
+
+
+    }
 
 
     private fun initializePlayer() {    //player 연결
