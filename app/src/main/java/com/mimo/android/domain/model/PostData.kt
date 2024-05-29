@@ -6,3 +6,4 @@ data class PostData(
     val videoUrl: String? = null,
     val markerId: Int? = null,
 )
+

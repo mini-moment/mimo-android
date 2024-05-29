@@ -21,7 +21,7 @@ object NetworkModule {
     fun provideRetrofit(okHttpClient: OkHttpClient): Retrofit {
         // val apiKey = "http://192.168.0.115:8080/"
         //val apiKey = "http://192.168.123.112:8080/"
-        val apiKey = "http://192.168.123.104:8080/"
+        val apiKey = "http://192.168.0.4:8080/"
         return Retrofit.Builder()
             .addConverterFactory(GsonConverterFactory.create(GsonBuilder().setLenient().create()))
             .baseUrl(apiKey)

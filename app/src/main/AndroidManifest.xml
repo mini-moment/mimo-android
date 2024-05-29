@@ -34,6 +34,9 @@
             android:name=".presentation.MainActivity"
             android:exported="false" />
         <activity
+            android:name=".presentation.videodetail.VideoDetailActivity"
+            android:exported="false" />
+        <activity
             android:name=".presentation.splash.SplashActivity"
             android:exported="true">
             <intent-filter>
