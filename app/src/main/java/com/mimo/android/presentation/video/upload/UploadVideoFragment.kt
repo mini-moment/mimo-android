@@ -18,12 +18,15 @@ import com.mimo.android.R
 import com.mimo.android.databinding.FragmentUploadVideoBinding
 import com.mimo.android.domain.model.TagData
 import com.mimo.android.presentation.base.BaseFragment
+import com.mimo.android.presentation.dialog.LoadingDialog
 import com.mimo.android.presentation.util.getRealPathFromURI
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
+import okhttp3.RequestBody
+import okhttp3.RequestBody.Companion.asRequestBody
 import java.io.File
 
 @AndroidEntryPoint
@@ -32,27 +35,27 @@ class UploadVideoFragment :
 
     private val uploadVideoViewModel: UploadVideoViewModel by viewModels()
     private val tagListAdapter = TagListAdapter()
+    private val thumbNailAdapter = ThumbNailAdapter()
     private var player: Player? = null
 
-    private val pickMedia =
-        registerForActivityResult(PickVisualMedia()) { uri ->
-            if (uri != null) {
-                uploadVideoViewModel.selectVideoUri(uri.toString())
-                playVideo(uri)
-            }
+    private val pickMedia = registerForActivityResult(PickVisualMedia()) { uri ->
+        if (uri != null) {
+            val fileUrl = getRealPathFromURI(requireContext(), uri)
+            val file = File(fileUrl)
+            val widthPixels = binding.recyclerViewVideoThumbnail.measuredWidth // 가로 픽셀
+            uploadVideoViewModel.setVideo(uri.toString())
+            uploadVideoViewModel.getThumbnails(width = widthPixels, path = file.path)
         }
+    }
 
     private fun playVideo(uri: Uri) {
-        player = ExoPlayer.Builder(requireActivity())
-            .build()
-            .also { exoPlayer ->
-                binding.playerViewVideo.player = exoPlayer
-                binding.playerViewVideo.useController = false
-                val mediaItem = MediaItem.fromUri(uri)
-                exoPlayer.setMediaItems(listOf(mediaItem))
-                exoPlayer.prepare()
-                exoPlayer.play()
-            }
+        player = ExoPlayer.Builder(requireActivity()).build().also { exoPlayer ->
+            binding.playerViewVideo.player = exoPlayer
+            binding.playerViewVideo.useController = false
+            exoPlayer.setMediaItem(MediaItem.fromUri(uri))
+            exoPlayer.prepare()
+            exoPlayer.play()
+        }
     }
 
     override fun initView() {
@@ -64,33 +67,26 @@ class UploadVideoFragment :
                 pickMedia.launch(PickVisualMediaRequest(PickVisualMedia.VideoOnly))
             }
             viewModel = uploadVideoViewModel
+            sliderVideoThumbnail.setCustomThumbDrawable(R.drawable.clip)
         }
         setRecyclerView()
         collectUiEvent()
+        showLoadingDialog()
     }
 
     private fun loadVideo() {
         uploadVideoViewModel.uiState.value.videoUri?.let { uri ->
-            val filePath =
-                getRealPathFromURI(requireContext(), uri.toUri())
+            val filePath = getRealPathFromURI(requireContext(), uri.toUri())
             val file = File(filePath)
-            val videoRequestBody =
-                ProgressRequestBody(
-                    file,
-                    requireContext().getString(R.string.multipart_content_type).toMediaTypeOrNull(),
-                ) { uploaded, total ->
-                    val progress = (uploaded.toFloat() / total.toFloat() * 100).toInt()
-                    viewLifecycleOwner.lifecycleScope.launch {
-                        binding.progressUploadVideo.progress = progress
-                        binding.tvProgress.text = "$progress%"
-                    }
-                }
-            val videoFile =
-                MultipartBody.Part.createFormData(
-                    requireContext().getString(R.string.multipart_value),
-                    file.name,
-                    videoRequestBody,
-                )
+            val requestBody: RequestBody = file.asRequestBody(
+                requireContext().getString(R.string.multipart_content_type)
+                    .toMediaTypeOrNull(),
+            )
+            val videoFile = MultipartBody.Part.createFormData(
+                requireContext().getString(R.string.multipart_value),
+                file.name,
+                requestBody,
+            )
             uploadVideoViewModel.uploadVideo(videoFile)
         }
     }
@@ -107,6 +103,9 @@ class UploadVideoFragment :
                 flexWrap = FlexWrap.WRAP
                 flexDirection = FlexDirection.ROW
             }
+        }
+        with(binding.recyclerViewVideoThumbnail) {
+            adapter = thumbNailAdapter
         }
     }
 
@@ -126,6 +125,34 @@ class UploadVideoFragment :
                         is UploadVideoEvent.PostUploadSuccess -> {
                             requireActivity().finish()
                         }
+
+                        is UploadVideoEvent.ThumbnailsGetSuccess -> {
+                            playVideo(uploadVideoViewModel.uiState.value.videoUri.toUri())
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    private fun showLoadingDialog() {
+        val dialog = LoadingDialog()
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                uploadVideoViewModel.uiState.collectLatest { uiState ->
+                    when (uiState.isLoading) {
+                        LoadingUiState.Finish -> {
+                            dialog.dismiss()
+                        }
+
+                        LoadingUiState.Loading -> {
+                            dialog.show(
+                                requireActivity().supportFragmentManager,
+                                "",
+                            )
+                        }
+
+                        LoadingUiState.Init -> {}
                     }
                 }
             }
