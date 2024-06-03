@@ -23,6 +23,8 @@ import com.mimo.android.presentation.dialog.LoadingDialog
 import com.mimo.android.presentation.util.converterTimeLine
 import com.mimo.android.presentation.util.getRealPathFromURI
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
@@ -39,13 +41,14 @@ class UploadVideoFragment :
     private val tagListAdapter = TagListAdapter()
     private val thumbNailAdapter = ThumbNailAdapter()
     private var player: Player? = null
+    private var trackingJob: Job? = null
 
     private val pickMedia = registerForActivityResult(PickVisualMedia()) { uri ->
         if (uri != null) {
             val fileUrl = getRealPathFromURI(requireContext(), uri)
             val file = File(fileUrl)
-            val widthPixels = binding.recyclerViewVideoThumbnail.measuredWidth // 가로 픽셀
             uploadVideoViewModel.setVideo(uri.toString())
+            val widthPixels = binding.recyclerViewVideoThumbnail.measuredWidth
             uploadVideoViewModel.getThumbnails(width = widthPixels, path = file.path)
         }
     }
@@ -53,10 +56,42 @@ class UploadVideoFragment :
     private fun playVideo(uri: Uri) {
         player = ExoPlayer.Builder(requireActivity()).build().also { exoPlayer ->
             binding.playerViewVideo.player = exoPlayer
-            binding.playerViewVideo.useController = false
             exoPlayer.setMediaItem(MediaItem.fromUri(uri))
             exoPlayer.prepare()
-            exoPlayer.play()
+            exoPlayer.addListener(object : Player.Listener {
+                override fun onIsPlayingChanged(isPlaying: Boolean) {
+                    if (isPlaying) {
+                        startTracking()
+                    } else {
+                        stopTracking()
+                    }
+                }
+            })
+        }
+    }
+
+    private fun startTracking() {
+        trackingJob = lifecycleScope.launch {
+            while (true) {
+                trackingVideo()
+                delay(100)
+            }
+        }
+    }
+
+    private fun stopTracking() {
+        trackingJob?.cancel()
+        trackingJob = null
+    }
+
+    private fun trackingVideo() {
+        player?.let { player ->
+            val currentPosition = player.currentPosition
+            val duration = player.duration
+            if (duration > 0) {
+                val positionRatio = currentPosition.toFloat() / duration * 100
+                binding.sliderVideoTime.value = positionRatio
+            }
         }
     }
 
@@ -78,7 +113,8 @@ class UploadVideoFragment :
     }
 
     private fun loadVideo() {
-        uploadVideoViewModel.uiState.value.videoUri?.let { uri ->
+        val uri = uploadVideoViewModel.uiState.value.videoUri
+        if (uri.isNotEmpty()) {
             val filePath = getRealPathFromURI(requireContext(), uri.toUri())
             val file = File(filePath)
             val requestBody: RequestBody = file.asRequestBody(
@@ -130,7 +166,7 @@ class UploadVideoFragment :
                         }
 
                         is UploadVideoEvent.ThumbnailsGetSuccess -> {
-                            playVideo(uploadVideoViewModel.uiState.value.videoUri.toUri())
+                            playVideo(uiEvent.videoUrl.toUri())
                         }
                     }
                 }
