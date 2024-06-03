@@ -32,3 +32,9 @@ class VideoThumbnailUtil {
         return thumbnails
     }
 }
+
+fun Long.converterTimeLine(): String {
+    val posSeconds = (this / 1000) % 60
+    val posMinutes = (this / (1000 * 60)) % 60
+    return String.format("%02d:%02d", posMinutes, posSeconds)
+}

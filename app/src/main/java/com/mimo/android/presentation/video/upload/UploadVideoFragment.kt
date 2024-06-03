@@ -14,11 +14,13 @@ import androidx.media3.exoplayer.ExoPlayer
 import com.google.android.flexbox.FlexDirection
 import com.google.android.flexbox.FlexWrap
 import com.google.android.flexbox.FlexboxLayoutManager
+import com.google.android.material.slider.LabelFormatter
 import com.mimo.android.R
 import com.mimo.android.databinding.FragmentUploadVideoBinding
 import com.mimo.android.domain.model.TagData
 import com.mimo.android.presentation.base.BaseFragment
 import com.mimo.android.presentation.dialog.LoadingDialog
+import com.mimo.android.presentation.util.converterTimeLine
 import com.mimo.android.presentation.util.getRealPathFromURI
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
@@ -72,6 +74,7 @@ class UploadVideoFragment :
         setRecyclerView()
         collectUiEvent()
         showLoadingDialog()
+        sliderEventHandler()
     }
 
     private fun loadVideo() {
@@ -155,6 +158,64 @@ class UploadVideoFragment :
                         LoadingUiState.Init -> {}
                     }
                 }
+            }
+        }
+    }
+
+    private fun sliderEventHandler() {
+        videoThumbnailHandler()
+        videoTimeHandler()
+    }
+
+    private fun videoThumbnailHandler() {
+        with(binding) {
+            sliderVideoThumbnail.addOnChangeListener { _, value, _ ->
+                sliderVideoTime.value = value
+                val videoLength = player?.duration ?: 0
+                val newPosition = (videoLength * value / 100).toLong()
+                player?.run {
+                    seekTo(newPosition)
+                    pause()
+                }
+            }
+        }
+    }
+
+    private fun videoTimeHandler() {
+        with(binding) {
+            sliderVideoTime.addOnChangeListener { slider, value, fromUser ->
+                val videoLength = player?.duration ?: 0
+                val newPosition = (videoLength * value / 100).toLong()
+                val minRangeValue = sliderVideoThumbnail.values[0]
+                val maxRangeValue = sliderVideoThumbnail.values[1]
+                if (fromUser) {
+                    player?.run {
+                        seekTo(newPosition)
+                        pause()
+                    }
+                    if (value < minRangeValue) {
+                        slider.value = minRangeValue
+                        sliderVideoThumbnail.values = mutableListOf(value, maxRangeValue)
+                    } else if (value > maxRangeValue) {
+                        slider.value = maxRangeValue
+                        sliderVideoThumbnail.values = mutableListOf(minRangeValue, value)
+                    }
+                } else {
+                    if (value < minRangeValue) {
+                        slider.value = minRangeValue
+                    } else if (value >= maxRangeValue) {
+                        player?.run {
+                            val newPosition =
+                                (videoLength * sliderVideoThumbnail.values[0] / 100).toLong()
+                            seekTo(newPosition)
+                            pause()
+                        }
+                    }
+                }
+                sliderVideoTime.setLabelFormatter {
+                    newPosition.converterTimeLine()
+                }
+                sliderVideoTime.labelBehavior = LabelFormatter.LABEL_VISIBLE
             }
         }
     }
