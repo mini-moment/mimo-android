@@ -8,7 +8,7 @@ import com.mimo.android.data.repository.PostRepository
 import com.mimo.android.data.repository.TagRepository
 import com.mimo.android.data.repository.VideoRepository
 import com.mimo.android.presentation.util.ErrorMessage
-import com.mimo.android.presentation.video.VideoThumbnailUtil
+import com.mimo.android.presentation.util.VideoThumbnailUtil
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableSharedFlow
