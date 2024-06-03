@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+    </data>
+
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center|bottom"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:background="@drawable/rectangle_fill_light_purple_radius_40"
+        android:paddingEnd="5dp"
+        >
+
+        <ImageButton
+            android:id="@id/exo_play_pause"
+            style="@style/ExoMediaButton.Play"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:scaleType="fitCenter"
+            app:tint="@color/black" />
+
+        <TextView
+            android:id="@id/exo_position"
+            style="@style/Typography.Body03.Medium"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/black"
+            tools:text="hihihi" />
+
+        <TextView
+            android:id="@+id/tv_divide_time"
+            style="@style/Typography.Body03.Medium"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="/"
+            android:textColor="@color/black" />
+
+        <TextView
+            android:id="@id/exo_duration"
+            style="@style/Typography.Body03.Medium"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/black"
+            tools:text="hihihi" />
+    </LinearLayout>
+</layout>
