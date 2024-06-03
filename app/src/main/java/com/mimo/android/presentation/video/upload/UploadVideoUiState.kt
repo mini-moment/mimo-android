@@ -1,6 +1,7 @@
 package com.mimo.android.presentation.video.upload
 
 import com.mimo.android.domain.model.TagData
+import com.mimo.android.domain.model.VideoThumbnail
 
 data class UploadVideoUiState(
     val videoUri: String = "",

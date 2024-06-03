@@ -6,6 +6,7 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
 import com.mimo.android.databinding.ItemVideoThumbnailBinding
+import com.mimo.android.domain.model.VideoThumbnail
 
 class ThumbNailAdapter : ListAdapter<VideoThumbnail, ThumbNailViewHolder>(diffUtil) {
 
