@@ -14,13 +14,17 @@ import androidx.media3.exoplayer.ExoPlayer
 import com.google.android.flexbox.FlexDirection
 import com.google.android.flexbox.FlexWrap
 import com.google.android.flexbox.FlexboxLayoutManager
+import com.google.android.material.slider.LabelFormatter
 import com.mimo.android.R
 import com.mimo.android.databinding.FragmentUploadVideoBinding
 import com.mimo.android.domain.model.TagData
 import com.mimo.android.presentation.base.BaseFragment
 import com.mimo.android.presentation.dialog.LoadingDialog
+import com.mimo.android.presentation.util.converterTimeLine
 import com.mimo.android.presentation.util.getRealPathFromURI
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
@@ -37,13 +41,14 @@ class UploadVideoFragment :
     private val tagListAdapter = TagListAdapter()
     private val thumbNailAdapter = ThumbNailAdapter()
     private var player: Player? = null
+    private var trackingJob: Job? = null
 
     private val pickMedia = registerForActivityResult(PickVisualMedia()) { uri ->
         if (uri != null) {
             val fileUrl = getRealPathFromURI(requireContext(), uri)
             val file = File(fileUrl)
-            val widthPixels = binding.recyclerViewVideoThumbnail.measuredWidth // 가로 픽셀
             uploadVideoViewModel.setVideo(uri.toString())
+            val widthPixels = binding.recyclerViewVideoThumbnail.measuredWidth
             uploadVideoViewModel.getThumbnails(width = widthPixels, path = file.path)
         }
     }
@@ -51,10 +56,42 @@ class UploadVideoFragment :
     private fun playVideo(uri: Uri) {
         player = ExoPlayer.Builder(requireActivity()).build().also { exoPlayer ->
             binding.playerViewVideo.player = exoPlayer
-            binding.playerViewVideo.useController = false
             exoPlayer.setMediaItem(MediaItem.fromUri(uri))
             exoPlayer.prepare()
-            exoPlayer.play()
+            exoPlayer.addListener(object : Player.Listener {
+                override fun onIsPlayingChanged(isPlaying: Boolean) {
+                    if (isPlaying) {
+                        startTracking()
+                    } else {
+                        stopTracking()
+                    }
+                }
+            })
+        }
+    }
+
+    private fun startTracking() {
+        trackingJob = lifecycleScope.launch {
+            while (true) {
+                trackingVideo()
+                delay(100)
+            }
+        }
+    }
+
+    private fun stopTracking() {
+        trackingJob?.cancel()
+        trackingJob = null
+    }
+
+    private fun trackingVideo() {
+        player?.let { player ->
+            val currentPosition = player.currentPosition
+            val duration = player.duration
+            if (duration > 0) {
+                val positionRatio = currentPosition.toFloat() / duration * 100
+                binding.sliderVideoTime.value = positionRatio
+            }
         }
     }
 
@@ -72,10 +109,12 @@ class UploadVideoFragment :
         setRecyclerView()
         collectUiEvent()
         showLoadingDialog()
+        sliderEventHandler()
     }
 
     private fun loadVideo() {
-        uploadVideoViewModel.uiState.value.videoUri?.let { uri ->
+        val uri = uploadVideoViewModel.uiState.value.videoUri
+        if (uri.isNotEmpty()) {
             val filePath = getRealPathFromURI(requireContext(), uri.toUri())
             val file = File(filePath)
             val requestBody: RequestBody = file.asRequestBody(
@@ -127,7 +166,7 @@ class UploadVideoFragment :
                         }
 
                         is UploadVideoEvent.ThumbnailsGetSuccess -> {
-                            playVideo(uploadVideoViewModel.uiState.value.videoUri.toUri())
+                            playVideo(uiEvent.videoUrl.toUri())
                         }
                     }
                 }
@@ -155,6 +194,64 @@ class UploadVideoFragment :
                         LoadingUiState.Init -> {}
                     }
                 }
+            }
+        }
+    }
+
+    private fun sliderEventHandler() {
+        videoThumbnailHandler()
+        videoTimeHandler()
+    }
+
+    private fun videoThumbnailHandler() {
+        with(binding) {
+            sliderVideoThumbnail.addOnChangeListener { _, value, _ ->
+                sliderVideoTime.value = value
+                val videoLength = player?.duration ?: 0
+                val newPosition = (videoLength * value / 100).toLong()
+                player?.run {
+                    seekTo(newPosition)
+                    pause()
+                }
+            }
+        }
+    }
+
+    private fun videoTimeHandler() {
+        with(binding) {
+            sliderVideoTime.addOnChangeListener { slider, value, fromUser ->
+                val videoLength = player?.duration ?: 0
+                val newPosition = (videoLength * value / 100).toLong()
+                val minRangeValue = sliderVideoThumbnail.values[0]
+                val maxRangeValue = sliderVideoThumbnail.values[1]
+                if (fromUser) {
+                    player?.run {
+                        seekTo(newPosition)
+                        pause()
+                    }
+                    if (value < minRangeValue) {
+                        slider.value = minRangeValue
+                        sliderVideoThumbnail.values = mutableListOf(value, maxRangeValue)
+                    } else if (value > maxRangeValue) {
+                        slider.value = maxRangeValue
+                        sliderVideoThumbnail.values = mutableListOf(minRangeValue, value)
+                    }
+                } else {
+                    if (value < minRangeValue) {
+                        slider.value = minRangeValue
+                    } else if (value >= maxRangeValue) {
+                        player?.run {
+                            val newPosition =
+                                (videoLength * sliderVideoThumbnail.values[0] / 100).toLong()
+                            seekTo(newPosition)
+                            pause()
+                        }
+                    }
+                }
+                sliderVideoTime.setLabelFormatter {
+                    newPosition.converterTimeLine()
+                }
+                sliderVideoTime.labelBehavior = LabelFormatter.LABEL_VISIBLE
             }
         }
     }

@@ -8,7 +8,7 @@ import com.mimo.android.data.repository.PostRepository
 import com.mimo.android.data.repository.TagRepository
 import com.mimo.android.data.repository.VideoRepository
 import com.mimo.android.presentation.util.ErrorMessage
-import com.mimo.android.presentation.video.VideoThumbnailUtil
+import com.mimo.android.presentation.util.VideoThumbnailUtil
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableSharedFlow
@@ -115,7 +115,7 @@ class UploadVideoViewModel @Inject constructor(
                             thumbnails = thumbnails,
                         )
                     }
-                    _event.emit(UploadVideoEvent.ThumbnailsGetSuccess)
+                    _event.emit(UploadVideoEvent.ThumbnailsGetSuccess(uiState.value.videoUri))
                 }
             }
         }
@@ -153,7 +153,7 @@ class UploadVideoViewModel @Inject constructor(
 
     private suspend fun validationPost(): Boolean {
         with(uiState.value) {
-            if (videoUri == "") {
+            if (videoUri.isBlank()) {
                 _event.emit(
                     UploadVideoEvent.Error(
                         errorMessage = ErrorMessage.NO_POST_VIDEO_URL,
@@ -161,7 +161,7 @@ class UploadVideoViewModel @Inject constructor(
                 )
                 return false
             }
-            if (topic == "") {
+            if (topic.isBlank()) {
                 _event.emit(
                     UploadVideoEvent.Error(
                         errorMessage = ErrorMessage.NO_POST_TOPIC,

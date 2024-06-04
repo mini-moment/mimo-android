@@ -5,7 +5,7 @@ interface UploadVideoEvent {
     data object VideoUploadSuccess : UploadVideoEvent
     data object PostUploadSuccess : UploadVideoEvent
 
-    data object ThumbnailsGetSuccess : UploadVideoEvent
+    data class ThumbnailsGetSuccess(val videoUrl: String) : UploadVideoEvent
 
     data class Error(
         val errorCode: Int = 0,

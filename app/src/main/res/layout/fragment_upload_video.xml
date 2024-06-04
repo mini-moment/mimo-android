@@ -29,11 +29,13 @@
             android:id="@+id/player_view_video"
             android:layout_width="0dp"
             android:layout_height="0dp"
+            app:controller_layout_id="@layout/custom_player_controller"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHeight_percent="0.25"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/gl_top"
-            app:layout_constraintWidth_percent="0.8" />
+            app:layout_constraintWidth_percent="0.8"
+            app:use_controller="true" />
 
         <ImageButton
             android:id="@+id/btn_upload_video"
@@ -73,6 +75,21 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/player_view_video"
             app:values="@array/video_clip_values" />
+
+        <com.google.android.material.slider.Slider
+            android:id="@+id/slider_video_time"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="20dp"
+            android:valueFrom="0.0"
+            android:valueTo="100.0"
+            android:visibility="@{viewModel.uiState.videoUri.isEmpty() ? View.GONE : View.VISIBLE}"
+            app:labelBehavior="gone"
+            app:layout_constraintBottom_toBottomOf="@id/slider_video_thumbnail"
+            app:layout_constraintEnd_toEndOf="@id/slider_video_thumbnail"
+            app:layout_constraintStart_toStartOf="@id/slider_video_thumbnail"
+            app:layout_constraintTop_toTopOf="@id/slider_video_thumbnail"
+            app:trackColor="@color/transparent" />
 
         <androidx.constraintlayout.widget.Guideline
             android:id="@+id/gl_mid"

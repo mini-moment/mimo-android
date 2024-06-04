@@ -6,6 +6,7 @@ import com.google.android.material.chip.Chip
 import com.google.android.material.chip.ChipGroup
 import com.mimo.android.R
 import com.mimo.android.domain.model.TagData
+import com.mimo.android.domain.model.VideoThumbnail
 
 @BindingAdapter("chips")
 fun RecyclerView.bindChips(items: List<TagData>) {
