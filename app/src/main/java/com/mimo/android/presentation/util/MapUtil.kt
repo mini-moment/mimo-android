@@ -15,16 +15,17 @@ import timber.log.Timber
 
 suspend fun makeMarker(
     marker: List<MarkerData>,
-    builder: Clusterer.ComplexBuilder<MarkerData>
-): Clusterer<MarkerData> { // cluster 연결
+    builder: Clusterer.ComplexBuilder<MarkerData>,
+
+    ): Clusterer<MarkerData> { // cluster 연결
     val cluster: Clusterer<MarkerData> =
-        builder.positioningStrategy { clusterer ->
-            clusterer.children.first().coord
+        builder.tagMergeStrategy { cluster ->
+            cluster.children.map { it.tag }.joinToString(",")
         }.build()
 
     withContext(Dispatchers.Default) {
-        marker.forEachIndexed { index, item ->
-            cluster.add(item, item)
+        marker.forEach { item ->
+            cluster.add(item, "${item.id}")
         }
     }
     return cluster
@@ -39,22 +40,25 @@ suspend fun deleteMarker(marker: Clusterer<MarkerData>) {
 
 fun clickMarker(
     builder: Clusterer.ComplexBuilder<MarkerData>,
-    markerInfo: (MarkerData) -> Unit
+    markerInfo: (MarkerData) -> Unit?,
+    clusterTag: (List<Int>) -> Unit?
 ) {
     builder.clusterMarkerUpdater(object : DefaultClusterMarkerUpdater() {
+
         override fun updateClusterMarker(info: ClusterMarkerInfo, marker: Marker) {
             super.updateClusterMarker(info, marker)
-
+            Timber.d("클러스터 태그 안눌렀을 때 ${info.tag}")
             marker.onClickListener = Overlay.OnClickListener {
-
-                true
+                val idList = (info.tag as String).split(",").map { it.toInt() }
+                clusterTag(idList)
+                Timber.d("클러스터 태그 ${info.tag}")
+                false
             }
         }
     }).leafMarkerUpdater(object : DefaultLeafMarkerUpdater() {
         override fun updateLeafMarker(info: LeafMarkerInfo, marker: Marker) {
             super.updateLeafMarker(info, marker)
             marker.onClickListener = Overlay.OnClickListener {
-                Timber.d("마커 클릭 정보 ${info.key}, $marker")
                 val markerData = info.key as MarkerData
                 markerInfo(markerData)
                 true
@@ -62,6 +66,8 @@ fun clickMarker(
         }
     })
 }
+
+
 
 
 

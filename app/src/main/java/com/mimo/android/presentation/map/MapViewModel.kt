@@ -33,6 +33,13 @@ class MapViewModel @Inject constructor(
         _currentMarkerList.value = value
     }
 
+    private val _clusterMarkerList = MutableLiveData<List<MarkerData>>()
+    val clusterMarkerList : LiveData<List<MarkerData>> get() = _clusterMarkerList
+
+    fun setClusterMarkerList(value : List<MarkerData>){
+        _clusterMarkerList.value = value
+    }
+
 
     fun getMarkerList(latitude : Double, longitude : Double, radius : Double ){
         viewModelScope.launch {
