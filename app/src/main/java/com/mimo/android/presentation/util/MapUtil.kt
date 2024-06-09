@@ -11,7 +11,6 @@ import com.naver.maps.map.overlay.Marker
 import com.naver.maps.map.overlay.Overlay
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
-import timber.log.Timber
 
 suspend fun makeMarker(
     marker: List<MarkerData>,
@@ -37,7 +36,6 @@ suspend fun deleteMarker(marker: Clusterer<MarkerData>) {
     }
 }
 
-
 fun clickMarker(
     builder: Clusterer.ComplexBuilder<MarkerData>,
     markerInfo: (MarkerData) -> Unit?,
@@ -47,11 +45,9 @@ fun clickMarker(
 
         override fun updateClusterMarker(info: ClusterMarkerInfo, marker: Marker) {
             super.updateClusterMarker(info, marker)
-            Timber.d("클러스터 태그 안눌렀을 때 ${info.tag}")
             marker.onClickListener = Overlay.OnClickListener {
                 val idList = (info.tag as String).split(",").map { it.toInt() }
                 clusterTag(idList)
-                Timber.d("클러스터 태그 ${info.tag}")
                 false
             }
         }
@@ -66,10 +62,3 @@ fun clickMarker(
         }
     })
 }
-
-
-
-
-
-
-

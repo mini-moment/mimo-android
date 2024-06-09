@@ -153,17 +153,19 @@ class MapFragment : BaseMapFragment<FragmentMapBinding>(R.layout.fragment_map) {
                     putExtra("postIndex", markerList?.findMarkerIndex(it))
                 })
             },
-            clusterTag = {idList ->
-                val clusterList = mapViewModel.markerList.value?.filter{ idList.contains(it.id)} ?: emptyList()
-                Timber.d("확인이여 ${clusterList}")
+            clusterTag = { idList ->
+                val clusterList =
+                    mapViewModel.markerList.value?.filter { idList.contains(it.id) } ?: emptyList()
                 mapViewModel.setClusterMarkerList(clusterList)
             }
         )
     }
 
-    private fun observeClusterMarkerClick(){
-        mapViewModel.clusterMarkerList.observe(viewLifecycleOwner){
-            
+    private fun observeClusterMarkerClick() {
+        mapViewModel.clusterMarkerList.observe(viewLifecycleOwner) {
+            it.forEach {
+                Timber.d("클러스터링 클릭한 마커 정보 $it")
+            }
         }
     }
 
