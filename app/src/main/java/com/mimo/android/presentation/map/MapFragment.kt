@@ -147,11 +147,13 @@ class MapFragment : BaseMapFragment<FragmentMapBinding>(R.layout.fragment_map) {
     private fun clickMarkerEvent() { // 마커 클릭시
         clickMarker(markerBuilder,
             markerInfo = {
-                val markerList = mapViewModel.markerList.value
-                startActivity(Intent(requireActivity(), VideoDetailActivity::class.java).apply {
-                    putExtra("postList", markerList?.toTypedArray())
-                    putExtra("postIndex", markerList?.findMarkerIndex(it))
-                })
+                mapViewModel.markerList.value?.let { marker ->
+                    startActivity(Intent(requireActivity(), VideoDetailActivity::class.java).apply {
+                        putExtra("postList", marker.toTypedArray())
+                        putExtra("postIndex", marker.findMarkerIndex(it))
+                    })
+                }
+
             },
             clusterTag = { idList ->
                 val clusterList =
