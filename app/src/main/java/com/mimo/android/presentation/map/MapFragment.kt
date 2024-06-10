@@ -11,12 +11,12 @@ import com.mimo.android.databinding.FragmentMapBinding
 import com.mimo.android.domain.model.MarkerData
 import com.mimo.android.domain.model.findMarkerIndex
 import com.mimo.android.presentation.base.BaseMapFragment
-import com.mimo.android.presentation.videodetail.VideoDetailActivity
 import com.mimo.android.presentation.util.checkLocationPermission
 import com.mimo.android.presentation.util.clickMarker
 import com.mimo.android.presentation.util.deleteMarker
 import com.mimo.android.presentation.util.makeMarker
 import com.mimo.android.presentation.util.requestMapPermission
+import com.mimo.android.presentation.videodetail.VideoDetailActivity
 import com.naver.maps.geometry.LatLng
 import com.naver.maps.map.CameraPosition
 import com.naver.maps.map.CameraUpdate
@@ -57,6 +57,7 @@ class MapFragment : BaseMapFragment<FragmentMapBinding>(R.layout.fragment_map) {
     }
 
     override fun iniViewCreated() {
+        observeClusterMarkerClick()
         clickLocationSearchBtn()
     }
 
@@ -110,8 +111,6 @@ class MapFragment : BaseMapFragment<FragmentMapBinding>(R.layout.fragment_map) {
                 }
                 val markers = makeMarker(it, markerBuilder)
 
-
-
                 mapViewModel.setCurrentMarkerList(markers)
                 markers.map = naverMap
             }
@@ -146,12 +145,27 @@ class MapFragment : BaseMapFragment<FragmentMapBinding>(R.layout.fragment_map) {
     }
 
     private fun clickMarkerEvent() { // 마커 클릭시
-        clickMarker(markerBuilder) {
-            val markerList = mapViewModel.markerList.value
-            startActivity(Intent(requireActivity(), VideoDetailActivity::class.java).apply {
-                putExtra("postList", markerList?.toTypedArray())
-                putExtra("postIndex", markerList?.findMarkerIndex(it))
-            })
+        clickMarker(markerBuilder,
+            markerInfo = {
+                val markerList = mapViewModel.markerList.value ?: emptyList()
+                startActivity(Intent(requireActivity(), VideoDetailActivity::class.java).apply {
+                    putExtra("postList", markerList.toTypedArray())
+                    putExtra("postIndex", markerList.findMarkerIndex(it))
+                })
+            },
+            clusterTag = { idList ->
+                val clusterList =
+                    mapViewModel.markerList.value?.filter { idList.contains(it.id) } ?: emptyList()
+                mapViewModel.setClusterMarkerList(clusterList)
+            }
+        )
+    }
+
+    private fun observeClusterMarkerClick() {
+        mapViewModel.clusterMarkerList.observe(viewLifecycleOwner) {
+            it.forEach {
+                Timber.d("클러스터링 클릭한 마커 정보 $it")
+            }
         }
     }
 
