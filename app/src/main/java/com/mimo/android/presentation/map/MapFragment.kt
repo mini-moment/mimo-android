@@ -3,7 +3,6 @@ package com.mimo.android.presentation.map
 import android.content.Intent
 import androidx.core.content.ContextCompat
 import androidx.core.os.bundleOf
-import androidx.fragment.app.viewModels
 import androidx.hilt.navigation.fragment.hiltNavGraphViewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
@@ -32,7 +31,6 @@ import com.naver.maps.map.overlay.CircleOverlay
 import com.naver.maps.map.util.FusedLocationSource
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
-import timber.log.Timber
 
 @AndroidEntryPoint
 class MapFragment : BaseMapFragment<FragmentMapBinding>(R.layout.fragment_map) {
@@ -61,7 +59,6 @@ class MapFragment : BaseMapFragment<FragmentMapBinding>(R.layout.fragment_map) {
     }
 
     override fun iniViewCreated() {
-        observeClusterMarkerClick()
         clickLocationSearchBtn()
     }
 
@@ -170,14 +167,6 @@ class MapFragment : BaseMapFragment<FragmentMapBinding>(R.layout.fragment_map) {
                 }
             }
         )
-    }
-
-    private fun observeClusterMarkerClick() {
-        mapViewModel.clusterMarkerList.observe(viewLifecycleOwner) {
-            it.forEach {
-                Timber.d("클러스터링 클릭한 마커 정보 $it")
-            }
-        }
     }
 
     companion object {
