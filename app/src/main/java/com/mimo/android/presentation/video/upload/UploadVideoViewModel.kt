@@ -123,7 +123,7 @@ class UploadVideoViewModel @Inject constructor(
 
     fun uploadVideo(file: MultipartBody.Part) {
         viewModelScope.launch {
-리            if (file.body.contentLength() > maxFileSize) {
+            if (file.body.contentLength() > maxFileSize) {
                 _event.emit(
                     UploadVideoEvent.Error(
                         errorMessage = ErrorMessage.FILE_SIZE_EXCEEDED_MESSAGE,
@@ -181,7 +181,7 @@ class UploadVideoViewModel @Inject constructor(
         return true
     }
 
-    fun insertPost() {
+    fun insertPost(videoPath: String) {
         viewModelScope.launch {
             if (validationPost().not()) {
                 return@launch
@@ -189,7 +189,7 @@ class UploadVideoViewModel @Inject constructor(
             postRepository.insertPost(
                 postRequest = InsertPostRequest(
                     title = uiState.value.topic,
-                    videoUrl = uiState.value.videoUri,
+                    videoUrl = videoPath,
                     tagList = uiState.value.selectedTags,
                 ),
             ).collectLatest { response ->
@@ -197,7 +197,6 @@ class UploadVideoViewModel @Inject constructor(
                     is ApiResponse.Success -> {
                         _uiState.update { uiState ->
                             uiState.copy(
-                                videoUri = response.data,
                                 isLoading = LoadingUiState.Finish,
                             )
                         }
