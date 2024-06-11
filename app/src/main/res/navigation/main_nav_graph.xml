@@ -11,11 +11,25 @@
         android:name="com.mimo.android.presentation.map.MapFragment"
         tools:layout="@layout/fragment_map">
 
+        <action
+            android:id="@+id/action_mapFragment_to_mapClusterBottomSheetDialogFragment"
+            app:destination="@id/mapClusterBottomSheetDialogFragment" />
     </fragment>
 
     <fragment
         android:id="@+id/myPageFragment"
         android:name="com.mimo.android.presentation.mypage.MyPageFragment"
         tools:layout="@layout/fragment_my_page" />
+
+    <dialog
+        android:id="@+id/mapClusterBottomSheetDialogFragment"
+        android:name="com.mimo.android.presentation.map.MapClusterBottomSheetDialogFragment"
+        tools:layout="@layout/fragment_map_cluster_bottom_sheet_dialog">
+
+        <argument
+            android:name="clusterList"
+            app:nullable="true"
+            app:argType="com.mimo.android.domain.model.MarkerData[]"/>
+    </dialog>
 
 </navigation>
