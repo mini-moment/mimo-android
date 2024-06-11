@@ -16,6 +16,7 @@ import com.mimo.android.presentation.base.BaseMapFragment
 import com.mimo.android.presentation.util.checkLocationPermission
 import com.mimo.android.presentation.util.clickMarker
 import com.mimo.android.presentation.util.deleteMarker
+import com.mimo.android.presentation.util.locationToAddress
 import com.mimo.android.presentation.util.makeMarker
 import com.mimo.android.presentation.util.requestMapPermission
 import com.mimo.android.presentation.videodetail.VideoDetailActivity
@@ -155,11 +156,19 @@ class MapFragment : BaseMapFragment<FragmentMapBinding>(R.layout.fragment_map) {
                     putExtra("postIndex", markerList.findMarkerIndex(it))
                 })
             },
-            clusterTag = { idList ->
-                val clusterList = mapViewModel.markerList.value?.filter { idList.contains(it.id) } ?: emptyList()
-                this.findNavController().navigate(R.id.action_mapFragment_to_mapClusterBottomSheetDialogFragment,
-                    bundleOf("clusterList" to clusterList.toTypedArray())
-                )
+            clusterTag = { idList, latitude, longitude ->
+                val clusterList =
+                    mapViewModel.markerList.value?.filter { idList.contains(it.id) } ?: emptyList()
+                requireActivity().locationToAddress(latitude, longitude) { address ->
+                    this@MapFragment.findNavController().navigate(
+                        R.id.action_mapFragment_to_mapClusterBottomSheetDialogFragment,
+                        bundleOf(
+                            "clusterList" to clusterList.toTypedArray(),
+                            "address" to address
+                        )
+                    )
+
+                }
             }
         )
     }

@@ -30,6 +30,11 @@
             android:name="clusterList"
             app:nullable="true"
             app:argType="com.mimo.android.domain.model.MarkerData[]"/>
+
+        <argument
+            android:name="address"
+            app:nullable="true"
+            app:argType="string"/>
     </dialog>
 
 </navigation>

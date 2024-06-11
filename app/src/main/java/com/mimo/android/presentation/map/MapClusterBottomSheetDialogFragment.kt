@@ -9,6 +9,7 @@ import com.mimo.android.presentation.base.BaseBottomSheetDialogFragment
 import com.mimo.android.presentation.map.adapter.MapClusterAdapter
 import com.mimo.android.presentation.util.getSizeY
 import dagger.hilt.android.AndroidEntryPoint
+import timber.log.Timber
 
 @AndroidEntryPoint
 class MapClusterBottomSheetDialogFragment :
@@ -43,5 +44,6 @@ class MapClusterBottomSheetDialogFragment :
         args.clusterList?.run {
             mapClusterAdapter.submitList(this.toMutableList())
         }
+        binding.address = args.address
     }
 }
