@@ -57,7 +57,6 @@ class MapClusterBottomSheetDialogFragment :
 
     private fun clickMarker() { // 특정 마커 클릭시
         mapClusterAdapter.onItemClickListener { markerData ->
-            Timber.d("제에발 $markerList")
             startActivity(Intent(requireActivity(), VideoDetailActivity::class.java).apply {
                 putExtra("postList", markerList.toTypedArray())
                 putExtra("postIndex", markerList.findMarkerIndex(markerData))
