@@ -91,7 +91,7 @@ class UploadVideoViewModel @Inject constructor(
         }
     }
 
-    fun setVideo(uri: String) {
+    fun setVideoUrl(uri: String) {
         _uiState.update { state ->
             state.copy(
                 videoUri = uri,

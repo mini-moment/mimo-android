@@ -47,7 +47,7 @@ class UploadVideoFragment :
         if (uri != null) {
             val fileUrl = getRealPathFromURI(requireContext(), uri)
             val file = File(fileUrl)
-            uploadVideoViewModel.setVideo(uri.toString())
+            uploadVideoViewModel.setVideoUrl(uri.toString())
             val widthPixels = binding.recyclerViewVideoThumbnail.measuredWidth
             uploadVideoViewModel.getThumbnails(width = widthPixels, path = file.path)
         }
