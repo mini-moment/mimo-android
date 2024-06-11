@@ -2,7 +2,7 @@ package com.mimo.android.presentation.video.upload
 
 interface UploadVideoEvent {
 
-    data object VideoUploadSuccess : UploadVideoEvent
+    data class VideoUploadSuccess(val videoPath: String) : UploadVideoEvent
     data object PostUploadSuccess : UploadVideoEvent
 
     data class ThumbnailsGetSuccess(val videoUrl: String) : UploadVideoEvent

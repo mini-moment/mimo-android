@@ -91,7 +91,7 @@ class UploadVideoViewModel @Inject constructor(
         }
     }
 
-    fun setVideo(uri: String) {
+    fun setVideoUrl(uri: String) {
         _uiState.update { state ->
             state.copy(
                 videoUri = uri,
@@ -123,6 +123,14 @@ class UploadVideoViewModel @Inject constructor(
 
     fun uploadVideo(file: MultipartBody.Part) {
         viewModelScope.launch {
+            if (file.body.contentLength() > maxFileSize) {
+                _event.emit(
+                    UploadVideoEvent.Error(
+                        errorMessage = ErrorMessage.FILE_SIZE_EXCEEDED_MESSAGE,
+                    ),
+                )
+                return@launch
+            }
             _uiState.update { uiState ->
                 uiState.copy(
                     isLoading = LoadingUiState.Loading,
@@ -132,7 +140,7 @@ class UploadVideoViewModel @Inject constructor(
                 when (response) {
                     is ApiResponse.Success -> {
                         _event.emit(
-                            UploadVideoEvent.VideoUploadSuccess,
+                            UploadVideoEvent.VideoUploadSuccess(response.data),
                         )
                     }
 
@@ -173,7 +181,7 @@ class UploadVideoViewModel @Inject constructor(
         return true
     }
 
-    fun insertPost() {
+    fun insertPost(videoPath: String) {
         viewModelScope.launch {
             if (validationPost().not()) {
                 return@launch
@@ -181,7 +189,7 @@ class UploadVideoViewModel @Inject constructor(
             postRepository.insertPost(
                 postRequest = InsertPostRequest(
                     title = uiState.value.topic,
-                    videoUrl = uiState.value.videoUri,
+                    videoUrl = videoPath,
                     tagList = uiState.value.selectedTags,
                 ),
             ).collectLatest { response ->
@@ -189,7 +197,6 @@ class UploadVideoViewModel @Inject constructor(
                     is ApiResponse.Success -> {
                         _uiState.update { uiState ->
                             uiState.copy(
-                                videoUri = response.data,
                                 isLoading = LoadingUiState.Finish,
                             )
                         }
@@ -222,5 +229,9 @@ class UploadVideoViewModel @Inject constructor(
                 topic = s.toString(),
             )
         }
+    }
+
+    companion object {
+        const val maxFileSize = 60 * 1024 * 1024
     }
 }

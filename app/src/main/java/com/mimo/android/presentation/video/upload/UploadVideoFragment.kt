@@ -1,6 +1,12 @@
 package com.mimo.android.presentation.video.upload
 
+import android.annotation.SuppressLint
+import android.media.MediaCodec
+import android.media.MediaExtractor
+import android.media.MediaFormat
+import android.media.MediaMuxer
 import android.net.Uri
+import android.os.Environment
 import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts.*
 import androidx.core.net.toUri
@@ -23,15 +29,18 @@ import com.mimo.android.presentation.dialog.LoadingDialog
 import com.mimo.android.presentation.util.converterTimeLine
 import com.mimo.android.presentation.util.getRealPathFromURI
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import okhttp3.RequestBody.Companion.asRequestBody
 import java.io.File
+import java.nio.ByteBuffer
 
 @AndroidEntryPoint
 class UploadVideoFragment :
@@ -47,7 +56,7 @@ class UploadVideoFragment :
         if (uri != null) {
             val fileUrl = getRealPathFromURI(requireContext(), uri)
             val file = File(fileUrl)
-            uploadVideoViewModel.setVideo(uri.toString())
+            uploadVideoViewModel.setVideoUrl(uri.toString())
             val widthPixels = binding.recyclerViewVideoThumbnail.measuredWidth
             uploadVideoViewModel.getThumbnails(width = widthPixels, path = file.path)
         }
@@ -117,17 +126,76 @@ class UploadVideoFragment :
         if (uri.isNotEmpty()) {
             val filePath = getRealPathFromURI(requireContext(), uri.toUri())
             val file = File(filePath)
-            val requestBody: RequestBody = file.asRequestBody(
-                requireContext().getString(R.string.multipart_content_type)
-                    .toMediaTypeOrNull(),
-            )
-            val videoFile = MultipartBody.Part.createFormData(
-                requireContext().getString(R.string.multipart_value),
-                file.name,
-                requestBody,
-            )
-            uploadVideoViewModel.uploadVideo(videoFile)
+            val videoLength = player?.duration ?: 0
+            val newPosition1 = (videoLength * binding.sliderVideoThumbnail.values[0] / 100).toLong()
+            val newPosition2 = (videoLength * binding.sliderVideoThumbnail.values[1] / 100).toLong()
+            lifecycleScope.launch {
+                val editFile = withContext(Dispatchers.IO) {
+                    editVideo(file, newPosition1, newPosition2)
+                }
+                val requestBody: RequestBody = editFile.asRequestBody(
+                    requireContext().getString(R.string.multipart_content_type)
+                        .toMediaTypeOrNull(),
+                )
+                val videoFile = MultipartBody.Part.createFormData(
+                    requireContext().getString(R.string.multipart_value),
+                    editFile.name,
+                    requestBody,
+                )
+                uploadVideoViewModel.uploadVideo(videoFile)
+            }
         }
+    }
+
+    @SuppressLint("WrongConstant")
+    private fun editVideo(file: File, start: Long, end: Long): File {
+        val rootPath =
+            Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES)
+                .toString()
+        val tempFile = File(
+            "$rootPath/" + file.name.replace(
+                file.name,
+                "edit_${file.name}",
+            ),
+        )
+        val outputFilePath = tempFile.absolutePath
+        val extractor = MediaExtractor()
+        extractor.setDataSource(file.path)
+        val muxer = MediaMuxer(outputFilePath, MediaMuxer.OutputFormat.MUXER_OUTPUT_MPEG_4)
+        val trackIndexMap = IntArray(extractor.trackCount)
+        for (i in trackIndexMap.indices) {
+            val format = extractor.getTrackFormat(i)
+            val mime = format.getString(MediaFormat.KEY_MIME)
+            val trackIndex = muxer.addTrack(format)
+            trackIndexMap[i] = trackIndex
+        }
+        muxer.start()
+        val buffer = ByteBuffer.allocate(1024 * 1024)
+        val bufferInfo = MediaCodec.BufferInfo()
+        for (i in trackIndexMap.indices) {
+            extractor.selectTrack(i)
+            if (start != 0L) {
+                extractor.seekTo(start * 1000L, MediaExtractor.SEEK_TO_CLOSEST_SYNC)
+            }
+            while (true) {
+                bufferInfo.size = extractor.readSampleData(buffer, 0)
+                bufferInfo.presentationTimeUs = extractor.sampleTime
+                if (bufferInfo.size < 0) {
+                    break
+                }
+                if (bufferInfo.presentationTimeUs > end * 1000L) {
+                    break
+                }
+                bufferInfo.flags = extractor.sampleFlags
+                muxer.writeSampleData(trackIndexMap[i], buffer, bufferInfo)
+                extractor.advance()
+            }
+            extractor.unselectTrack(i)
+        }
+        extractor.release()
+        muxer.stop()
+        muxer.release()
+        return tempFile
     }
 
     private fun setRecyclerView() {
@@ -158,7 +226,7 @@ class UploadVideoFragment :
                         }
 
                         is UploadVideoEvent.VideoUploadSuccess -> {
-                            uploadVideoViewModel.insertPost()
+                            uploadVideoViewModel.insertPost(uiEvent.videoPath)
                         }
 
                         is UploadVideoEvent.PostUploadSuccess -> {
