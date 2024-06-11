@@ -4,6 +4,7 @@ import android.content.Intent
 import androidx.core.content.ContextCompat
 import androidx.core.os.bundleOf
 import androidx.fragment.app.viewModels
+import androidx.hilt.navigation.fragment.hiltNavGraphViewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.google.android.gms.location.FusedLocationProviderClient
@@ -36,7 +37,7 @@ import timber.log.Timber
 @AndroidEntryPoint
 class MapFragment : BaseMapFragment<FragmentMapBinding>(R.layout.fragment_map) {
 
-    private val mapViewModel: MapViewModel by viewModels()
+    private val mapViewModel: MapViewModel by hiltNavGraphViewModels(R.id.main_nav_graph)
 
     private lateinit var naverMap: NaverMap
     private lateinit var locationSource: FusedLocationSource // 현재 위치
@@ -138,7 +139,6 @@ class MapFragment : BaseMapFragment<FragmentMapBinding>(R.layout.fragment_map) {
     }
 
     private fun clickLocationSearchBtn() {//현재 위치 검색 클릭
-
         binding.btnLocationSearch.setOnClickListener {
             binding.locationSearchVisible = false
             naverMap.cameraPosition.apply {
@@ -167,7 +167,6 @@ class MapFragment : BaseMapFragment<FragmentMapBinding>(R.layout.fragment_map) {
                             "address" to address
                         )
                     )
-
                 }
             }
         )

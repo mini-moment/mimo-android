@@ -11,13 +11,20 @@ import com.mimo.android.domain.model.MarkerData
 class MapClusterAdapter : ListAdapter<MarkerData, MapClusterAdapter.MapClusterViewHolder>(
     diffUtil
 ) {
+
+    private var onItemClickListener: ((MarkerData) -> Unit)? = null
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MapClusterViewHolder {
-        val binding = ItemClusterBinding.inflate(LayoutInflater.from(parent.context),parent,false)
+        val binding = ItemClusterBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return MapClusterViewHolder(binding)
     }
 
     override fun onBindViewHolder(holder: MapClusterViewHolder, position: Int) {
         holder.bind(getItem(position))
+        holder.itemView.setOnClickListener {
+            onItemClickListener?.let {
+                it(getItem(holder.absoluteAdapterPosition))
+            }
+        }
     }
 
     class MapClusterViewHolder(
@@ -28,6 +35,10 @@ class MapClusterAdapter : ListAdapter<MarkerData, MapClusterAdapter.MapClusterVi
 
             }
         }
+    }
+
+    fun onItemClickListener(listener: (MarkerData) -> Unit) {
+        this.onItemClickListener = listener
     }
 
     companion object {
