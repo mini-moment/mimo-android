@@ -3,6 +3,7 @@ package com.mimo.android.presentation.map
 import android.content.Intent
 import androidx.core.content.ContextCompat
 import androidx.core.os.bundleOf
+import androidx.fragment.app.viewModels
 import androidx.hilt.navigation.fragment.hiltNavGraphViewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
@@ -35,7 +36,7 @@ import kotlinx.coroutines.launch
 @AndroidEntryPoint
 class MapFragment : BaseMapFragment<FragmentMapBinding>(R.layout.fragment_map) {
 
-    private val mapViewModel: MapViewModel by hiltNavGraphViewModels(R.id.main_nav_graph)
+    private val mapViewModel: MapViewModel by viewModels()
 
     private lateinit var naverMap: NaverMap
     private lateinit var locationSource: FusedLocationSource // 현재 위치
@@ -154,12 +155,14 @@ class MapFragment : BaseMapFragment<FragmentMapBinding>(R.layout.fragment_map) {
                 })
             },
             clusterTag = { idList, latitude, longitude ->
+                val markerList = mapViewModel.markerList.value ?: emptyList()
                 val clusterList =
                     mapViewModel.markerList.value?.filter { idList.contains(it.id) } ?: emptyList()
                 requireActivity().locationToAddress(latitude, longitude) { address ->
                     this@MapFragment.findNavController().navigate(
                         R.id.action_mapFragment_to_mapClusterBottomSheetDialogFragment,
                         bundleOf(
+                            "markerList" to markerList.toTypedArray(),
                             "clusterList" to clusterList.toTypedArray(),
                             "address" to address
                         )

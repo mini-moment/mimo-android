@@ -2,13 +2,11 @@ package com.mimo.android.presentation.map
 
 import android.app.Dialog
 import android.content.Intent
-import androidx.fragment.app.activityViewModels
-import androidx.fragment.app.viewModels
-import androidx.hilt.navigation.fragment.hiltNavGraphViewModels
 import androidx.navigation.fragment.navArgs
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.mimo.android.R
 import com.mimo.android.databinding.FragmentMapClusterBottomSheetDialogBinding
+import com.mimo.android.domain.model.MarkerData
 import com.mimo.android.domain.model.findMarkerIndex
 import com.mimo.android.presentation.base.BaseBottomSheetDialogFragment
 import com.mimo.android.presentation.map.adapter.MapClusterAdapter
@@ -22,7 +20,9 @@ class MapClusterBottomSheetDialogFragment :
     BaseBottomSheetDialogFragment<FragmentMapClusterBottomSheetDialogBinding>(R.layout.fragment_map_cluster_bottom_sheet_dialog) {
 
     private lateinit var mapClusterAdapter: MapClusterAdapter
-    private val mapViewModel: MapViewModel by hiltNavGraphViewModels(R.id.main_nav_graph)
+
+    var markerList: List<MarkerData> = emptyList()
+    var clusterList: List<MarkerData> = emptyList()
 
     override fun initCreateDialog(): Dialog {
         val dialog = BottomSheetDialog(requireContext(), theme)
@@ -49,15 +49,14 @@ class MapClusterBottomSheetDialogFragment :
 
     private fun initData() {
         val args: MapClusterBottomSheetDialogFragmentArgs by navArgs()
-        args.clusterList?.run {
-            mapClusterAdapter.submitList(this.toMutableList())
-        }
+        clusterList = args.clusterList?.toMutableList() ?: emptyList()
+        markerList = args.markerList?.toMutableList() ?: emptyList()
+        mapClusterAdapter.submitList(clusterList)
         binding.address = args.address
     }
 
     private fun clickMarker() { // 특정 마커 클릭시
         mapClusterAdapter.onItemClickListener { markerData ->
-            val markerList = mapViewModel.markerList.value ?: emptyList()
             Timber.d("제에발 $markerList")
             startActivity(Intent(requireActivity(), VideoDetailActivity::class.java).apply {
                 putExtra("postList", markerList.toTypedArray())

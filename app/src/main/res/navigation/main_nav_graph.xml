@@ -27,14 +27,19 @@
         tools:layout="@layout/fragment_map_cluster_bottom_sheet_dialog">
 
         <argument
+            android:name="markerList"
+            app:argType="com.mimo.android.domain.model.MarkerData[]"
+            app:nullable="true" />
+
+        <argument
             android:name="clusterList"
-            app:nullable="true"
-            app:argType="com.mimo.android.domain.model.MarkerData[]"/>
+            app:argType="com.mimo.android.domain.model.MarkerData[]"
+            app:nullable="true" />
 
         <argument
             android:name="address"
-            app:nullable="true"
-            app:argType="string"/>
+            app:argType="string"
+            app:nullable="true" />
     </dialog>
 
 </navigation>
