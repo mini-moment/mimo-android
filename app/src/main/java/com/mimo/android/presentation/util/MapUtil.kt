@@ -39,7 +39,7 @@ suspend fun deleteMarker(marker: Clusterer<MarkerData>) {
 fun clickMarker(
     builder: Clusterer.ComplexBuilder<MarkerData>,
     markerInfo: (MarkerData) -> Unit?,
-    clusterTag: (List<Int>) -> Unit?
+    clusterTag: (List<Int>, Double, Double) -> Unit?
 ) {
     builder.clusterMarkerUpdater(object : DefaultClusterMarkerUpdater() {
 
@@ -47,7 +47,7 @@ fun clickMarker(
             super.updateClusterMarker(info, marker)
             marker.onClickListener = Overlay.OnClickListener {
                 val idList = (info.tag as String).split(",").map { it.toInt() }
-                clusterTag(idList)
+                clusterTag(idList, marker.position.latitude, marker.position.longitude)
                 false
             }
         }

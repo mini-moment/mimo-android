@@ -2,8 +2,11 @@ package com.mimo.android.presentation.map
 
 import android.content.Intent
 import androidx.core.content.ContextCompat
+import androidx.core.os.bundleOf
 import androidx.fragment.app.viewModels
+import androidx.hilt.navigation.fragment.hiltNavGraphViewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
 import com.mimo.android.R
@@ -14,6 +17,7 @@ import com.mimo.android.presentation.base.BaseMapFragment
 import com.mimo.android.presentation.util.checkLocationPermission
 import com.mimo.android.presentation.util.clickMarker
 import com.mimo.android.presentation.util.deleteMarker
+import com.mimo.android.presentation.util.locationToAddress
 import com.mimo.android.presentation.util.makeMarker
 import com.mimo.android.presentation.util.requestMapPermission
 import com.mimo.android.presentation.videodetail.VideoDetailActivity
@@ -28,7 +32,6 @@ import com.naver.maps.map.overlay.CircleOverlay
 import com.naver.maps.map.util.FusedLocationSource
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
-import timber.log.Timber
 
 @AndroidEntryPoint
 class MapFragment : BaseMapFragment<FragmentMapBinding>(R.layout.fragment_map) {
@@ -57,7 +60,6 @@ class MapFragment : BaseMapFragment<FragmentMapBinding>(R.layout.fragment_map) {
     }
 
     override fun iniViewCreated() {
-        observeClusterMarkerClick()
         clickLocationSearchBtn()
     }
 
@@ -135,7 +137,6 @@ class MapFragment : BaseMapFragment<FragmentMapBinding>(R.layout.fragment_map) {
     }
 
     private fun clickLocationSearchBtn() {//현재 위치 검색 클릭
-
         binding.btnLocationSearch.setOnClickListener {
             binding.locationSearchVisible = false
             naverMap.cameraPosition.apply {
@@ -153,20 +154,22 @@ class MapFragment : BaseMapFragment<FragmentMapBinding>(R.layout.fragment_map) {
                     putExtra("postIndex", markerList.findMarkerIndex(it))
                 })
             },
-            clusterTag = { idList ->
+            clusterTag = { idList, latitude, longitude ->
+                val markerList = mapViewModel.markerList.value ?: emptyList()
                 val clusterList =
                     mapViewModel.markerList.value?.filter { idList.contains(it.id) } ?: emptyList()
-                mapViewModel.setClusterMarkerList(clusterList)
+                requireActivity().locationToAddress(latitude, longitude) { address ->
+                    this@MapFragment.findNavController().navigate(
+                        R.id.action_mapFragment_to_mapClusterBottomSheetDialogFragment,
+                        bundleOf(
+                            "markerList" to markerList.toTypedArray(),
+                            "clusterList" to clusterList.toTypedArray(),
+                            "address" to address
+                        )
+                    )
+                }
             }
         )
-    }
-
-    private fun observeClusterMarkerClick() {
-        mapViewModel.clusterMarkerList.observe(viewLifecycleOwner) {
-            it.forEach {
-                Timber.d("클러스터링 클릭한 마커 정보 $it")
-            }
-        }
     }
 
     companion object {
