@@ -2,8 +2,10 @@ package com.mimo.android.presentation.map
 
 import android.content.Intent
 import androidx.core.content.ContextCompat
+import androidx.core.os.bundleOf
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
 import com.mimo.android.R
@@ -154,9 +156,10 @@ class MapFragment : BaseMapFragment<FragmentMapBinding>(R.layout.fragment_map) {
                 })
             },
             clusterTag = { idList ->
-                val clusterList =
-                    mapViewModel.markerList.value?.filter { idList.contains(it.id) } ?: emptyList()
-                mapViewModel.setClusterMarkerList(clusterList)
+                val clusterList = mapViewModel.markerList.value?.filter { idList.contains(it.id) } ?: emptyList()
+                this.findNavController().navigate(R.id.action_mapFragment_to_mapClusterBottomSheetDialogFragment,
+                    bundleOf("clusterList" to clusterList.toTypedArray())
+                )
             }
         )
     }
