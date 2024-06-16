@@ -21,11 +21,15 @@ import com.google.android.flexbox.FlexDirection
 import com.google.android.flexbox.FlexWrap
 import com.google.android.flexbox.FlexboxLayoutManager
 import com.google.android.material.slider.LabelFormatter
+import com.google.gson.Gson
 import com.mimo.android.R
+import com.mimo.android.data.model.request.InsertPostRequest
 import com.mimo.android.databinding.FragmentUploadVideoBinding
 import com.mimo.android.domain.model.TagData
 import com.mimo.android.presentation.base.BaseFragment
 import com.mimo.android.presentation.dialog.LoadingDialog
+import com.mimo.android.presentation.util.VideoThumbnailUtil
+import com.mimo.android.presentation.util.convertBitmapToFile
 import com.mimo.android.presentation.util.converterTimeLine
 import com.mimo.android.presentation.util.getRealPathFromURI
 import dagger.hilt.android.AndroidEntryPoint
@@ -39,6 +43,7 @@ import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import okhttp3.RequestBody.Companion.asRequestBody
+import okhttp3.RequestBody.Companion.toRequestBody
 import java.io.File
 import java.nio.ByteBuffer
 
@@ -51,6 +56,7 @@ class UploadVideoFragment :
     private val thumbNailAdapter = ThumbNailAdapter()
     private var player: Player? = null
     private var trackingJob: Job? = null
+    private lateinit var video: File
 
     private val pickMedia = registerForActivityResult(PickVisualMedia()) { uri ->
         if (uri != null) {
@@ -152,13 +158,13 @@ class UploadVideoFragment :
         val rootPath =
             Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES)
                 .toString()
-        val tempFile = File(
+        video = File(
             "$rootPath/" + file.name.replace(
                 file.name,
                 "edit_${file.name}",
             ),
         )
-        val outputFilePath = tempFile.absolutePath
+        val outputFilePath = video.absolutePath
         val extractor = MediaExtractor()
         extractor.setDataSource(file.path)
         val muxer = MediaMuxer(outputFilePath, MediaMuxer.OutputFormat.MUXER_OUTPUT_MPEG_4)
@@ -195,7 +201,7 @@ class UploadVideoFragment :
         extractor.release()
         muxer.stop()
         muxer.release()
-        return tempFile
+        return video
     }
 
     private fun setRecyclerView() {
@@ -226,7 +232,35 @@ class UploadVideoFragment :
                         }
 
                         is UploadVideoEvent.VideoUploadSuccess -> {
-                            uploadVideoViewModel.insertPost(uiEvent.videoPath)
+                            video.delete()
+                            val videoLength = player?.duration ?: 0
+                            val start =
+                                (videoLength * binding.sliderVideoThumbnail.values[0] / 100).toLong()
+                            val uri = uploadVideoViewModel.uiState.value.videoUri
+                            val filePath = getRealPathFromURI(requireContext(), uri.toUri())
+                            val image = VideoThumbnailUtil().getVideoThumbnail(start, filePath)
+                            image?.let { image ->
+                                val file = convertBitmapToFile(
+                                    image,
+                                )
+                                val requestBody = file.asRequestBody(
+                                    "image/jpeg"
+                                        .toMediaTypeOrNull(),
+                                )
+                                val thumbnail = MultipartBody.Part.createFormData(
+                                    "thumbnail",
+                                    file.name,
+                                    requestBody,
+                                )
+                                val postRequest = InsertPostRequest(
+                                    title = uploadVideoViewModel.uiState.value.topic,
+                                    videoUrl = uiEvent.videoPath,
+                                    tagList = uploadVideoViewModel.uiState.value.selectedTags,
+                                )
+                                val postBody: RequestBody = Gson().toJson(postRequest)
+                                    .toRequestBody("application/json".toMediaTypeOrNull())
+                                uploadVideoViewModel.insertPost(postBody, thumbnail)
+                            }
                         }
 
                         is UploadVideoEvent.PostUploadSuccess -> {
