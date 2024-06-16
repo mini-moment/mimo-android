@@ -2,7 +2,6 @@ package com.mimo.android.presentation.video.upload
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.mimo.android.data.model.request.InsertPostRequest
 import com.mimo.android.data.model.response.ApiResponse
 import com.mimo.android.data.repository.PostRepository
 import com.mimo.android.data.repository.TagRepository
@@ -20,6 +19,7 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import okhttp3.MultipartBody
+import okhttp3.RequestBody
 import javax.inject.Inject
 
 @HiltViewModel
@@ -181,17 +181,14 @@ class UploadVideoViewModel @Inject constructor(
         return true
     }
 
-    fun insertPost(videoPath: String) {
+    fun insertPost(postRequest: RequestBody, thumbnail: MultipartBody.Part) {
         viewModelScope.launch {
             if (validationPost().not()) {
                 return@launch
             }
             postRepository.insertPost(
-                postRequest = InsertPostRequest(
-                    title = uiState.value.topic,
-                    videoUrl = videoPath,
-                    tagList = uiState.value.selectedTags,
-                ),
+                postRequest = postRequest,
+                thumbnail = thumbnail,
             ).collectLatest { response ->
                 when (response) {
                     is ApiResponse.Success -> {
