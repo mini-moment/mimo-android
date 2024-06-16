@@ -5,5 +5,6 @@ data class PostData(
     val userId: Int? = null,
     val videoUrl: String? = null,
     val markerId: Int? = null,
+    val tagList : List<TagData> ?= null
 )
 
