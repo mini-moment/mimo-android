@@ -44,7 +44,7 @@
                 android:ellipsize="end"
                 android:maxLines="1"
                 android:textSize="20sp"
-                android:text="나중에 지울꺼임 나중에 지울꺼임"
+                android:text="마커 콘텐츠"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -65,7 +65,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="10dp"
                 android:layout_marginTop="10dp"
-                android:text="곽호택"
+                android:text="유저 이름"
                 android:textSize="16sp"
                 app:layout_constraintStart_toEndOf="@+id/iv_name"
                 app:layout_constraintTop_toBottomOf="@+id/tv_content" />
