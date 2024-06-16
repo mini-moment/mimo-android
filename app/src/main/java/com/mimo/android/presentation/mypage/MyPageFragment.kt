@@ -10,13 +10,13 @@ import dagger.hilt.android.AndroidEntryPoint
 class MyPageFragment : BaseFragment<FragmentMyPageBinding>(R.layout.fragment_my_page) {
 
     private lateinit var myPostAdapter: MyPostAdapter
-    
+
     override fun initView() {
         initAdapter()
     }
 
 
-    private fun  initAdapter(){
+    private fun initAdapter() {
         myPostAdapter = MyPostAdapter()
         binding.vpMyPost.adapter = myPostAdapter
 
