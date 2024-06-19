@@ -31,6 +31,12 @@ class VideoThumbnailUtil {
         retriever.release()
         return thumbnails
     }
+
+    fun getVideoThumbnail(start: Long, path: String): Bitmap? {
+        val retriever = MediaMetadataRetriever()
+        retriever.setDataSource(path)
+        return retriever.getFrameAtTime(start, MediaMetadataRetriever.OPTION_CLOSEST)
+    }
 }
 
 fun Long.converterTimeLine(): String {
