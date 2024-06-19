@@ -19,9 +19,9 @@ fun getRealPathFromURI(context: Context, contentUri: Uri): String {
     return filePath!!
 }
 
-fun convertBitmapToFile(bitmap: Bitmap): File {
+fun convertBitmapToFile(context : Context,bitmap: Bitmap): File {
     val rootPath =
-        Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES)
+        context.getExternalFilesDir(Environment.DIRECTORY_PICTURES)
             .toString()
     val file = File(
         "$rootPath/clip.jpeg",

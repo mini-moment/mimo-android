@@ -44,6 +44,7 @@ import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import okhttp3.RequestBody.Companion.asRequestBody
 import okhttp3.RequestBody.Companion.toRequestBody
+import timber.log.Timber
 import java.io.File
 import java.nio.ByteBuffer
 
@@ -228,6 +229,7 @@ class UploadVideoFragment :
                 uploadVideoViewModel.event.collectLatest { uiEvent ->
                     when (uiEvent) {
                         is UploadVideoEvent.Error -> {
+                            Timber.d("오류 해결 ${uiEvent.errorMessage}")
                             showMessage(uiEvent.errorMessage)
                         }
 
@@ -241,6 +243,7 @@ class UploadVideoFragment :
                             val image = VideoThumbnailUtil().getVideoThumbnail(start, filePath)
                             image?.let { image ->
                                 val file = convertBitmapToFile(
+                                    requireActivity(),
                                     image,
                                 )
                                 val requestBody = file.asRequestBody(
