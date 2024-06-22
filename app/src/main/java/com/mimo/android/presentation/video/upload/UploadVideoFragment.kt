@@ -21,7 +21,6 @@ import com.google.android.flexbox.FlexDirection
 import com.google.android.flexbox.FlexWrap
 import com.google.android.flexbox.FlexboxLayoutManager
 import com.google.android.material.slider.LabelFormatter
-import com.google.gson.Gson
 import com.mimo.android.R
 import com.mimo.android.data.model.request.InsertPostRequest
 import com.mimo.android.databinding.FragmentUploadVideoBinding
@@ -39,12 +38,6 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import okhttp3.MediaType.Companion.toMediaTypeOrNull
-import okhttp3.MultipartBody
-import okhttp3.RequestBody
-import okhttp3.RequestBody.Companion.asRequestBody
-import okhttp3.RequestBody.Companion.toRequestBody
-import timber.log.Timber
 import java.io.File
 import java.nio.ByteBuffer
 
@@ -137,19 +130,10 @@ class UploadVideoFragment :
             val newPosition1 = (videoLength * binding.sliderVideoThumbnail.values[0] / 100).toLong()
             val newPosition2 = (videoLength * binding.sliderVideoThumbnail.values[1] / 100).toLong()
             lifecycleScope.launch {
-                val editFile = withContext(Dispatchers.IO) {
+                val videoClip = withContext(Dispatchers.IO) {
                     editVideo(file, newPosition1, newPosition2)
                 }
-                val requestBody: RequestBody = editFile.asRequestBody(
-                    requireContext().getString(R.string.multipart_content_type)
-                        .toMediaTypeOrNull(),
-                )
-                val videoFile = MultipartBody.Part.createFormData(
-                    requireContext().getString(R.string.multipart_value),
-                    editFile.name,
-                    requestBody,
-                )
-                uploadVideoViewModel.uploadVideo(videoFile)
+                uploadVideoViewModel.uploadVideo(videoClip)
             }
         }
     }
@@ -229,7 +213,6 @@ class UploadVideoFragment :
                 uploadVideoViewModel.event.collectLatest { uiEvent ->
                     when (uiEvent) {
                         is UploadVideoEvent.Error -> {
-                            Timber.d("오류 해결 ${uiEvent.errorMessage}")
                             showMessage(uiEvent.errorMessage)
                         }
 
@@ -242,27 +225,16 @@ class UploadVideoFragment :
                             val filePath = getRealPathFromURI(requireContext(), uri.toUri())
                             val image = VideoThumbnailUtil().getVideoThumbnail(start, filePath)
                             image?.let { image ->
-                                val file = convertBitmapToFile(
+                                val thumbnailRequest = convertBitmapToFile(
                                     requireActivity(),
                                     image,
-                                )
-                                val requestBody = file.asRequestBody(
-                                    "image/jpeg"
-                                        .toMediaTypeOrNull(),
-                                )
-                                val thumbnail = MultipartBody.Part.createFormData(
-                                    "thumbnail",
-                                    file.name,
-                                    requestBody,
                                 )
                                 val postRequest = InsertPostRequest(
                                     title = uploadVideoViewModel.uiState.value.topic,
                                     videoUrl = uiEvent.videoPath,
                                     tagList = uploadVideoViewModel.uiState.value.selectedTags,
                                 )
-                                val postBody: RequestBody = Gson().toJson(postRequest)
-                                    .toRequestBody("application/json".toMediaTypeOrNull())
-                                uploadVideoViewModel.insertPost(postBody, thumbnail)
+                                uploadVideoViewModel.insertPost(postRequest, thumbnailRequest)
                             }
                         }
 
