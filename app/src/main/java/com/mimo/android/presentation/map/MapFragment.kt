@@ -4,7 +4,6 @@ import android.content.Intent
 import androidx.core.content.ContextCompat
 import androidx.core.os.bundleOf
 import androidx.fragment.app.viewModels
-import androidx.hilt.navigation.fragment.hiltNavGraphViewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.google.android.gms.location.FusedLocationProviderClient
@@ -64,7 +63,6 @@ class MapFragment : BaseMapFragment<FragmentMapBinding>(R.layout.fragment_map) {
     }
 
     override fun initOnResume() {
-
     }
 
     private fun initMapView() { // mapView 초기화
@@ -100,7 +98,9 @@ class MapFragment : BaseMapFragment<FragmentMapBinding>(R.layout.fragment_map) {
 
     private fun getMarkerList(latitude: Double, longitude: Double, round: Double) {
         mapViewModel.getMarkerList(
-            latitude, longitude, 3 * Math.pow(2.0, 22 - round) / 1000
+            latitude,
+            longitude,
+            3 * Math.pow(2.0, 22 - round) / 1000,
         )
         setCircleOverlay(LatLng(latitude, longitude), round)
     }
@@ -119,7 +119,7 @@ class MapFragment : BaseMapFragment<FragmentMapBinding>(R.layout.fragment_map) {
         }
     }
 
-    private fun setCircleOverlay(location: LatLng, zoom: Double) {//범위 생성
+    private fun setCircleOverlay(location: LatLng, zoom: Double) { // 범위 생성
         circle.map = null
         circle.center = LatLng(location.latitude, location.longitude)
         radius = 3 * Math.pow(2.0, 22 - zoom) / 1000
@@ -128,7 +128,7 @@ class MapFragment : BaseMapFragment<FragmentMapBinding>(R.layout.fragment_map) {
         circle.map = naverMap
     }
 
-    private fun setCameraChangeListener() { //제스처시 현재 위치 검색
+    private fun setCameraChangeListener() { // 제스처시 현재 위치 검색
         naverMap.addOnCameraChangeListener { reason, animated ->
             if (reason == CameraUpdate.REASON_GESTURE) {
                 binding.locationSearchVisible = true
@@ -136,7 +136,7 @@ class MapFragment : BaseMapFragment<FragmentMapBinding>(R.layout.fragment_map) {
         }
     }
 
-    private fun clickLocationSearchBtn() {//현재 위치 검색 클릭
+    private fun clickLocationSearchBtn() { // 현재 위치 검색 클릭
         binding.btnLocationSearch.setOnClickListener {
             binding.locationSearchVisible = false
             naverMap.cameraPosition.apply {
@@ -146,13 +146,16 @@ class MapFragment : BaseMapFragment<FragmentMapBinding>(R.layout.fragment_map) {
     }
 
     private fun clickMarkerEvent() { // 마커 클릭시
-        clickMarker(markerBuilder,
+        clickMarker(
+            markerBuilder,
             markerInfo = {
                 val markerList = mapViewModel.markerList.value ?: emptyList()
-                startActivity(Intent(requireActivity(), VideoDetailActivity::class.java).apply {
-                    putExtra("postList", markerList.toTypedArray())
-                    putExtra("postIndex", markerList.findMarkerIndex(it))
-                })
+                startActivity(
+                    Intent(requireActivity(), VideoDetailActivity::class.java).apply {
+                        putExtra("postList", markerList.toTypedArray())
+                        putExtra("postIndex", markerList.findMarkerIndex(it))
+                    },
+                )
             },
             clusterTag = { idList, latitude, longitude ->
                 val markerList = mapViewModel.markerList.value ?: emptyList()
@@ -164,11 +167,11 @@ class MapFragment : BaseMapFragment<FragmentMapBinding>(R.layout.fragment_map) {
                         bundleOf(
                             "markerList" to markerList.toTypedArray(),
                             "clusterList" to clusterList.toTypedArray(),
-                            "address" to address
-                        )
+                            "address" to address,
+                        ),
                     )
                 }
-            }
+            },
         )
     }
 
