@@ -1,4 +1,4 @@
-package com.mimo.android.presentation.map.adapter
+package com.mimo.android.presentation.component.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -9,7 +9,7 @@ import com.mimo.android.databinding.ItemClusterBinding
 import com.mimo.android.domain.model.MarkerData
 
 class MapClusterAdapter : ListAdapter<MarkerData, MapClusterAdapter.MapClusterViewHolder>(
-    diffUtil
+    diffUtil,
 ) {
 
     private var onItemClickListener: ((MarkerData) -> Unit)? = null
@@ -28,11 +28,10 @@ class MapClusterAdapter : ListAdapter<MarkerData, MapClusterAdapter.MapClusterVi
     }
 
     class MapClusterViewHolder(
-        val binding: ItemClusterBinding
+        val binding: ItemClusterBinding,
     ) : RecyclerView.ViewHolder(binding.root) {
         fun bind(markerData: MarkerData) {
             binding.apply {
-
             }
         }
     }

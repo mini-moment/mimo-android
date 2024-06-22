@@ -27,6 +27,9 @@ import com.mimo.android.data.model.request.InsertPostRequest
 import com.mimo.android.databinding.FragmentUploadVideoBinding
 import com.mimo.android.domain.model.TagData
 import com.mimo.android.presentation.base.BaseFragment
+import com.mimo.android.presentation.component.adapter.TagClickListener
+import com.mimo.android.presentation.component.adapter.TagListAdapter
+import com.mimo.android.presentation.component.adapter.ThumbNailAdapter
 import com.mimo.android.presentation.dialog.LoadingDialog
 import com.mimo.android.presentation.util.VideoThumbnailUtil
 import com.mimo.android.presentation.util.convertBitmapToFile
