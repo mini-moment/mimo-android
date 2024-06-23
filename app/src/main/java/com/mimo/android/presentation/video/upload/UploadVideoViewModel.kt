@@ -2,6 +2,7 @@ package com.mimo.android.presentation.video.upload
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.mimo.android.data.model.request.InsertPostRequest
 import com.mimo.android.data.model.response.ApiResponse
 import com.mimo.android.data.repository.PostRepository
 import com.mimo.android.data.repository.TagRepository
@@ -18,8 +19,7 @@ import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import okhttp3.MultipartBody
-import okhttp3.RequestBody
+import java.io.File
 import javax.inject.Inject
 
 @HiltViewModel
@@ -121,16 +121,8 @@ class UploadVideoViewModel @Inject constructor(
         }
     }
 
-    fun uploadVideo(file: MultipartBody.Part) {
+    fun uploadVideo(file: File) {
         viewModelScope.launch {
-            if (file.body.contentLength() > maxFileSize) {
-                _event.emit(
-                    UploadVideoEvent.Error(
-                        errorMessage = ErrorMessage.FILE_SIZE_EXCEEDED_MESSAGE,
-                    ),
-                )
-                return@launch
-            }
             _uiState.update { uiState ->
                 uiState.copy(
                     isLoading = LoadingUiState.Loading,
@@ -153,7 +145,18 @@ class UploadVideoViewModel @Inject constructor(
                         )
                     }
 
-                    else -> {}
+                    else -> {
+                        _event.emit(
+                            UploadVideoEvent.Error(
+                                errorMessage = ErrorMessage.FILE_SIZE_EXCEEDED_MESSAGE,
+                            ),
+                        )
+                        _uiState.update { uiState ->
+                            uiState.copy(
+                                isLoading = LoadingUiState.Finish,
+                            )
+                        }
+                    }
                 }
             }
         }
@@ -181,7 +184,7 @@ class UploadVideoViewModel @Inject constructor(
         return true
     }
 
-    fun insertPost(postRequest: RequestBody, thumbnail: MultipartBody.Part) {
+    fun insertPost(postRequest: InsertPostRequest, thumbnail: File) {
         viewModelScope.launch {
             if (validationPost().not()) {
                 return@launch
@@ -226,9 +229,5 @@ class UploadVideoViewModel @Inject constructor(
                 topic = s.toString(),
             )
         }
-    }
-
-    companion object {
-        const val maxFileSize = 60 * 1024 * 1024
     }
 }
