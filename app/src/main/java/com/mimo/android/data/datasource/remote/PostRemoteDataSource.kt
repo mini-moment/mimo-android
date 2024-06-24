@@ -9,5 +9,7 @@ interface PostRemoteDataSource {
     suspend fun insertPost(
         postRequest: RequestBody,
         thumbnail: MultipartBody.Part,
+        latitude: Double,
+        longitude: Double,
     ): Response<InsertPostResponse>
 }

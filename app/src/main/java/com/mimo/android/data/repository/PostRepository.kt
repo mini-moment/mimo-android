@@ -10,5 +10,7 @@ interface PostRepository {
     suspend fun insertPost(
         postRequest: InsertPostRequest,
         thumbnail: File,
+        latitude: Double,
+        longitude: Double,
     ): Flow<ApiResponse<String>>
 }

@@ -22,12 +22,14 @@ class PostRepositoryImpl @Inject constructor(private val postRemoteDataSource: P
     override suspend fun insertPost(
         postRequest: InsertPostRequest,
         thumbnail: File,
+        latitude: Double,
+        longitude: Double,
     ): Flow<ApiResponse<String>> = flow {
         val data = MultiPartUtil.convertToImage(thumbnail)
         val requestBody: RequestBody = Gson().toJson(postRequest)
             .toRequestBody("application/json".toMediaTypeOrNull())
         val response = apiHandler {
-            val result = postRemoteDataSource.insertPost(requestBody, data)
+            val result = postRemoteDataSource.insertPost(requestBody, data, latitude, longitude)
             val errorData = Gson().fromJson(result.errorBody()?.string(), ErrorResponse::class.java)
             Pair(result, errorData)
         }

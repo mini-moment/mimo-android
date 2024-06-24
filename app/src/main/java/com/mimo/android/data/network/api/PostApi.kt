@@ -15,5 +15,7 @@ interface PostApi {
     suspend fun insertPost(
         @Part("post") post: RequestBody,
         @Part thumbnail: MultipartBody.Part,
+        @Part("latitude") latitude: Double,
+        @Part("longitude") longitude: Double,
     ): Response<InsertPostResponse>
 }
