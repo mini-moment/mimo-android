@@ -1,6 +1,7 @@
 package com.mimo.android.presentation.video.upload
 
 import android.annotation.SuppressLint
+import android.location.Location
 import android.media.MediaCodec
 import android.media.MediaExtractor
 import android.media.MediaFormat
@@ -20,6 +21,8 @@ import androidx.media3.exoplayer.ExoPlayer
 import com.google.android.flexbox.FlexDirection
 import com.google.android.flexbox.FlexWrap
 import com.google.android.flexbox.FlexboxLayoutManager
+import com.google.android.gms.location.FusedLocationProviderClient
+import com.google.android.gms.location.LocationServices
 import com.google.android.material.slider.LabelFormatter
 import com.mimo.android.R
 import com.mimo.android.data.model.request.InsertPostRequest
@@ -30,6 +33,7 @@ import com.mimo.android.presentation.component.adapter.TagClickListener
 import com.mimo.android.presentation.component.adapter.TagListAdapter
 import com.mimo.android.presentation.component.adapter.ThumbNailAdapter
 import com.mimo.android.presentation.dialog.LoadingDialog
+import com.mimo.android.presentation.util.ErrorMessage
 import com.mimo.android.presentation.util.VideoThumbnailUtil
 import com.mimo.android.presentation.util.convertBitmapToFile
 import com.mimo.android.presentation.util.converterTimeLine
@@ -54,6 +58,9 @@ class UploadVideoFragment :
     private var player: Player? = null
     private var trackingJob: Job? = null
     private lateinit var video: File
+    private lateinit var fusedLocationClient: FusedLocationProviderClient
+    private var latitude = 0.0
+    private var longitude = 0.0
 
     private val pickMedia = registerForActivityResult(PickVisualMedia()) { uri ->
         if (uri != null) {
@@ -118,10 +125,26 @@ class UploadVideoFragment :
             viewModel = uploadVideoViewModel
             sliderVideoThumbnail.setCustomThumbDrawable(R.drawable.clip)
         }
+        fusedLocationClient = LocationServices.getFusedLocationProviderClient(requireActivity())
         setRecyclerView()
         collectUiEvent()
         showLoadingDialog()
         sliderEventHandler()
+        getLastLocation()
+    }
+
+    @SuppressLint("MissingPermission")
+    private fun getLastLocation() {
+        fusedLocationClient.lastLocation
+            .addOnSuccessListener { success: Location? ->
+                success?.let { location ->
+                    longitude = location.longitude
+                    latitude = location.latitude
+                }
+            }
+            .addOnFailureListener {
+                showMessage(ErrorMessage.GPS_ERROR_MESSAGE)
+            }
     }
 
     private fun loadVideo() {
@@ -237,7 +260,12 @@ class UploadVideoFragment :
                                     videoUrl = uiEvent.videoPath,
                                     tagList = uploadVideoViewModel.uiState.value.selectedTags,
                                 )
-                                uploadVideoViewModel.insertPost(postRequest, thumbnailRequest)
+                                uploadVideoViewModel.insertPost(
+                                    postRequest,
+                                    thumbnailRequest,
+                                    latitude,
+                                    longitude,
+                                )
                             }
                         }
 
