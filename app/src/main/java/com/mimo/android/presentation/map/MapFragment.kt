@@ -36,7 +36,6 @@ import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
-import timber.log.Timber
 
 @AndroidEntryPoint
 class MapFragment : BaseMapFragment<FragmentMapBinding>(R.layout.fragment_map) {
@@ -170,7 +169,6 @@ class MapFragment : BaseMapFragment<FragmentMapBinding>(R.layout.fragment_map) {
             .onEach {
                 val postList =
                     (mapViewModel.postState.value as UiState.Success<List<PostData>>).data
-                Timber.d("확인 ${postList}")
                 when (it) {
                     is MarkerEvent.LeafMarker -> {
                         startActivity(
