@@ -8,6 +8,7 @@ import androidx.media3.exoplayer.ExoPlayer
 import com.mimo.android.R
 import com.mimo.android.databinding.ActivityVideoDetailBinding
 import com.mimo.android.domain.model.MarkerData
+import com.mimo.android.domain.model.PostData
 import com.mimo.android.presentation.base.BaseActivity
 import dagger.hilt.android.AndroidEntryPoint
 import timber.log.Timber
@@ -36,12 +37,12 @@ class VideoDetailActivity :
 
     private fun initData() {
         val postList = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-            intent.getParcelableArrayExtra("postList", MarkerData::class.java)
+            intent.getParcelableArrayExtra("postList", PostData::class.java)
         } else {
             intent.getParcelableArrayExtra("postList")
         }
-        val postIndex = intent.getIntExtra("postIndex", 0)
-        Timber.d("포스트 전체 리스트 ${postList}")
+        val postIndex = intent.getIntExtra("postIndex", -1)
+        Timber.d("포스트 전체 리스트 ${postList?.get(0) ?: emptyArray<PostData>()}")
         Timber.d("포스트 인덱스 ${postIndex}")
     }
 

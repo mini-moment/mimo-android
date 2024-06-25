@@ -10,7 +10,6 @@ data class PostData(
     val title: String,
     val userId: Int,
     val videoUrl: String,
-    val markerId: Int,
     val tagList: List<Tag>,
     val profileImageUrl: String,
     val userName: String,
@@ -24,7 +23,7 @@ data class PostData(
     ) : Parcelable
 
     companion object{
-        val DEFAULT = PostData(-1,"", -1, "", -1, emptyList(), "", "", "")
+        val DEFAULT = PostData(-1,"", -1, "",  emptyList(), "", "", "")
     }
 }
 
@@ -35,7 +34,6 @@ fun PostListResponse.toPostData(): List<PostData> {
             title = it.title,
             userId = it.userId,
             videoUrl = it.videoUrl,
-            markerId = it.markerId,
             tagList = it.tagList.map { tag ->
                 PostData.Tag(
                     id = tag.id,
