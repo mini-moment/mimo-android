@@ -7,12 +7,13 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.mimo.android.databinding.ItemClusterBinding
 import com.mimo.android.domain.model.MarkerData
+import com.mimo.android.domain.model.PostData
 
-class MapClusterAdapter : ListAdapter<MarkerData, MapClusterAdapter.MapClusterViewHolder>(
+class MapClusterAdapter : ListAdapter<PostData, MapClusterAdapter.MapClusterViewHolder>(
     diffUtil
 ) {
 
-    private var onItemClickListener: ((MarkerData) -> Unit)? = null
+    private var onItemClickListener: ((PostData) -> Unit)? = null
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MapClusterViewHolder {
         val binding = ItemClusterBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return MapClusterViewHolder(binding)
@@ -30,29 +31,29 @@ class MapClusterAdapter : ListAdapter<MarkerData, MapClusterAdapter.MapClusterVi
     class MapClusterViewHolder(
         val binding: ItemClusterBinding
     ) : RecyclerView.ViewHolder(binding.root) {
-        fun bind(markerData: MarkerData) {
+        fun bind(postData: PostData) {
             binding.apply {
 
             }
         }
     }
 
-    fun onItemClickListener(listener: (MarkerData) -> Unit) {
+    fun onItemClickListener(listener: (PostData) -> Unit) {
         this.onItemClickListener = listener
     }
 
     companion object {
-        private val diffUtil = object : DiffUtil.ItemCallback<MarkerData>() {
+        private val diffUtil = object : DiffUtil.ItemCallback<PostData>() {
             override fun areItemsTheSame(
-                oldItem: MarkerData,
-                newItem: MarkerData,
+                oldItem: PostData,
+                newItem: PostData,
             ): Boolean {
                 return oldItem.id == newItem.id
             }
 
             override fun areContentsTheSame(
-                oldItem: MarkerData,
-                newItem: MarkerData,
+                oldItem: PostData,
+                newItem: PostData,
             ): Boolean {
                 return oldItem == newItem
             }

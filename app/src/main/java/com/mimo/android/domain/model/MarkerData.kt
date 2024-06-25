@@ -29,6 +29,4 @@ fun MarkerResponse.toMarkerData(): List<MarkerData> {
     }
 }
 
-fun List<MarkerData>.findMarkerIndex(markerData : MarkerData) : Int{
-    return this.indexOf(markerData)
-}
+

@@ -4,7 +4,7 @@ import android.content.Intent
 import androidx.core.content.ContextCompat
 import androidx.core.os.bundleOf
 import androidx.fragment.app.viewModels
-import androidx.hilt.navigation.fragment.hiltNavGraphViewModels
+import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.google.android.gms.location.FusedLocationProviderClient
@@ -12,8 +12,10 @@ import com.google.android.gms.location.LocationServices
 import com.mimo.android.R
 import com.mimo.android.databinding.FragmentMapBinding
 import com.mimo.android.domain.model.MarkerData
-import com.mimo.android.domain.model.findMarkerIndex
+import com.mimo.android.domain.model.PostData
+import com.mimo.android.domain.model.findPostIndex
 import com.mimo.android.presentation.base.BaseMapFragment
+import com.mimo.android.presentation.util.UiState
 import com.mimo.android.presentation.util.checkLocationPermission
 import com.mimo.android.presentation.util.clickMarker
 import com.mimo.android.presentation.util.deleteMarker
@@ -31,6 +33,8 @@ import com.naver.maps.map.clustering.Clusterer
 import com.naver.maps.map.overlay.CircleOverlay
 import com.naver.maps.map.util.FusedLocationSource
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
@@ -61,6 +65,7 @@ class MapFragment : BaseMapFragment<FragmentMapBinding>(R.layout.fragment_map) {
 
     override fun iniViewCreated() {
         clickLocationSearchBtn()
+        observeMarkerEvent()
     }
 
     override fun initOnResume() {
@@ -138,6 +143,7 @@ class MapFragment : BaseMapFragment<FragmentMapBinding>(R.layout.fragment_map) {
 
     private fun clickLocationSearchBtn() {//현재 위치 검색 클릭
         binding.btnLocationSearch.setOnClickListener {
+            mapViewModel.setPostState(UiState.Loading)
             binding.locationSearchVisible = false
             naverMap.cameraPosition.apply {
                 getMarkerList(this.target.latitude, this.target.longitude, this.zoom)
@@ -148,28 +154,48 @@ class MapFragment : BaseMapFragment<FragmentMapBinding>(R.layout.fragment_map) {
     private fun clickMarkerEvent() { // 마커 클릭시
         clickMarker(markerBuilder,
             markerInfo = {
-                val markerList = mapViewModel.markerList.value ?: emptyList()
-                startActivity(Intent(requireActivity(), VideoDetailActivity::class.java).apply {
-                    putExtra("postList", markerList.toTypedArray())
-                    putExtra("postIndex", markerList.findMarkerIndex(it))
-                })
+                mapViewModel.setMarkerEvent(MarkerEvent.LeafMarker(it.postId))
             },
             clusterTag = { idList, latitude, longitude ->
-                val markerList = mapViewModel.markerList.value ?: emptyList()
-                val clusterList =
-                    mapViewModel.markerList.value?.filter { idList.contains(it.id) } ?: emptyList()
-                requireActivity().locationToAddress(latitude, longitude) { address ->
-                    this@MapFragment.findNavController().navigate(
-                        R.id.action_mapFragment_to_mapClusterBottomSheetDialogFragment,
-                        bundleOf(
-                            "markerList" to markerList.toTypedArray(),
-                            "clusterList" to clusterList.toTypedArray(),
-                            "address" to address
-                        )
-                    )
-                }
+                mapViewModel.setMarkerEvent(MarkerEvent.ClusterMarker(idList, latitude, longitude))
             }
         )
+    }
+
+    private fun observeMarkerEvent() {
+        mapViewModel.event.flowWithLifecycle(viewLifecycleOwner.lifecycle)
+            .onEach {
+                val postList =
+                    (mapViewModel.postState.value as UiState.Success<List<PostData>>).data
+                when (it) {
+                    is MarkerEvent.LeafMarker -> {
+                        startActivity(
+                            Intent(
+                                requireActivity(),
+                                VideoDetailActivity::class.java
+                            ).apply {
+                                putExtra("postList", postList.toTypedArray())
+                                putExtra("postIndex", postList.findPostIndex(it.idx))
+                            })
+                    }
+
+                    is MarkerEvent.ClusterMarker -> {
+                        val clusterPostList =
+                            postList.filter { post -> it.idxList.contains(post.id) } ?: emptyList()
+                        requireActivity().locationToAddress(it.latitude, it.longitude) { address ->
+                            this@MapFragment.findNavController().navigate(
+                                R.id.action_mapFragment_to_mapClusterBottomSheetDialogFragment,
+                                bundleOf(
+                                    "postList" to postList.toTypedArray(),
+                                    "clusterPostList" to clusterPostList.toTypedArray(),
+                                    "address" to address
+                                )
+                            )
+                        }
+                    }
+                }
+            }
+            .launchIn(viewLifecycleOwner.lifecycleScope)
     }
 
     companion object {
