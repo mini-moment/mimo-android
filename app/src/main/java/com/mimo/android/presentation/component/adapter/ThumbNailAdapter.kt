@@ -1,4 +1,4 @@
-package com.mimo.android.presentation.video.upload
+package com.mimo.android.presentation.component.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup

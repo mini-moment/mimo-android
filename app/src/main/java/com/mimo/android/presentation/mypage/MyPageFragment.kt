@@ -3,7 +3,7 @@ package com.mimo.android.presentation.mypage
 import com.mimo.android.R
 import com.mimo.android.databinding.FragmentMyPageBinding
 import com.mimo.android.presentation.base.BaseFragment
-import com.mimo.android.presentation.mypage.adapter.MyPostAdapter
+import com.mimo.android.presentation.component.adapter.MyPostAdapter
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint

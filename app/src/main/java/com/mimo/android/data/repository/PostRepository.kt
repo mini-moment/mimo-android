@@ -1,17 +1,19 @@
 package com.mimo.android.data.repository
 
+import com.mimo.android.data.model.request.InsertPostRequest
 import com.mimo.android.data.model.response.ApiResponse
 import com.mimo.android.data.model.response.PostListResponse
 import com.mimo.android.domain.model.PostData
 import kotlinx.coroutines.flow.Flow
-import okhttp3.MultipartBody
-import okhttp3.RequestBody
+import java.io.File
 
 interface PostRepository {
 
     suspend fun insertPost(
-        postRequest: RequestBody,
-        thumbnail: MultipartBody.Part,
+        postRequest: InsertPostRequest,
+        thumbnail: File,
+        latitude: Double,
+        longitude: Double,
     ): Flow<ApiResponse<String>>
 
     suspend fun getPostLists(

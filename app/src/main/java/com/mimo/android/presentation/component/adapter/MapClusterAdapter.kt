@@ -1,4 +1,4 @@
-package com.mimo.android.presentation.map.adapter
+package com.mimo.android.presentation.component.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -6,7 +6,6 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.mimo.android.databinding.ItemClusterBinding
-import com.mimo.android.domain.model.MarkerData
 import com.mimo.android.domain.model.PostData
 
 class MapClusterAdapter : ListAdapter<PostData, MapClusterAdapter.MapClusterViewHolder>(

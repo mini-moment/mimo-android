@@ -9,7 +9,7 @@ import com.mimo.android.databinding.FragmentMapClusterBottomSheetDialogBinding
 import com.mimo.android.domain.model.PostData
 import com.mimo.android.domain.model.findPostIndex
 import com.mimo.android.presentation.base.BaseBottomSheetDialogFragment
-import com.mimo.android.presentation.map.adapter.MapClusterAdapter
+import com.mimo.android.presentation.component.adapter.MapClusterAdapter
 import com.mimo.android.presentation.util.getSizeY
 import com.mimo.android.presentation.videodetail.VideoDetailActivity
 import dagger.hilt.android.AndroidEntryPoint

@@ -1,6 +1,7 @@
 package com.mimo.android.presentation.video.upload
 
 import android.annotation.SuppressLint
+import android.location.Location
 import android.media.MediaCodec
 import android.media.MediaExtractor
 import android.media.MediaFormat
@@ -20,14 +21,19 @@ import androidx.media3.exoplayer.ExoPlayer
 import com.google.android.flexbox.FlexDirection
 import com.google.android.flexbox.FlexWrap
 import com.google.android.flexbox.FlexboxLayoutManager
+import com.google.android.gms.location.FusedLocationProviderClient
+import com.google.android.gms.location.LocationServices
 import com.google.android.material.slider.LabelFormatter
-import com.google.gson.Gson
 import com.mimo.android.R
 import com.mimo.android.data.model.request.InsertPostRequest
 import com.mimo.android.databinding.FragmentUploadVideoBinding
 import com.mimo.android.domain.model.TagData
 import com.mimo.android.presentation.base.BaseFragment
+import com.mimo.android.presentation.component.adapter.TagClickListener
+import com.mimo.android.presentation.component.adapter.TagListAdapter
+import com.mimo.android.presentation.component.adapter.ThumbNailAdapter
 import com.mimo.android.presentation.dialog.LoadingDialog
+import com.mimo.android.presentation.util.ErrorMessage
 import com.mimo.android.presentation.util.VideoThumbnailUtil
 import com.mimo.android.presentation.util.convertBitmapToFile
 import com.mimo.android.presentation.util.converterTimeLine
@@ -39,12 +45,6 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import okhttp3.MediaType.Companion.toMediaTypeOrNull
-import okhttp3.MultipartBody
-import okhttp3.RequestBody
-import okhttp3.RequestBody.Companion.asRequestBody
-import okhttp3.RequestBody.Companion.toRequestBody
-import timber.log.Timber
 import java.io.File
 import java.nio.ByteBuffer
 
@@ -58,6 +58,9 @@ class UploadVideoFragment :
     private var player: Player? = null
     private var trackingJob: Job? = null
     private lateinit var video: File
+    private lateinit var fusedLocationClient: FusedLocationProviderClient
+    private var latitude = 0.0
+    private var longitude = 0.0
 
     private val pickMedia = registerForActivityResult(PickVisualMedia()) { uri ->
         if (uri != null) {
@@ -122,10 +125,26 @@ class UploadVideoFragment :
             viewModel = uploadVideoViewModel
             sliderVideoThumbnail.setCustomThumbDrawable(R.drawable.clip)
         }
+        fusedLocationClient = LocationServices.getFusedLocationProviderClient(requireActivity())
         setRecyclerView()
         collectUiEvent()
         showLoadingDialog()
         sliderEventHandler()
+        getLastLocation()
+    }
+
+    @SuppressLint("MissingPermission")
+    private fun getLastLocation() {
+        fusedLocationClient.lastLocation
+            .addOnSuccessListener { success: Location? ->
+                success?.let { location ->
+                    longitude = location.longitude
+                    latitude = location.latitude
+                }
+            }
+            .addOnFailureListener {
+                showMessage(ErrorMessage.GPS_ERROR_MESSAGE)
+            }
     }
 
     private fun loadVideo() {
@@ -137,19 +156,10 @@ class UploadVideoFragment :
             val newPosition1 = (videoLength * binding.sliderVideoThumbnail.values[0] / 100).toLong()
             val newPosition2 = (videoLength * binding.sliderVideoThumbnail.values[1] / 100).toLong()
             lifecycleScope.launch {
-                val editFile = withContext(Dispatchers.IO) {
+                val videoClip = withContext(Dispatchers.IO) {
                     editVideo(file, newPosition1, newPosition2)
                 }
-                val requestBody: RequestBody = editFile.asRequestBody(
-                    requireContext().getString(R.string.multipart_content_type)
-                        .toMediaTypeOrNull(),
-                )
-                val videoFile = MultipartBody.Part.createFormData(
-                    requireContext().getString(R.string.multipart_value),
-                    editFile.name,
-                    requestBody,
-                )
-                uploadVideoViewModel.uploadVideo(videoFile)
+                uploadVideoViewModel.uploadVideo(videoClip)
             }
         }
     }
@@ -229,7 +239,6 @@ class UploadVideoFragment :
                 uploadVideoViewModel.event.collectLatest { uiEvent ->
                     when (uiEvent) {
                         is UploadVideoEvent.Error -> {
-                            Timber.d("오류 해결 ${uiEvent.errorMessage}")
                             showMessage(uiEvent.errorMessage)
                         }
 
@@ -242,27 +251,21 @@ class UploadVideoFragment :
                             val filePath = getRealPathFromURI(requireContext(), uri.toUri())
                             val image = VideoThumbnailUtil().getVideoThumbnail(start, filePath)
                             image?.let { image ->
-                                val file = convertBitmapToFile(
+                                val thumbnailRequest = convertBitmapToFile(
                                     requireActivity(),
                                     image,
-                                )
-                                val requestBody = file.asRequestBody(
-                                    "image/jpeg"
-                                        .toMediaTypeOrNull(),
-                                )
-                                val thumbnail = MultipartBody.Part.createFormData(
-                                    "thumbnail",
-                                    file.name,
-                                    requestBody,
                                 )
                                 val postRequest = InsertPostRequest(
                                     title = uploadVideoViewModel.uiState.value.topic,
                                     videoUrl = uiEvent.videoPath,
                                     tagList = uploadVideoViewModel.uiState.value.selectedTags,
                                 )
-                                val postBody: RequestBody = Gson().toJson(postRequest)
-                                    .toRequestBody("application/json".toMediaTypeOrNull())
-                                uploadVideoViewModel.insertPost(postBody, thumbnail)
+                                uploadVideoViewModel.insertPost(
+                                    postRequest,
+                                    thumbnailRequest,
+                                    latitude,
+                                    longitude,
+                                )
                             }
                         }
 

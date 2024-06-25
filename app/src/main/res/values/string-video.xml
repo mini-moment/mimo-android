@@ -2,6 +2,4 @@
 <resources>
     <string name="hash_tag_title">해시태그</string>
     <string name="video_topic_title">주제</string>
-    <string name="multipart_content_type">video/*</string>
-    <string name="multipart_value">video</string>
 </resources>
