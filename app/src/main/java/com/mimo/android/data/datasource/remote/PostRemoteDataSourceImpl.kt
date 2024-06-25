@@ -12,7 +12,9 @@ class PostRemoteDataSourceImpl @Inject constructor(private val postApi: PostApi)
     override suspend fun insertPost(
         postRequest: RequestBody,
         thumbnail: MultipartBody.Part,
+        latitude: Double,
+        longitude: Double,
     ): Response<InsertPostResponse> {
-        return postApi.insertPost(postRequest, thumbnail)
+        return postApi.insertPost(postRequest, thumbnail, latitude, longitude)
     }
 }

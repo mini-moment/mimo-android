@@ -184,7 +184,12 @@ class UploadVideoViewModel @Inject constructor(
         return true
     }
 
-    fun insertPost(postRequest: InsertPostRequest, thumbnail: File) {
+    fun insertPost(
+        postRequest: InsertPostRequest,
+        thumbnail: File,
+        latitude: Double,
+        longitude: Double,
+    ) {
         viewModelScope.launch {
             if (validationPost().not()) {
                 return@launch
@@ -192,6 +197,8 @@ class UploadVideoViewModel @Inject constructor(
             postRepository.insertPost(
                 postRequest = postRequest,
                 thumbnail = thumbnail,
+                latitude,
+                longitude,
             ).collectLatest { response ->
                 when (response) {
                     is ApiResponse.Success -> {
