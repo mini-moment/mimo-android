@@ -14,7 +14,7 @@ class MapRemoteDataSourceImpl @Inject constructor(
         longitude: Double,
         radius: Double
     ): Response<MarkerResponse> {
-        
+
         return mapApi.getMarkers(latitude, longitude, radius)
     }
 }
