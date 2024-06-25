@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.mimo.android.databinding.ItemClusterBinding
 import com.mimo.android.domain.model.PostData
+import timber.log.Timber
 
 class MapClusterAdapter : ListAdapter<PostData, MapClusterAdapter.MapClusterViewHolder>(
     diffUtil
@@ -31,9 +32,8 @@ class MapClusterAdapter : ListAdapter<PostData, MapClusterAdapter.MapClusterView
         val binding: ItemClusterBinding
     ) : RecyclerView.ViewHolder(binding.root) {
         fun bind(postData: PostData) {
-            binding.apply {
-
-            }
+            Timber.d("어댑터 확인여 ${postData}")
+            binding.postData = postData
         }
     }
 

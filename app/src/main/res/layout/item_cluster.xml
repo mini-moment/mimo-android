@@ -3,7 +3,9 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
-
+        <variable
+            name="postData"
+            type="com.mimo.android.domain.model.PostData" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -15,7 +17,7 @@
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:layout_marginVertical="10dp"
-            android:src="@drawable/navermap_default_marker_icon_blue"
+            app:setImage="@{postData.videoThumbnailUrl}"
             android:layout_marginStart="11dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintDimensionRatio="5:3"
@@ -44,7 +46,7 @@
                 android:ellipsize="end"
                 android:maxLines="1"
                 android:textSize="20sp"
-                android:text="마커 콘텐츠"
+                android:text="@{postData.title}"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -65,7 +67,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="10dp"
                 android:layout_marginTop="10dp"
-                android:text="유저 이름"
+                android:text="@{postData.userName}"
                 android:textSize="16sp"
                 app:layout_constraintStart_toEndOf="@+id/iv_name"
                 app:layout_constraintTop_toBottomOf="@+id/tv_content" />

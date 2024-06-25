@@ -48,5 +48,5 @@ fun PostListResponse.toPostData(): List<PostData> {
 }
 
 fun List<PostData>.findPostIndex(postId : Int) : Int{
-    return this.indexOf(this.filter { it.userId == postId }[0])
+    return this.indexOf(this.filter { it.id == postId }[0])
 }
