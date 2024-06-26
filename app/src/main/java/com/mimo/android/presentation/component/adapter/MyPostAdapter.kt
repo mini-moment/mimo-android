@@ -27,7 +27,7 @@ class MyPostAdapter : ListAdapter<PostData, MyPostAdapter.MyPostViewHolder>(
             binding.apply {
                 val tagListAdapter = TagListAdapter()
                 rcTagList.adapter = tagListAdapter
-                tagListAdapter.submitList(postData.tagList)
+//                tagListAdapter.submitList(postData.tagList)
             }
         }
     }

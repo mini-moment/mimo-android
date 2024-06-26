@@ -8,6 +8,8 @@ import com.mimo.android.data.model.response.ErrorResponse
 import com.mimo.android.data.model.response.apiHandler
 import com.mimo.android.data.repository.PostRepository
 import com.mimo.android.data.util.MultiPartUtil
+import com.mimo.android.domain.model.PostData
+import com.mimo.android.domain.model.toPostData
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
@@ -38,6 +40,34 @@ class PostRepositoryImpl @Inject constructor(private val postRemoteDataSource: P
                 emit(
                     ApiResponse.Success(
                         data = response.data.data ?: "",
+                    ),
+                )
+            }
+
+            is ApiResponse.Error -> {
+                emit(
+                    ApiResponse.Error(
+                        errorCode = response.errorCode,
+                        errorMessage = response.errorMessage,
+                    ),
+                )
+            }
+
+            else -> {}
+        }
+    }
+
+    override suspend fun getPostLists(ids: List<Int>): Flow<ApiResponse<List<PostData>>> = flow {
+        val response = apiHandler {
+            val result = postRemoteDataSource.getPostList(ids)
+            val errorData = Gson().fromJson(result.errorBody()?.string(), ErrorResponse::class.java)
+            Pair(result, errorData)
+        }
+        when (response) {
+            is ApiResponse.Success -> {
+                emit(
+                    ApiResponse.Success(
+                        response.data.toPostData()
                     ),
                 )
             }

@@ -26,12 +26,10 @@ class MapRepositoryImpl @Inject constructor(
         }
         return when (response) {
             is ApiResponse.Success -> {
-                Timber.d("마커 확인 ${response.data}")
                 ApiResponse.Success(data = response.data.toMarkerData())
             }
 
             is ApiResponse.Error -> {
-                Timber.d("마커 확인 ${response}")
                 ApiResponse.Error(
                     errorCode = response.errorCode,
                     errorMessage = response.errorMessage,

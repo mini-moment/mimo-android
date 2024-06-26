@@ -24,7 +24,7 @@ suspend fun makeMarker(
 
     withContext(Dispatchers.Default) {
         marker.forEach { item ->
-            cluster.add(item, "${item.id}")
+            cluster.add(item, "${item.postId}")
         }
     }
     return cluster

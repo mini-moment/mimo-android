@@ -6,8 +6,8 @@ import androidx.navigation.fragment.navArgs
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.mimo.android.R
 import com.mimo.android.databinding.FragmentMapClusterBottomSheetDialogBinding
-import com.mimo.android.domain.model.MarkerData
-import com.mimo.android.domain.model.findMarkerIndex
+import com.mimo.android.domain.model.PostData
+import com.mimo.android.domain.model.findPostIndex
 import com.mimo.android.presentation.base.BaseBottomSheetDialogFragment
 import com.mimo.android.presentation.component.adapter.MapClusterAdapter
 import com.mimo.android.presentation.util.getSizeY
@@ -20,8 +20,8 @@ class MapClusterBottomSheetDialogFragment :
 
     private lateinit var mapClusterAdapter: MapClusterAdapter
 
-    var markerList: List<MarkerData> = emptyList()
-    var clusterList: List<MarkerData> = emptyList()
+    var markerList: List<PostData> = emptyList()
+    var clusterList: List<PostData> = emptyList()
 
     override fun initCreateDialog(): Dialog {
         val dialog = BottomSheetDialog(requireContext(), theme)
@@ -48,17 +48,17 @@ class MapClusterBottomSheetDialogFragment :
 
     private fun initData() {
         val args: MapClusterBottomSheetDialogFragmentArgs by navArgs()
-        clusterList = args.clusterList?.toMutableList() ?: emptyList()
-        markerList = args.markerList?.toMutableList() ?: emptyList()
+        clusterList = args.clusterPostList?.toMutableList() ?: emptyList()
+        markerList = args.postList?.toMutableList() ?: emptyList()
         mapClusterAdapter.submitList(clusterList)
         binding.address = args.address
     }
 
     private fun clickMarker() { // 특정 마커 클릭시
-        mapClusterAdapter.onItemClickListener { markerData ->
+        mapClusterAdapter.onItemClickListener { postData ->
             startActivity(Intent(requireActivity(), VideoDetailActivity::class.java).apply {
                 putExtra("postList", markerList.toTypedArray())
-                putExtra("postIndex", markerList.findMarkerIndex(markerData))
+                putExtra("postIndex", markerList.findPostIndex(postData.id))
             })
         }
     }
