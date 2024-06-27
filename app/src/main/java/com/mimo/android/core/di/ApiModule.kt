@@ -16,33 +16,33 @@ import javax.inject.Singleton
 @Module
 @InstallIn(SingletonComponent::class)
 object ApiModule {
-  @Provides
-  @Singleton
-  fun provideUserApi(
-    retrofit: Retrofit,
-  ): UserApi = retrofit.create()
+    @Provides
+    @Singleton
+    fun provideUserApi(
+        retrofit: Retrofit,
+    ): UserApi = retrofit.create()
 
-  @Provides
-  @Singleton
-  fun provideMapApi(
-    retrofit: Retrofit
-  ): MapApi = retrofit.create()
+    @Provides
+    @Singleton
+    fun provideMapApi(
+        retrofit: Retrofit,
+    ): MapApi = retrofit.create()
 
-  @Provides
-  @Singleton
-  fun provideTagApi(
-    retrofit: Retrofit,
-  ): TagApi = retrofit.create()
+    @Provides
+    @Singleton
+    fun provideTagApi(
+        retrofit: Retrofit,
+    ): TagApi = retrofit.create()
 
-  @Provides
-  @Singleton
-  fun provideVideoApi(
-    retrofit: Retrofit,
-  ): VideoApi = retrofit.create()
+    @Provides
+    @Singleton
+    fun provideVideoApi(
+        retrofit: Retrofit,
+    ): VideoApi = retrofit.create()
 
-  @Provides
-  @Singleton
-  fun providePostApi(
-    retrofit: Retrofit,
-  ): PostApi = retrofit.create()
+    @Provides
+    @Singleton
+    fun providePostApi(
+        retrofit: Retrofit,
+    ): PostApi = retrofit.create()
 }

@@ -22,39 +22,39 @@ import javax.inject.Singleton
 @InstallIn(SingletonComponent::class)
 interface RepositoryModule {
 
-  @Singleton
-  @Binds
-  fun provideDataStoreRepository(
-    dataStoreRepositoryImpl: DataStoreRepositoryImpl,
-  ): DataStoreRepository
+    @Singleton
+    @Binds
+    fun provideDataStoreRepository(
+        dataStoreRepositoryImpl: DataStoreRepositoryImpl,
+    ): DataStoreRepository
 
-  @Singleton
-  @Binds
-  fun provideUserRepository(
-    userRepositoryImpl: UserRepositoryImpl,
-  ): UserRepository
+    @Singleton
+    @Binds
+    fun provideUserRepository(
+        userRepositoryImpl: UserRepositoryImpl,
+    ): UserRepository
 
-  @Singleton
-  @Binds
-  fun provideMapRepository(
-    mapRepositoryImpl: MapRepositoryImpl
-  ): MapRepository
+    @Singleton
+    @Binds
+    fun provideMapRepository(
+        mapRepositoryImpl: MapRepositoryImpl,
+    ): MapRepository
 
-  @Singleton
-  @Binds
-  fun provideTagRepository(
-    tagRepositoryImpl: TagRepositoryImpl,
-  ): TagRepository
+    @Singleton
+    @Binds
+    fun provideTagRepository(
+        tagRepositoryImpl: TagRepositoryImpl,
+    ): TagRepository
 
-  @Singleton
-  @Binds
-  fun provideVideoRepository(
-    videoRepositoryImpl: VideoRepositoryImpl,
-  ): VideoRepository
+    @Singleton
+    @Binds
+    fun provideVideoRepository(
+        videoRepositoryImpl: VideoRepositoryImpl,
+    ): VideoRepository
 
-  @Singleton
-  @Binds
-  fun providePostRepository(
-    postRepositoryImpl: PostRepositoryImpl
-  ): PostRepository
+    @Singleton
+    @Binds
+    fun providePostRepository(
+        postRepositoryImpl: PostRepositoryImpl,
+    ): PostRepository
 }

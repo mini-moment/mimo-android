@@ -22,6 +22,7 @@ object NaverLoginManager {
                 LoginResponse(
                     userName = response.profile?.name ?: "",
                     userContact = response.profile?.mobile ?: "",
+                    profileImageUrl = response.profile?.profileImage ?: "",
                     accessToken = NaverIdLoginSDK.getAccessToken() ?: "",
                     refreshToken = NaverIdLoginSDK.getRefreshToken() ?: "",
                 ),

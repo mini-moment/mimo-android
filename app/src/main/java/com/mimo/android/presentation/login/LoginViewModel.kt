@@ -55,6 +55,7 @@ class LoginViewModel @Inject constructor(
                 userName = loginResponse.userName ?: "",
                 userContact = loginResponse.userContact ?: "",
                 accessToken = loginResponse.accessToken ?: "",
+                profileImageUrl = loginResponse.profileImageUrl ?: "",
                 refreshToken = loginResponse.refreshToken ?: "",
             ),
         ).collectLatest { signUpResponse ->

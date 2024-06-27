@@ -8,7 +8,9 @@ import com.mimo.android.data.repository.PostRepository
 import com.mimo.android.data.repository.TagRepository
 import com.mimo.android.data.repository.VideoRepository
 import com.mimo.android.presentation.util.ErrorMessage
+import com.mimo.android.presentation.util.VideoThumbnailUtil
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharedFlow
@@ -16,7 +18,8 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
-import okhttp3.MultipartBody
+import kotlinx.coroutines.withContext
+import java.io.File
 import javax.inject.Inject
 
 @HiltViewModel
@@ -88,13 +91,48 @@ class UploadVideoViewModel @Inject constructor(
         }
     }
 
-    fun uploadVideo(file: MultipartBody.Part) {
+    fun setVideoUrl(uri: String) {
+        _uiState.update { state ->
+            state.copy(
+                videoUri = uri,
+            )
+        }
+    }
+
+    fun getThumbnails(width: Int, path: String) {
         viewModelScope.launch {
+            withContext(Dispatchers.IO) {
+                val thumbnails = VideoThumbnailUtil().getVideoThumbnails(width, path)
+                if (thumbnails.isEmpty()) {
+                    _event.emit(
+                        UploadVideoEvent.Error(
+                            errorMessage = ErrorMessage.GET_THUMBNAILS_ERROR_MESSAGE,
+                        ),
+                    )
+                } else {
+                    _uiState.update { state ->
+                        state.copy(
+                            thumbnails = thumbnails,
+                        )
+                    }
+                    _event.emit(UploadVideoEvent.ThumbnailsGetSuccess(uiState.value.videoUri))
+                }
+            }
+        }
+    }
+
+    fun uploadVideo(file: File) {
+        viewModelScope.launch {
+            _uiState.update { uiState ->
+                uiState.copy(
+                    isLoading = LoadingUiState.Loading,
+                )
+            }
             videoRepository.uploadVideo(file).collectLatest { response ->
                 when (response) {
                     is ApiResponse.Success -> {
                         _event.emit(
-                            UploadVideoEvent.VideoUploadSuccess,
+                            UploadVideoEvent.VideoUploadSuccess(response.data),
                         )
                     }
 
@@ -107,7 +145,18 @@ class UploadVideoViewModel @Inject constructor(
                         )
                     }
 
-                    else -> {}
+                    else -> {
+                        _event.emit(
+                            UploadVideoEvent.Error(
+                                errorMessage = ErrorMessage.FILE_SIZE_EXCEEDED_MESSAGE,
+                            ),
+                        )
+                        _uiState.update { uiState ->
+                            uiState.copy(
+                                isLoading = LoadingUiState.Finish,
+                            )
+                        }
+                    }
                 }
             }
         }
@@ -115,7 +164,7 @@ class UploadVideoViewModel @Inject constructor(
 
     private suspend fun validationPost(): Boolean {
         with(uiState.value) {
-            if (videoUri == null) {
+            if (videoUri.isBlank()) {
                 _event.emit(
                     UploadVideoEvent.Error(
                         errorMessage = ErrorMessage.NO_POST_VIDEO_URL,
@@ -123,7 +172,7 @@ class UploadVideoViewModel @Inject constructor(
                 )
                 return false
             }
-            if (topic == null) {
+            if (topic.isBlank()) {
                 _event.emit(
                     UploadVideoEvent.Error(
                         errorMessage = ErrorMessage.NO_POST_TOPIC,
@@ -135,29 +184,38 @@ class UploadVideoViewModel @Inject constructor(
         return true
     }
 
-    fun insertPost() {
+    fun insertPost(
+        postRequest: InsertPostRequest,
+        thumbnail: File,
+        latitude: Double,
+        longitude: Double,
+    ) {
         viewModelScope.launch {
             if (validationPost().not()) {
                 return@launch
             }
             postRepository.insertPost(
-                postRequest = InsertPostRequest(
-                    title = uiState.value.topic,
-                    videoUrl = uiState.value.videoUri,
-                    tagList = uiState.value.selectedTags,
-                ),
+                postRequest = postRequest,
+                thumbnail = thumbnail,
+                latitude,
+                longitude,
             ).collectLatest { response ->
                 when (response) {
                     is ApiResponse.Success -> {
                         _uiState.update { uiState ->
                             uiState.copy(
-                                videoUri = response.data,
+                                isLoading = LoadingUiState.Finish,
                             )
                         }
                         _event.emit(UploadVideoEvent.PostUploadSuccess)
                     }
 
                     is ApiResponse.Error -> {
+                        _uiState.update { uiState ->
+                            uiState.copy(
+                                isLoading = LoadingUiState.Finish,
+                            )
+                        }
                         _event.emit(
                             UploadVideoEvent.Error(
                                 errorCode = response.errorCode,
@@ -169,14 +227,6 @@ class UploadVideoViewModel @Inject constructor(
                     else -> {}
                 }
             }
-        }
-    }
-
-    fun selectVideoUri(uri: String) {
-        _uiState.update { state ->
-            state.copy(
-                videoUri = uri,
-            )
         }
     }
 

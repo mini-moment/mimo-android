@@ -6,4 +6,12 @@
     </style>
 
     <style name="Theme.MiniMoment" parent="Base.Theme.MiniMoment" />
+
+    <style name="Theme.MiniMoment.RangeSlider" parent="Theme.MiniMoment">
+        <item name="trackHeight">30dp</item>
+        <item name="trackCornerRadius">0dp</item>
+        <item name="trackColorInactive">#7F000000</item>
+        <item name="trackColorActive">@color/transparent</item>
+        <item name="labelBehavior">gone</item>
+    </style>
 </resources>

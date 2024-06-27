@@ -71,7 +71,7 @@ dependencies {
 
     //androidx
     implementation("androidx.appcompat:appcompat:1.6.1")
-    implementation("com.google.android.material:material:1.11.0")
+    implementation("com.google.android.material:material:1.12.0")
     implementation("androidx.constraintlayout:constraintlayout:2.1.4")
     implementation("androidx.databinding:databinding-common:8.3.2")
     implementation("androidx.legacy:legacy-support-core-utils:1.0.0")
@@ -79,7 +79,7 @@ dependencies {
     implementation("androidx.security:security-crypto:1.1.0-alpha06")
     implementation("androidx.core:core-ktx:1.3.0")
     implementation("androidx.fragment:fragment-ktx:1.3.6")
-    implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.4.0")
+    implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.8.1")
 
     // test
     testImplementation("junit:junit:4.13.2")
@@ -93,6 +93,7 @@ dependencies {
     // hilt
     implementation("com.google.dagger:hilt-android:2.48")
     kapt("com.google.dagger:hilt-android-compiler:2.48")
+    implementation("androidx.hilt:hilt-navigation-fragment:1.2.0")
 
     // retrofit,
     implementation("com.squareup.retrofit2:retrofit:2.9.0")

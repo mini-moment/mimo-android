@@ -6,4 +6,5 @@
     <string name="permission_denied_closed_button_message">닫기</string>
     <string name="permission_go_to_setting_button_message">설정</string>
     <string name="finish_button_message">완료</string>
+    <string name="post_loading_message">게시글 업로드중이예요..\n 조금만 기다려주세요🙏</string>
 </resources>

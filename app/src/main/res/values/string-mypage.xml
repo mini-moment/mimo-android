@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="my_post">내가 올린 게시물</string>
+    <string name="version_info">버전 정보</string>
+    <string name="version_info_value">1.0.0</string>
+    <string name="service">서비스 이용 약관</string>
+    <string name="privacy">개인정보 처리방침</string>
+    <string name="logout">로그아웃</string>
+    <string name="sign_out">회원탈퇴</string>
+</resources>
