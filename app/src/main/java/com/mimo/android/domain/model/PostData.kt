@@ -13,18 +13,15 @@ data class PostData(
     val tagList: List<Tag>,
     val profileImageUrl: String,
     val userName: String,
-    val videoThumbnailUrl: String
+    val videoThumbnailUrl: String,
+    val uploadTime: String,
 ) : Parcelable {
 
     @Parcelize
     data class Tag(
         val id: Int,
-        val name: String
+        val name: String,
     ) : Parcelable
-
-    companion object{
-        val DEFAULT = PostData(-1,"", -1, "",  emptyList(), "", "", "")
-    }
 }
 
 fun PostListResponse.toPostData(): List<PostData> {
@@ -32,21 +29,22 @@ fun PostListResponse.toPostData(): List<PostData> {
         PostData(
             id = it.id,
             title = it.title,
-            userId = it.userId,
+            userId = it.userInfo.id,
             videoUrl = it.videoUrl,
             tagList = it.tagList.map { tag ->
                 PostData.Tag(
                     id = tag.id,
-                    name = tag.name
+                    name = tag.name,
                 )
             },
             profileImageUrl = it.userInfo.profileImageUrl,
             userName = it.userInfo.userName,
-            videoThumbnailUrl = it.videoThumbnailUrl
+            videoThumbnailUrl = it.videoThumbnailUrl,
+            uploadTime = it.uploadTime,
         )
     }
 }
 
-fun List<PostData>.findPostIndex(postId : Int) : Int{
+fun List<PostData>.findPostIndex(postId: Int): Int {
     return this.indexOf(this.filter { it.id == postId }[0])
 }
