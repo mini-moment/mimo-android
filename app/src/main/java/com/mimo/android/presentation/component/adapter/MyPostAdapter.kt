@@ -6,6 +6,7 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.mimo.android.databinding.ItemMyPostBinding
 import com.mimo.android.domain.model.PostData
+import com.mimo.android.domain.model.toTagData
 
 class MyPostAdapter : ListAdapter<PostData, MyPostAdapter.MyPostViewHolder>(
     DiffUtilCallback<PostData>(),
@@ -25,9 +26,10 @@ class MyPostAdapter : ListAdapter<PostData, MyPostAdapter.MyPostViewHolder>(
     ) : RecyclerView.ViewHolder(binding.root) {
         fun bind(postData: PostData) {
             binding.apply {
+                this.postData = postData
                 val tagListAdapter = TagListAdapter()
                 rcTagList.adapter = tagListAdapter
-//                tagListAdapter.submitList(postData.tagList)
+                tagListAdapter.submitList(postData.toTagData())
             }
         }
     }

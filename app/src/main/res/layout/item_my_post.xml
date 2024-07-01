@@ -10,13 +10,14 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="match_parent">
 
 
         <ImageView
             android:id="@+id/iv_thumbnail"
             android:layout_width="match_parent"
             android:layout_height="0dp"
+            app:setImage="@{postData.videoThumbnailUrl}"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintDimensionRatio="36:21" />
 
@@ -28,21 +29,23 @@
             app:layout_constraintStart_toStartOf="parent"
             android:layout_marginTop="20dp"
             android:layout_marginStart="20dp"
-            android:text="영상 상세"
+            android:text="@{postData.title}"
             style="@style/Typography.Body01.Regular"
             android:textSize="20sp"
             android:textColor="@color/black" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rc_tag_list"
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-            android:orientation="horizontal"
+            app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+            app:spanCount="4"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/text_content"
             app:layout_constraintBottom_toBottomOf="parent"
             android:layout_marginVertical="20dp"
-            android:layout_marginHorizontal="20dp" />
+            android:layout_marginHorizontal="20dp"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
