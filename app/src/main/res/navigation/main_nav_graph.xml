@@ -14,12 +14,32 @@
         <action
             android:id="@+id/action_mapFragment_to_mapClusterBottomSheetDialogFragment"
             app:destination="@id/mapClusterBottomSheetDialogFragment" />
+
+        <action
+            android:id="@+id/action_mapFragment_to_markerBottomSheetDialogFragment"
+            app:destination="@id/markerBottomSheetDialogFragment" />
     </fragment>
 
     <fragment
         android:id="@+id/myPageFragment"
         android:name="com.mimo.android.presentation.mypage.MyPageFragment"
         tools:layout="@layout/fragment_my_page" />
+
+    <dialog
+        android:id="@+id/markerBottomSheetDialogFragment"
+        android:name="com.mimo.android.presentation.map.MarkerBottomSheetDialogFragment"
+        android:label="MarkerBottomSheetDialogFragment"
+        tools:layout="@layout/fragment_marker_bottom_sheet_dialog">
+        <argument
+            android:name="latitude"
+            app:argType="float" />
+        <argument
+            android:name="longitude"
+            app:argType="float" />
+        <argument
+            android:name="address"
+            app:argType="string" />
+    </dialog>
 
     <dialog
         android:id="@+id/mapClusterBottomSheetDialogFragment"
@@ -41,5 +61,4 @@
             app:argType="string"
             app:nullable="true" />
     </dialog>
-
 </navigation>
