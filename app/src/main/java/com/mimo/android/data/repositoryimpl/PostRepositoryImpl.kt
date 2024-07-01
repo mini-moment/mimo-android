@@ -67,7 +67,7 @@ class PostRepositoryImpl @Inject constructor(private val postRemoteDataSource: P
             is ApiResponse.Success -> {
                 emit(
                     ApiResponse.Success(
-                        response.data.toPostData()
+                        response.data.toPostData(),
                     ),
                 )
             }

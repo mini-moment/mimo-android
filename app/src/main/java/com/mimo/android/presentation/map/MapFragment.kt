@@ -36,6 +36,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
+import kotlin.math.pow
 
 @AndroidEntryPoint
 class MapFragment : BaseMapFragment<FragmentMapBinding>(R.layout.fragment_map) {
@@ -128,7 +129,7 @@ class MapFragment : BaseMapFragment<FragmentMapBinding>(R.layout.fragment_map) {
     private fun setCircleOverlay(location: LatLng, zoom: Double) { // 범위 생성
         circle.map = null
         circle.center = LatLng(location.latitude, location.longitude)
-        radius = 3 * Math.pow(2.0, 22 - zoom) / 1000
+        radius = 3 * 2.0.pow(22 - zoom) / 1000
         circle.radius = radius * 1000
         circle.color = ContextCompat.getColor(requireContext(), R.color.purple_opacity_5)
         circle.map = naverMap
@@ -160,7 +161,7 @@ class MapFragment : BaseMapFragment<FragmentMapBinding>(R.layout.fragment_map) {
             },
             clusterTag = { idList, latitude, longitude ->
                 mapViewModel.setMarkerEvent(MarkerEvent.ClusterMarker(idList, latitude, longitude))
-            }
+            },
         )
     }
 
@@ -174,11 +175,12 @@ class MapFragment : BaseMapFragment<FragmentMapBinding>(R.layout.fragment_map) {
                         startActivity(
                             Intent(
                                 requireActivity(),
-                                VideoDetailActivity::class.java
+                                VideoDetailActivity::class.java,
                             ).apply {
                                 putExtra("postList", postList.toTypedArray())
                                 putExtra("postIndex", postList.findPostIndex(it.idx))
-                            })
+                            },
+                        )
                     }
 
                     is MarkerEvent.ClusterMarker -> {
@@ -190,8 +192,8 @@ class MapFragment : BaseMapFragment<FragmentMapBinding>(R.layout.fragment_map) {
                                 bundleOf(
                                     "postList" to postList.toTypedArray(),
                                     "clusterPostList" to clusterPostList.toTypedArray(),
-                                    "address" to address
-                                )
+                                    "address" to address,
+                                ),
                             )
                         }
                     }

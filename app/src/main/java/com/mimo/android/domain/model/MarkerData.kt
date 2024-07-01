@@ -6,16 +6,14 @@ import com.naver.maps.geometry.LatLng
 import com.naver.maps.map.clustering.ClusteringKey
 import kotlinx.parcelize.Parcelize
 
-
 @Parcelize
 data class MarkerData(
     val id: Int,
     val latitude: Double,
     val longitude: Double,
-    val postId: Int
+    val postId: Int,
 ) : ClusteringKey, Parcelable {
     override fun getPosition(): LatLng = LatLng(latitude, longitude)
-
 }
 
 fun MarkerResponse.toMarkerData(): List<MarkerData> {
@@ -24,9 +22,7 @@ fun MarkerResponse.toMarkerData(): List<MarkerData> {
             id = it.id,
             latitude = it.latitude,
             longitude = it.longitude,
-            postId = it.postId
+            postId = it.postId,
         )
     }
 }
-
-

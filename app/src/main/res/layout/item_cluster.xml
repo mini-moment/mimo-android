@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+
         <variable
             name="postData"
             type="com.mimo.android.domain.model.PostData" />
@@ -10,68 +12,87 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
+        android:layout_marginVertical="10dp"
         android:layout_height="wrap_content">
 
         <ImageView
             android:id="@+id/iv_thumbnail"
             android:layout_width="0dp"
             android:layout_height="0dp"
+            android:layout_marginHorizontal="20dp"
             android:layout_marginVertical="10dp"
-            app:setImage="@{postData.videoThumbnailUrl}"
-            android:layout_marginStart="11dp"
-            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintBottom_toTopOf="@id/iv_name"
             app:layout_constraintDimensionRatio="5:3"
-            app:layout_constraintEnd_toStartOf="@+id/cl_content"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintWidth_percent="0.3" />
+            app:setImage="@{postData.videoThumbnailUrl}" />
 
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/cl_content"
+
+        <ImageView
+            android:id="@+id/iv_name"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginTop="10dp"
+            app:layout_constraintStart_toStartOf="@id/iv_thumbnail"
+            app:layout_constraintTop_toBottomOf="@id/iv_thumbnail"
+            app:profileImageUrl="@{postData.profileImageUrl}"
+            tools:src="@color/black" />
+
+        <TextView
+            android:id="@+id/tv_content"
+            style="@style/Typography.Title03"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="20dp"
-            app:layout_constraintBottom_toBottomOf="@+id/iv_thumbnail"
+            android:layout_marginHorizontal="15dp"
+            android:ellipsize="end"
+            android:maxLines="2"
+            android:text="@{postData.title}"
+            app:layout_constraintBottom_toTopOf="@id/tv_name"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/iv_thumbnail"
-            app:layout_constraintTop_toTopOf="@+id/iv_thumbnail">
+            app:layout_constraintStart_toEndOf="@id/iv_name"
+            app:layout_constraintTop_toTopOf="@id/iv_name"
+            tools:text="123123124214213213123123123123123123123123w1231231231232132121312321" />
 
-            <TextView
-                android:id="@+id/tv_content"
-                style="@style/Typography.Body01.Regular"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:layout_marginEnd="20dp"
-                android:ellipsize="end"
-                android:maxLines="1"
-                android:textSize="20sp"
-                android:text="@{postData.title}"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+        <TextView
+            android:id="@+id/tv_name"
+            style="@style/Typography.Body01.Bold"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="15dp"
+            android:layout_marginTop="5dp"
+            android:text="@{postData.userName}"
+            android:textColor="@color/gray"
+            app:layout_constraintBottom_toTopOf="@id/chip_group_hash_tag"
+            app:layout_constraintStart_toEndOf="@id/iv_name"
+            app:layout_constraintTop_toBottomOf="@id/tv_content"
+            tools:text="1234" />
 
-            <ImageView
-                android:id="@+id/iv_name"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/perfil"
-                app:layout_constraintBottom_toBottomOf="@+id/tv_name"
-                app:layout_constraintStart_toStartOf="@+id/tv_content"
-                app:layout_constraintTop_toTopOf="@+id/tv_name" />
+        <TextView
+            android:id="@+id/tv_upload_time"
+            style="@style/Typography.Body01.Bold"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="15dp"
+            android:layout_marginTop="5dp"
+            android:text="@{postData.uploadTime}"
+            android:textColor="@color/gray"
+            app:layout_constraintBottom_toTopOf="@id/chip_group_hash_tag"
+            app:layout_constraintStart_toEndOf="@id/tv_name"
+            app:layout_constraintTop_toBottomOf="@id/tv_content" />
 
-            <TextView
-                android:id="@+id/tv_name"
-                style="@style/Typography.Body01.Regular"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="10dp"
-                android:layout_marginTop="10dp"
-                android:text="@{postData.userName}"
-                android:textSize="16sp"
-                app:layout_constraintStart_toEndOf="@+id/iv_name"
-                app:layout_constraintTop_toBottomOf="@+id/tv_content" />
-        </androidx.constraintlayout.widget.ConstraintLayout>
+        <com.google.android.material.chip.ChipGroup
+            android:id="@+id/chip_group_hash_tag"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:chipSpacing="0dp"
+            app:chipSpacingVertical="0dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="@id/tv_content"
+            app:layout_constraintStart_toStartOf="@id/iv_name"
+            app:layout_constraintTop_toBottomOf="@id/tv_upload_time"
+            app:postHashTags="@{postData.tagList}" />
+
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
