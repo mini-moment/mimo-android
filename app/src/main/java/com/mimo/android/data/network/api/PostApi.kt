@@ -27,4 +27,7 @@ interface PostApi {
     suspend fun getPostList(
         @Query("ids") ids : List<Int>
     ) : Response<PostListResponse>
+
+    @GET("post/posts/my")
+    suspend fun getMyPost() : Response<PostListResponse>
 }

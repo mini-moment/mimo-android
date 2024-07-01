@@ -22,4 +22,8 @@ class PostRemoteDataSourceImpl @Inject constructor(private val postApi: PostApi)
     override suspend fun getPostList(ids: List<Int>): Response<PostListResponse> {
         return postApi.getPostList(ids)
     }
+
+    override suspend fun getMyPost(): Response<PostListResponse> {
+        return postApi.getMyPost()
+    }
 }
