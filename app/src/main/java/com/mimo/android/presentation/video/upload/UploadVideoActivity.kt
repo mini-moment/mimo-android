@@ -10,8 +10,8 @@ import android.net.Uri
 import android.os.Environment
 import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts.*
+import androidx.activity.viewModels
 import androidx.core.net.toUri
-import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
@@ -26,9 +26,9 @@ import com.google.android.gms.location.LocationServices
 import com.google.android.material.slider.LabelFormatter
 import com.mimo.android.R
 import com.mimo.android.data.model.request.InsertPostRequest
-import com.mimo.android.databinding.FragmentUploadVideoBinding
+import com.mimo.android.databinding.ActivityUploadVideoBinding
 import com.mimo.android.domain.model.TagData
-import com.mimo.android.presentation.base.BaseFragment
+import com.mimo.android.presentation.base.BaseActivity
 import com.mimo.android.presentation.component.adapter.TagClickListener
 import com.mimo.android.presentation.component.adapter.TagListAdapter
 import com.mimo.android.presentation.component.adapter.ThumbNailAdapter
@@ -49,8 +49,8 @@ import java.io.File
 import java.nio.ByteBuffer
 
 @AndroidEntryPoint
-class UploadVideoFragment :
-    BaseFragment<FragmentUploadVideoBinding>(R.layout.fragment_upload_video) {
+class UploadVideoActivity :
+    BaseActivity<ActivityUploadVideoBinding>(R.layout.activity_upload_video) {
 
     private val uploadVideoViewModel: UploadVideoViewModel by viewModels()
     private val tagListAdapter = TagListAdapter()
@@ -64,7 +64,7 @@ class UploadVideoFragment :
 
     private val pickMedia = registerForActivityResult(PickVisualMedia()) { uri ->
         if (uri != null) {
-            val fileUrl = getRealPathFromURI(requireContext(), uri)
+            val fileUrl = getRealPathFromURI(this, uri)
             val file = File(fileUrl)
             uploadVideoViewModel.setVideoUrl(uri.toString())
             val widthPixels = binding.recyclerViewVideoThumbnail.measuredWidth
@@ -73,7 +73,7 @@ class UploadVideoFragment :
     }
 
     private fun playVideo(uri: Uri) {
-        player = ExoPlayer.Builder(requireActivity()).build().also { exoPlayer ->
+        player = ExoPlayer.Builder(this).build().also { exoPlayer ->
             binding.playerViewVideo.player = exoPlayer
             exoPlayer.setMediaItem(MediaItem.fromUri(uri))
             exoPlayer.prepare()
@@ -114,7 +114,7 @@ class UploadVideoFragment :
         }
     }
 
-    override fun initView() {
+    override fun init() {
         with(binding) {
             btnFinishUpload.setOnClickListener {
                 loadVideo()
@@ -125,7 +125,7 @@ class UploadVideoFragment :
             viewModel = uploadVideoViewModel
             sliderVideoThumbnail.setCustomThumbDrawable(R.drawable.clip)
         }
-        fusedLocationClient = LocationServices.getFusedLocationProviderClient(requireActivity())
+        fusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
         setRecyclerView()
         collectUiEvent()
         showLoadingDialog()
@@ -135,22 +135,26 @@ class UploadVideoFragment :
 
     @SuppressLint("MissingPermission")
     private fun getLastLocation() {
-        fusedLocationClient.lastLocation
-            .addOnSuccessListener { success: Location? ->
-                success?.let { location ->
-                    longitude = location.longitude
-                    latitude = location.latitude
+        longitude = intent.getDoubleExtra("longitude", -1.0)
+        latitude = intent.getDoubleExtra("latitude", -1.0)
+        if (longitude == -1.0 || latitude == -1.0) {
+            fusedLocationClient.lastLocation
+                .addOnSuccessListener { success: Location? ->
+                    success?.let { location ->
+                        longitude = location.longitude
+                        latitude = location.latitude
+                    }
                 }
-            }
-            .addOnFailureListener {
-                showMessage(ErrorMessage.GPS_ERROR_MESSAGE)
-            }
+                .addOnFailureListener {
+                    showMessage(ErrorMessage.GPS_ERROR_MESSAGE)
+                }
+        }
     }
 
     private fun loadVideo() {
         val uri = uploadVideoViewModel.uiState.value.videoUri
         if (uri.isNotEmpty()) {
-            val filePath = getRealPathFromURI(requireContext(), uri.toUri())
+            val filePath = getRealPathFromURI(this, uri.toUri())
             val file = File(filePath)
             val videoLength = player?.duration ?: 0
             val newPosition1 = (videoLength * binding.sliderVideoThumbnail.values[0] / 100).toLong()
@@ -234,7 +238,7 @@ class UploadVideoFragment :
     }
 
     private fun collectUiEvent() {
-        viewLifecycleOwner.lifecycleScope.launch {
+        lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
                 uploadVideoViewModel.event.collectLatest { uiEvent ->
                     when (uiEvent) {
@@ -248,11 +252,11 @@ class UploadVideoFragment :
                             val start =
                                 (videoLength * binding.sliderVideoThumbnail.values[0] / 100).toLong()
                             val uri = uploadVideoViewModel.uiState.value.videoUri
-                            val filePath = getRealPathFromURI(requireContext(), uri.toUri())
+                            val filePath = getRealPathFromURI(this@UploadVideoActivity, uri.toUri())
                             val image = VideoThumbnailUtil().getVideoThumbnail(start, filePath)
                             image?.let { image ->
                                 val thumbnailRequest = convertBitmapToFile(
-                                    requireActivity(),
+                                    this@UploadVideoActivity,
                                     image,
                                 )
                                 val postRequest = InsertPostRequest(
@@ -270,7 +274,7 @@ class UploadVideoFragment :
                         }
 
                         is UploadVideoEvent.PostUploadSuccess -> {
-                            requireActivity().finish()
+                            this@UploadVideoActivity.finish()
                         }
 
                         is UploadVideoEvent.ThumbnailsGetSuccess -> {
@@ -294,7 +298,7 @@ class UploadVideoFragment :
 
                         LoadingUiState.Loading -> {
                             dialog.show(
-                                requireActivity().supportFragmentManager,
+                                this@UploadVideoActivity.supportFragmentManager,
                                 "",
                             )
                         }
@@ -364,10 +368,8 @@ class UploadVideoFragment :
         }
     }
 
-    override fun onDestroyView() {
-        super.onDestroyView()
-        player?.let { player ->
-            player.release()
-        }
+    override fun onDestroy() {
+        super.onDestroy()
+        player?.release()
     }
 }
