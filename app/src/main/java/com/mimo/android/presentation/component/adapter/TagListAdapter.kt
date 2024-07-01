@@ -2,13 +2,12 @@ package com.mimo.android.presentation.component.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
 import com.mimo.android.databinding.ItemTagBinding
 import com.mimo.android.domain.model.TagData
 
-class TagListAdapter : ListAdapter<TagData, TagListViewHolder>(diffUtil) {
+class TagListAdapter : ListAdapter<TagData, TagListViewHolder>(DiffUtilCallback<TagData>()) {
 
     private var tagClickListener: TagClickListener? = null
 
@@ -23,24 +22,6 @@ class TagListAdapter : ListAdapter<TagData, TagListViewHolder>(diffUtil) {
 
     override fun onBindViewHolder(holder: TagListViewHolder, position: Int) {
         holder.bind(getItem(position))
-    }
-
-    companion object {
-        private val diffUtil = object : DiffUtil.ItemCallback<TagData>() {
-            override fun areItemsTheSame(
-                oldItem: TagData,
-                newItem: TagData,
-            ): Boolean {
-                return oldItem.id == newItem.id
-            }
-
-            override fun areContentsTheSame(
-                oldItem: TagData,
-                newItem: TagData,
-            ): Boolean {
-                return oldItem == newItem
-            }
-        }
     }
 }
 
