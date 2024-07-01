@@ -4,7 +4,6 @@ import android.content.Intent
 import androidx.fragment.app.viewModels
 import com.mimo.android.R
 import com.mimo.android.databinding.FragmentMyPageBinding
-import com.mimo.android.domain.model.findPostIndex
 import com.mimo.android.presentation.base.BaseFragment
 import com.mimo.android.presentation.component.adapter.MyPostAdapter
 import com.mimo.android.presentation.videodetail.VideoDetailActivity
@@ -13,7 +12,7 @@ import dagger.hilt.android.AndroidEntryPoint
 @AndroidEntryPoint
 class MyPageFragment : BaseFragment<FragmentMyPageBinding>(R.layout.fragment_my_page) {
 
-    private val myPageViewModel : MyPageViewModel by viewModels()
+    private val myPageViewModel: MyPageViewModel by viewModels()
 
     private lateinit var myPostAdapter: MyPostAdapter
 
@@ -24,7 +23,7 @@ class MyPageFragment : BaseFragment<FragmentMyPageBinding>(R.layout.fragment_my_
         setMyPostClickEvent()
     }
 
-    private fun initData(){
+    private fun initData() {
         myPageViewModel.getMyPost()
     }
 
@@ -34,13 +33,13 @@ class MyPageFragment : BaseFragment<FragmentMyPageBinding>(R.layout.fragment_my_
         binding.vpMyPost.adapter = myPostAdapter
     }
 
-    private fun observeMyPost(){
-        myPageViewModel.myPostList.observe(viewLifecycleOwner){
+    private fun observeMyPost() {
+        myPageViewModel.myPostList.observe(viewLifecycleOwner) {
             myPostAdapter.submitList(it)
         }
     }
 
-    private fun setMyPostClickEvent(){
+    private fun setMyPostClickEvent() {
         myPostAdapter.setOnItemClickListener { index ->
             startActivity(
                 Intent(
