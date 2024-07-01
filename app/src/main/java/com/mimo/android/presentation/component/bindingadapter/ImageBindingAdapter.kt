@@ -17,3 +17,13 @@ fun loadImage(imageView: ImageView, url: String?) {
         .placeholder(ContextCompat.getDrawable(imageView.context, R.color.black))
         .into(imageView)
 }
+
+@BindingAdapter("profileImageUrl")
+fun profileImageUrl(imageView: ImageView, url: String?) {
+    Glide.with(imageView.context)
+        .load(url)
+        .centerCrop()
+        .circleCrop()
+        .placeholder(ContextCompat.getDrawable(imageView.context, R.drawable.ic_user_selected))
+        .into(imageView)
+}
