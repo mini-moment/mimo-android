@@ -17,4 +17,6 @@ interface PostRemoteDataSource {
     suspend fun getPostList(
         ids : List<Int>
     ) : Response<PostListResponse>
+
+    suspend fun getMyPost() : Response<PostListResponse>
 }

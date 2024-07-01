@@ -22,8 +22,8 @@ data class PostData(
         val name: String
     ) : Parcelable
 
-    companion object{
-        val DEFAULT = PostData(-1,"", -1, "",  emptyList(), "", "", "")
+    companion object {
+        val DEFAULT = PostData(-1, "", -1, "", emptyList(), "", "", "")
     }
 }
 
@@ -47,6 +47,16 @@ fun PostListResponse.toPostData(): List<PostData> {
     }
 }
 
-fun List<PostData>.findPostIndex(postId : Int) : Int{
+fun PostData.toTagData(): List<TagData> {
+    return this.tagList.map {
+        TagData(
+            id = it.id,
+            name = it.name
+        )
+    }
+}
+
+
+fun List<PostData>.findPostIndex(postId: Int): Int {
     return this.indexOf(this.filter { it.id == postId }[0])
 }
