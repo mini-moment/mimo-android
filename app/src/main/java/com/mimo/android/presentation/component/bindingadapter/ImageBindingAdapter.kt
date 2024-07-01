@@ -12,7 +12,7 @@ import timber.log.Timber
 fun loadImage(imageView: ImageView, url: String?) {
     Timber.d("들어오는거 확인 $url")
     Glide.with(imageView.context)
-        .load("http://192.168.45.71:8080/post/thumbnail/${url}")
+        .load("http://192.168.0.6:8080/post/thumbnail/${url}")
         .centerCrop()
         .placeholder(ContextCompat.getDrawable(imageView.context, R.color.black))
         .into(imageView)

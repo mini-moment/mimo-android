@@ -45,6 +45,15 @@ fun PostListResponse.toPostData(): List<PostData> {
     }
 }
 
+fun PostData.toTagData(): List<TagData> {
+    return this.tagList.map {
+        TagData(
+            id = it.id,
+            name = it.name
+        )
+    }
+}
+
 fun List<PostData>.findPostIndex(postId: Int): Int {
     return this.indexOf(this.filter { it.id == postId }[0])
 }

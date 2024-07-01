@@ -19,4 +19,6 @@ interface PostRepository {
     suspend fun getPostLists(
         ids: List<Int>
     ): Flow<ApiResponse<List<PostData>>>
+
+    suspend fun getMyPost() : ApiResponse<List<PostData>>
 }
