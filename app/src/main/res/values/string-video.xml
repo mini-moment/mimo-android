@@ -2,4 +2,5 @@
 <resources>
     <string name="hash_tag_title">해시태그</string>
     <string name="video_topic_title">주제</string>
+    <string name="upload_video_message">영상 업로드 하기</string>
 </resources>
