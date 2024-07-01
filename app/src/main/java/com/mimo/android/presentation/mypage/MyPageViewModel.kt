@@ -7,7 +7,6 @@ import androidx.lifecycle.viewModelScope
 import com.mimo.android.data.model.response.ApiResponse
 import com.mimo.android.data.repository.PostRepository
 import com.mimo.android.domain.model.PostData
-import com.mimo.android.presentation.util.UiState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import timber.log.Timber
@@ -19,14 +18,14 @@ class MyPageViewModel @Inject constructor(
 ) : ViewModel() {
 
     private val _myPostList = MutableLiveData<List<PostData>>()
-    val myPostList : LiveData<List<PostData>> get() = _myPostList
+    val myPostList: LiveData<List<PostData>> get() = _myPostList
 
-    fun setMyPostList(value : List<PostData>){
+    fun setMyPostList(value: List<PostData>) {
         _myPostList.value = value
     }
 
 
-    fun getMyPost(){
+    fun getMyPost() {
         viewModelScope.launch {
             when (val response = postRepository.getMyPost()) {
                 is ApiResponse.Success -> {
