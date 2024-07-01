@@ -31,6 +31,8 @@ import com.naver.maps.map.MapView
 import com.naver.maps.map.NaverMap
 import com.naver.maps.map.clustering.Clusterer
 import com.naver.maps.map.overlay.CircleOverlay
+import com.naver.maps.map.overlay.Marker
+import com.naver.maps.map.overlay.OverlayImage
 import com.naver.maps.map.util.FusedLocationSource
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.launchIn
@@ -225,6 +227,18 @@ class MapFragment : BaseMapFragment<FragmentMapBinding>(R.layout.fragment_map) {
                                     "address" to address,
                                 ),
                             )
+                        }
+                    }
+
+                    is MarkerEvent.LongClickMarker -> {
+                        requireActivity().locationToAddress(it.latitude, it.longitude) { address ->
+                            val action =
+                                MapFragmentDirections.actionMapFragmentToMarkerBottomSheetDialogFragment(
+                                    latitude = it.latitude.toFloat(),
+                                    longitude = it.longitude.toFloat(),
+                                    address = address,
+                                )
+                            this@MapFragment.findNavController().navigate(action)
                         }
                     }
                 }
