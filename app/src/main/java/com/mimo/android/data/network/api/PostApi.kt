@@ -22,12 +22,11 @@ interface PostApi {
         @Part("longitude") longitude: Double,
     ): Response<InsertPostResponse>
 
-
     @GET("post/posts")
     suspend fun getPostList(
-        @Query("ids") ids : List<Int>
-    ) : Response<PostListResponse>
+        @Query("ids") ids: List<Int>
+    ): Response<PostListResponse>
 
     @GET("post/posts/my")
-    suspend fun getMyPost() : Response<PostListResponse>
+    suspend fun getMyPost(): Response<PostListResponse>
 }
