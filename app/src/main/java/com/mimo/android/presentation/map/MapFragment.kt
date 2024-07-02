@@ -31,6 +31,8 @@ import com.naver.maps.map.MapView
 import com.naver.maps.map.NaverMap
 import com.naver.maps.map.clustering.Clusterer
 import com.naver.maps.map.overlay.CircleOverlay
+import com.naver.maps.map.overlay.Marker
+import com.naver.maps.map.overlay.OverlayImage
 import com.naver.maps.map.util.FusedLocationSource
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.launchIn
@@ -52,6 +54,7 @@ class MapFragment : BaseMapFragment<FragmentMapBinding>(R.layout.fragment_map) {
 
     override var mapView: MapView? = null
     var radius = 0.0
+    private var longClickMarker: Marker? = null
 
     override fun initOnCreateView() {
         initMapView()
@@ -78,11 +81,41 @@ class MapFragment : BaseMapFragment<FragmentMapBinding>(R.layout.fragment_map) {
         locationSource = FusedLocationSource(this, LOCATION_PERMISSION_REQUEST_CODE)
     }
 
+    private fun setMapLongClickListener(naverMap: NaverMap) {
+        naverMap.onMapLongClickListener = NaverMap.OnMapLongClickListener { _, latLng ->
+            longClickMarker?.let { marker ->
+                marker.position = latLng
+            } ?: run {
+                longClickMarker = Marker().apply {
+                    position = latLng
+                    map = naverMap
+                    icon = OverlayImage.fromResource(R.drawable.pin)
+                    width = 100
+                    height = 100
+                }
+            }
+            val cameraUpdate = CameraUpdate.scrollTo(latLng)
+            naverMap.moveCamera(cameraUpdate)
+            binding.locationSearchVisible = true
+            requireActivity().locationToAddress(latLng.latitude, latLng.longitude) { address ->
+                mapViewModel.setMarkerEvent(
+                    MarkerEvent.LongClickMarker(
+                        latitude = latLng.latitude,
+                        longitude = latLng.longitude,
+                        address = address,
+                    ),
+                )
+            }
+        }
+    }
+
     private fun initNaverMap(naverMap: NaverMap) { // 위치 및 naverMap 세팅
+        setMapLongClickListener(naverMap)
         this.naverMap = naverMap
         this.naverMap.locationSource = locationSource
         circle = CircleOverlay()
         markerBuilder = Clusterer.ComplexBuilder<MarkerData>()
+        binding.btnCurrentLocation.map = this.naverMap
         getLastLocation(naverMap)
     }
 
@@ -119,7 +152,6 @@ class MapFragment : BaseMapFragment<FragmentMapBinding>(R.layout.fragment_map) {
                     deleteMarker(it)
                 }
                 val markers = makeMarker(it, markerBuilder)
-
                 mapViewModel.setCurrentMarkerList(markers)
                 markers.map = naverMap
             }
@@ -195,6 +227,18 @@ class MapFragment : BaseMapFragment<FragmentMapBinding>(R.layout.fragment_map) {
                                     "address" to address,
                                 ),
                             )
+                        }
+                    }
+
+                    is MarkerEvent.LongClickMarker -> {
+                        requireActivity().locationToAddress(it.latitude, it.longitude) { address ->
+                            val action =
+                                MapFragmentDirections.actionMapFragmentToMarkerBottomSheetDialogFragment(
+                                    latitude = it.latitude.toFloat(),
+                                    longitude = it.longitude.toFloat(),
+                                    address = address,
+                                )
+                            this@MapFragment.findNavController().navigate(action)
                         }
                     }
                 }
