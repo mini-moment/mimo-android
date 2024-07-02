@@ -12,7 +12,7 @@ import com.mimo.android.databinding.ItemPostBinding
 import com.mimo.android.domain.model.PostData
 
 class PostListAdapter(private val exoPlayer: ExoPlayer) : ListAdapter<PostData, PostItemViewHolder>(
-    diffUtil
+    DiffUtilCallback()
 ) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PostItemViewHolder {
@@ -32,24 +32,6 @@ class PostListAdapter(private val exoPlayer: ExoPlayer) : ListAdapter<PostData, 
     override fun onViewDetachedFromWindow(holder: PostItemViewHolder) {
         super.onViewDetachedFromWindow(holder)
         holder.stopPlayer()
-    }
-
-    companion object {
-        private val diffUtil = object : DiffUtil.ItemCallback<PostData>() {
-            override fun areItemsTheSame(
-                oldItem: PostData,
-                newItem: PostData,
-            ): Boolean {
-                return oldItem.id == newItem.id
-            }
-
-            override fun areContentsTheSame(
-                oldItem: PostData,
-                newItem: PostData,
-            ): Boolean {
-                return oldItem == newItem
-            }
-        }
     }
 }
 
