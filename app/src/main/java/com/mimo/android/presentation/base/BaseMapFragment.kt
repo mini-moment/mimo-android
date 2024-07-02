@@ -10,9 +10,9 @@ import androidx.fragment.app.Fragment
 import com.naver.maps.map.MapView
 import com.naver.maps.map.NaverMap
 import com.naver.maps.map.OnMapReadyCallback
-import timber.log.Timber
 
-abstract class BaseMapFragment<T : ViewDataBinding>(private val layoutResId: Int) : Fragment(),
+abstract class BaseMapFragment<T : ViewDataBinding>(private val layoutResId: Int) :
+    Fragment(),
     OnMapReadyCallback {
 
     private var _binding: T? = null
@@ -24,37 +24,28 @@ abstract class BaseMapFragment<T : ViewDataBinding>(private val layoutResId: Int
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?,
-    ): View? {
+    ): View {
         _binding = DataBindingUtil.inflate(inflater, layoutResId, container, false)
         binding.lifecycleOwner = viewLifecycleOwner
         initOnCreateView()
-        Timber.d("onCreateView 호출됨")
         return binding.root
     }
 
     abstract fun initOnCreateView()
 
+    override fun onMapReady(naverMap: NaverMap) = initOnMapReady(naverMap)
 
-    override fun onMapReady(naverMap: NaverMap) {
-        Timber.d("onMapReady 호출됨! $naverMap")
-        initOnMapReady(naverMap)
-
-    }
-
-    abstract fun initOnMapReady(naverMap : NaverMap)
+    abstract fun initOnMapReady(naverMap: NaverMap)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        Timber.d("onViewCreated 호출됨! $mapView")
         iniViewCreated()
     }
 
     abstract fun iniViewCreated()
 
-
     override fun onStart() {
         super.onStart()
-        Timber.d("onStart $mapView")
         mapView?.onStart()
     }
 
@@ -62,6 +53,7 @@ abstract class BaseMapFragment<T : ViewDataBinding>(private val layoutResId: Int
         super.onResume()
         mapView?.onResume()
     }
+
     abstract fun initOnResume()
     override fun onPause() {
         super.onPause()
@@ -88,5 +80,4 @@ abstract class BaseMapFragment<T : ViewDataBinding>(private val layoutResId: Int
         super.onLowMemory()
         mapView?.onLowMemory()
     }
-
 }

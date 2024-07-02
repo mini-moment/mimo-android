@@ -7,30 +7,26 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
-import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 
 abstract class BaseBottomSheetDialogFragment<T : ViewDataBinding>(
-    private val layoutResId: Int
+    private val layoutResId: Int,
 ) : BottomSheetDialogFragment() {
 
     private var _binding: T? = null
     val binding get() = _binding!!
 
-    override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
-        return initCreateDialog()
-    }
+    override fun onCreateDialog(savedInstanceState: Bundle?) = initCreateDialog()
 
-    abstract fun initCreateDialog() : Dialog
+    abstract fun initCreateDialog(): Dialog
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?,
-    ): View? {
+    ): View {
         _binding = DataBindingUtil.inflate(inflater, layoutResId, container, false)
         binding.lifecycleOwner = viewLifecycleOwner
-
         return binding.root
     }
 
@@ -44,10 +40,8 @@ abstract class BaseBottomSheetDialogFragment<T : ViewDataBinding>(
 
     abstract fun initView()
 
-
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
     }
-
 }

@@ -34,10 +34,6 @@ class LoadingDialog() :
         return binding.root
     }
 
-    override fun onStart() {
-        super.onStart()
-    }
-
     override fun onDismiss(dialog: DialogInterface) {
         _binding = null
         super.onDismiss(dialog)

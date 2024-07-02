@@ -21,7 +21,7 @@
         <activity
             android:name=".presentation.video.VideoActivity"
             android:exported="false"
-            android:windowSoftInputMode="adjustPan"/>
+            android:windowSoftInputMode="adjustPan" />
         <!-- NaverMap -->
         <meta-data
             android:name="com.naver.maps.map.CLIENT_ID"
@@ -36,6 +36,11 @@
         <activity
             android:name=".presentation.videodetail.VideoDetailActivity"
             android:exported="false" />
+
+        <activity
+            android:name=".presentation.video.upload.UploadVideoActivity"
+            android:exported="false"
+            android:windowSoftInputMode="adjustPan" />
         <activity
             android:name=".presentation.splash.SplashActivity"
             android:exported="true">

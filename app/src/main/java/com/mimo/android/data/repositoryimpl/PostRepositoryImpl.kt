@@ -67,7 +67,7 @@ class PostRepositoryImpl @Inject constructor(private val postRemoteDataSource: P
             is ApiResponse.Success -> {
                 emit(
                     ApiResponse.Success(
-                        response.data.toPostData()
+                        response.data.toPostData(),
                     ),
                 )
             }
@@ -82,6 +82,30 @@ class PostRepositoryImpl @Inject constructor(private val postRemoteDataSource: P
             }
 
             else -> {}
+        }
+    }
+
+    override suspend fun getMyPost(): ApiResponse<List<PostData>> {
+        val response = apiHandler {
+            val result = postRemoteDataSource.getMyPost()
+            val errorData = Gson().fromJson(result.errorBody()?.string(), ErrorResponse::class.java)
+            Pair(result, errorData)
+        }
+        return when (response) {
+            is ApiResponse.Success -> {
+                ApiResponse.Success(data = response.data.toPostData())
+            }
+
+            is ApiResponse.Error -> {
+                ApiResponse.Error(
+                    errorCode = response.errorCode,
+                    errorMessage = response.errorMessage,
+                )
+            }
+
+            else -> {
+                ApiResponse.Failure
+            }
         }
     }
 }

@@ -3,46 +3,88 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
+
         <variable
             name="postData"
             type="com.mimo.android.domain.model.PostData" />
+
+        <variable
+            name="indicator"
+            type="String" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="match_parent">
 
 
         <ImageView
             android:id="@+id/iv_thumbnail"
             android:layout_width="match_parent"
             android:layout_height="0dp"
+            app:layout_constraintDimensionRatio="36:21"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintDimensionRatio="36:21" />
+            app:setImage="@{postData.videoThumbnailUrl}" />
+
+        <ImageView
+            android:id="@+id/iv_player"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/player"
+            app:layout_constraintBottom_toBottomOf="@+id/iv_thumbnail"
+            app:layout_constraintEnd_toEndOf="@+id/iv_thumbnail"
+            app:layout_constraintStart_toStartOf="@+id/iv_thumbnail"
+            app:layout_constraintTop_toTopOf="@+id/iv_thumbnail" />
 
         <TextView
             android:id="@+id/text_content"
+            style="@style/Typography.Body01.Regular"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginEnd="20dp"
+            android:text="@{postData.title}"
+            android:textColor="@color/black"
+            android:textSize="20sp"
+            app:layout_constraintEnd_toStartOf="@+id/cl_indicator"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/iv_thumbnail" />
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/cl_indicator"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:layout_constraintTop_toBottomOf="@+id/iv_thumbnail"
-            app:layout_constraintStart_toStartOf="parent"
-            android:layout_marginTop="20dp"
-            android:layout_marginStart="20dp"
-            android:text="영상 상세"
-            style="@style/Typography.Body01.Regular"
-            android:textSize="20sp"
-            android:textColor="@color/black" />
+            android:layout_marginEnd="20dp"
+            android:background="@drawable/rectangle_fill_gray_radius_10"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/text_content">
+
+            <TextView
+                android:id="@+id/tv_indicator"
+                style="@style/Typography.Body01.Regular"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="10dp"
+                android:text="@{indicator}"
+                android:textSize="12sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rc_tag_list"
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-            android:orientation="horizontal"
-            app:layout_constraintTop_toBottomOf="@+id/text_content"
-            app:layout_constraintBottom_toBottomOf="parent"
+            android:layout_marginHorizontal="20dp"
             android:layout_marginVertical="20dp"
-            android:layout_marginHorizontal="20dp" />
+            app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/text_content"
+            app:spanCount="4" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

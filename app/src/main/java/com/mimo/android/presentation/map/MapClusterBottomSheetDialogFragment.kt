@@ -1,8 +1,9 @@
 package com.mimo.android.presentation.map
 
-import android.app.Dialog
 import android.content.Intent
 import androidx.navigation.fragment.navArgs
+import androidx.recyclerview.widget.DividerItemDecoration
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.mimo.android.R
 import com.mimo.android.databinding.FragmentMapClusterBottomSheetDialogBinding
@@ -19,31 +20,31 @@ class MapClusterBottomSheetDialogFragment :
     BaseBottomSheetDialogFragment<FragmentMapClusterBottomSheetDialogBinding>(R.layout.fragment_map_cluster_bottom_sheet_dialog) {
 
     private lateinit var mapClusterAdapter: MapClusterAdapter
+    private var markerList: List<PostData> = emptyList()
+    private var clusterList: List<PostData> = emptyList()
 
-    var markerList: List<PostData> = emptyList()
-    var clusterList: List<PostData> = emptyList()
-
-    override fun initCreateDialog(): Dialog {
-        val dialog = BottomSheetDialog(requireContext(), theme)
-
-        return dialog
-    }
+    override fun initCreateDialog() = BottomSheetDialog(requireContext(), theme)
 
     override fun initView() {
         initFilterHeight()
-        initAdapter()
+        setRecyclerView()
         initData()
         clickMarker()
     }
 
     private fun initFilterHeight() { // 바텀 시트 높이 지정
-        binding.crMapCluster.layoutParams.height = (getSizeY(requireContext()) * 0.8).toInt()
-        binding.executePendingBindings()
+        with(binding) {
+            crMapCluster.layoutParams.height = (getSizeY(requireContext()) * 0.8).toInt()
+            executePendingBindings()
+        }
     }
 
-    private fun initAdapter() {
+    private fun setRecyclerView() {
         mapClusterAdapter = MapClusterAdapter()
-        binding.rcMapCluster.adapter = mapClusterAdapter
+        with(binding.rcMapCluster) {
+            adapter = mapClusterAdapter
+            addItemDecoration(DividerItemDecoration(requireContext(), LinearLayoutManager.VERTICAL))
+        }
     }
 
     private fun initData() {
@@ -56,10 +57,12 @@ class MapClusterBottomSheetDialogFragment :
 
     private fun clickMarker() { // 특정 마커 클릭시
         mapClusterAdapter.onItemClickListener { postData ->
-            startActivity(Intent(requireActivity(), VideoDetailActivity::class.java).apply {
-                putExtra("postList", markerList.toTypedArray())
-                putExtra("postIndex", markerList.findPostIndex(postData.id))
-            })
+            startActivity(
+                Intent(requireActivity(), VideoDetailActivity::class.java).apply {
+                    putExtra("postList", markerList.toTypedArray())
+                    putExtra("postIndex", markerList.findPostIndex(postData.id))
+                },
+            )
         }
     }
 }

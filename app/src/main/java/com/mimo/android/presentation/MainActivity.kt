@@ -5,7 +5,7 @@ import androidx.navigation.ui.setupWithNavController
 import com.mimo.android.R
 import com.mimo.android.databinding.ActivityMainBinding
 import com.mimo.android.presentation.base.BaseActivity
-import com.mimo.android.presentation.video.VideoActivity
+import com.mimo.android.presentation.video.upload.UploadVideoActivity
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -24,7 +24,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main) {
                 setupWithNavController(navHostFragment.navController)
             }
             btnUploadVideo.setOnClickListener {
-                startActivity(this@MainActivity, VideoActivity::class.java)
+                startActivity(this@MainActivity, UploadVideoActivity::class.java)
             }
         }
     }
