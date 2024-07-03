@@ -8,11 +8,11 @@
     <style name="Theme.MiniMoment" parent="Base.Theme.MiniMoment" />
 
     <style name="Theme.MiniMoment.Splash" parent="Theme.SplashScreen">
-        <item name="windowSplashScreenBackground" tools:targetApi="S">@color/white</item>
-        <item name="windowSplashScreenAnimatedIcon" tools:targetApi="S">
+        <item name="windowSplashScreenBackground">@color/white</item>
+        <item name="windowSplashScreenAnimatedIcon">
             @mipmap/mini_moment_icon_round
         </item>
-        <item name="windowSplashScreenIconBackgroundColor" tools:targetApi="S">@color/white</item>
+        <item name="windowSplashScreenIconBackgroundColor">@color/white</item>
         <item name="postSplashScreenTheme">@style/Theme.MiniMoment</item>
     </style>
 
