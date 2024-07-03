@@ -1,6 +1,13 @@
 package com.mimo.android.presentation.login
 
+import android.animation.ObjectAnimator
+import android.os.Bundle
+import android.view.View
+import android.view.animation.AnticipateInterpolator
 import androidx.activity.viewModels
+import androidx.core.animation.doOnEnd
+import androidx.core.splashscreen.SplashScreen
+import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
@@ -17,7 +24,17 @@ import kotlinx.coroutines.launch
 class LoginActivity : BaseActivity<ActivityLoginBinding>(R.layout.activity_login) {
 
     private val loginViewModel: LoginViewModel by viewModels()
+    private val splashViewModel: SplashViewModel by viewModels()
+    private lateinit var splashScreen: SplashScreen
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        splashScreen = installSplashScreen()
+        startAnimation()
+        super.onCreate(savedInstanceState)
+    }
+
     override fun init() {
+        collectUserPreferences()
         collectLoginEvent()
         with(binding) {
             btnNaverLogin.setOnClickListener {
@@ -33,7 +50,6 @@ class LoginActivity : BaseActivity<ActivityLoginBinding>(R.layout.activity_login
                     when (loginEvent) {
                         is LoginEvent.Success -> {
                             startActivity(this@LoginActivity, MainActivity::class.java)
-                            finish()
                         }
 
                         is LoginEvent.Error -> {
@@ -42,6 +58,38 @@ class LoginActivity : BaseActivity<ActivityLoginBinding>(R.layout.activity_login
                     }
                 }
             }
+        }
+    }
+
+    private fun collectUserPreferences() {
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                splashViewModel.event.collectLatest { loginEvent ->
+                    when (loginEvent) {
+                        is LoginEvent.Success -> {
+                            startActivity(this@LoginActivity, MainActivity::class.java)
+                            finish()
+                        }
+
+                        else -> {}
+                    }
+                }
+            }
+        }
+    }
+
+    private fun startAnimation() {
+        splashScreen.setOnExitAnimationListener { splashScreenView ->
+            val slideUp = ObjectAnimator.ofFloat(
+                splashScreenView.view,
+                View.TRANSLATION_Y,
+                0f,
+                -splashScreenView.view.height.toFloat(),
+            )
+            slideUp.interpolator = AnticipateInterpolator()
+            slideUp.duration = 1000
+            slideUp.doOnEnd { splashScreenView.remove() }
+            slideUp.start()
         }
     }
 }
