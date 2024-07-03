@@ -7,6 +7,15 @@
 
     <style name="Theme.MiniMoment" parent="Base.Theme.MiniMoment" />
 
+    <style name="Theme.MiniMoment.Splash" parent="Theme.SplashScreen">
+        <item name="windowSplashScreenBackground" tools:targetApi="S">@color/white</item>
+        <item name="windowSplashScreenAnimatedIcon" tools:targetApi="S">
+            @mipmap/mini_moment_icon_round
+        </item>
+        <item name="windowSplashScreenIconBackgroundColor" tools:targetApi="S">@color/white</item>
+        <item name="postSplashScreenTheme">@style/Theme.MiniMoment</item>
+    </style>
+
     <style name="Theme.MiniMoment.RangeSlider" parent="Theme.MiniMoment">
         <item name="trackHeight">30dp</item>
         <item name="trackCornerRadius">0dp</item>
