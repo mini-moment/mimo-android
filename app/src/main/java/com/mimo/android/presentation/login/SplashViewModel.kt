@@ -1,10 +1,9 @@
-package com.mimo.android.presentation.splash
+package com.mimo.android.presentation.login
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.mimo.android.data.repository.DataStoreRepository
 import com.mimo.android.data.model.response.ApiResponse
-import com.mimo.android.presentation.login.LoginEvent
+import com.mimo.android.data.repository.DataStoreRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.SharedFlow
@@ -16,6 +15,7 @@ import javax.inject.Inject
 class SplashViewModel @Inject constructor(
     private val dataStoreRepository: DataStoreRepository,
 ) : ViewModel() {
+
     private val _event = MutableSharedFlow<LoginEvent>()
     val event: SharedFlow<LoginEvent> = _event
 
