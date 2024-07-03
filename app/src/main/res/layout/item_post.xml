@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="post"
+            type="com.mimo.android.domain.model.PostData" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/black">
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/card_view_videodetail_user_image"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="15dp"
+            android:layout_marginTop="25dp"
+            android:backgroundTint="@color/black"
+            app:cardCornerRadius="100dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <ImageView
+                android:id="@+id/iv_videodetail_user_image"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:src="@drawable/videodetail_profile"
+                app:userProfileImage="@{post.profileImageUrl}"
+                tools:src="@drawable/videodetail_profile" />
+
+        </androidx.cardview.widget.CardView>
+
+        <TextView
+            android:id="@+id/tv_videodetail_username"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:fontFamily="@font/pretendard_semi_bold"
+            android:text="@{post.userName}"
+            android:textColor="@color/white"
+            android:textSize="18sp"
+
+            app:layout_constraintBottom_toBottomOf="@id/card_view_videodetail_user_image"
+            app:layout_constraintLeft_toRightOf="@id/card_view_videodetail_user_image"
+            app:layout_constraintTop_toTopOf="@id/card_view_videodetail_user_image"
+            tools:text="username" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="5dp"
+            android:fontFamily="@font/pretendard_regular"
+            android:textColor="@color/gray"
+            android:textSize="14sp"
+            android:text="@{post.uploadTime}"
+            app:layout_constraintBottom_toBottomOf="@id/tv_videodetail_username"
+            app:layout_constraintStart_toEndOf="@id/tv_videodetail_username"
+            app:layout_constraintTop_toTopOf="@id/tv_videodetail_username"
+            tools:text="10min" />
+
+        <androidx.media3.ui.PlayerView
+            android:id="@+id/player_view_videodetail_post_video"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/card_view_videodetail_user_image" />
+
+        <TextView
+            android:id="@+id/tv_videodetail_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="15dp"
+            android:layout_marginBottom="5dp"
+            android:fontFamily="@font/pretendard_semi_bold"
+            android:text="@{post.title}"
+            android:textColor="@color/white"
+            android:textSize="18sp"
+            app:layout_constraintBottom_toTopOf="@+id/chip_group_videodetail_tags"
+            app:layout_constraintStart_toStartOf="parent"
+            tools:text="게시물 제목" />
+
+        <com.google.android.material.chip.ChipGroup
+            android:id="@+id/chip_group_videodetail_tags"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="15dp"
+            android:layout_marginBottom="15dp"
+            app:chipSpacing="0dp"
+            app:chipSpacingVertical="0dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:postHashTags="@{post.tagList}" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>
