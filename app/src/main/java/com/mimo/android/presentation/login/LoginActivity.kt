@@ -26,11 +26,13 @@ class LoginActivity : BaseActivity<ActivityLoginBinding>(R.layout.activity_login
     private val loginViewModel: LoginViewModel by viewModels()
     private val splashViewModel: SplashViewModel by viewModels()
     private lateinit var splashScreen: SplashScreen
+    private var isLoginSuccess = false
+    private var isAnimationFinished = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         splashScreen = installSplashScreen()
-        startAnimation()
         super.onCreate(savedInstanceState)
+        startAnimation()
     }
 
     override fun init() {
@@ -61,14 +63,21 @@ class LoginActivity : BaseActivity<ActivityLoginBinding>(R.layout.activity_login
         }
     }
 
+    private fun navigateToMain() {
+        if (isLoginSuccess && isAnimationFinished) {
+            startActivity(this@LoginActivity, MainActivity::class.java)
+            finish()
+        }
+    }
+
     private fun collectUserPreferences() {
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
                 splashViewModel.event.collectLatest { loginEvent ->
                     when (loginEvent) {
                         is LoginEvent.Success -> {
-                            startActivity(this@LoginActivity, MainActivity::class.java)
-                            finish()
+                            isLoginSuccess = true
+                            navigateToMain()
                         }
 
                         else -> {}
@@ -87,8 +96,12 @@ class LoginActivity : BaseActivity<ActivityLoginBinding>(R.layout.activity_login
                 -splashScreenView.view.height.toFloat(),
             )
             slideUp.interpolator = AnticipateInterpolator()
-            slideUp.duration = 1000
-            slideUp.doOnEnd { splashScreenView.remove() }
+            slideUp.duration = 1500
+            slideUp.doOnEnd {
+                splashScreenView.remove()
+                isAnimationFinished = true
+                navigateToMain()
+            }
             slideUp.start()
         }
     }
