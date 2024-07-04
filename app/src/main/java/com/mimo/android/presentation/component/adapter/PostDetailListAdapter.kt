@@ -2,6 +2,7 @@ package com.mimo.android.presentation.component.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.media3.common.BuildConfig
 import androidx.media3.common.MediaItem
 import androidx.media3.common.Player.REPEAT_MODE_ALL
 import androidx.media3.exoplayer.ExoPlayer
@@ -46,7 +47,7 @@ class PostItemViewHolder(
     fun bind(item: PostData) {
         with(binding) {
             post = item
-            mediaItem = MediaItem.fromUri("http://192.168.0.8:8080/video/display/" + item.videoUrl)
+            mediaItem = MediaItem.fromUri(com.mimo.android.BuildConfig.MIMO_VIDEO_BASE_URL + item.videoUrl)
         }
     }
 
