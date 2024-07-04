@@ -22,6 +22,9 @@ android {
     val refreshTokenKey = properties["REFRESH_TOKEN_KEY"] ?: ""
     val dataStoreName = properties["DATASTORE_NAME"] ?: ""
     val naverMapClientKey = properties["NAVER_MAP_CLIENT_KEY"]
+    val mimoServerUrl = properties["MIMO_SERVER_URL"] ?: ""
+    val mimoServerVideoUrlBase = properties["MIMO_VIDEO_BASE_URL"] ?: ""
+    val mimoServerPostThumbnailUrlBase = properties["MIMO_POST_THUMBNAIL_BASE_URL"] ?: ""
 
     defaultConfig {
         applicationId = "com.mimo.android"
@@ -35,6 +38,9 @@ android {
         buildConfigField("String", "REFRESH_TOKEN_KEY", "$refreshTokenKey")
         buildConfigField("String", "DATASTORE_NAME", "$dataStoreName")
         buildConfigField("String", "DATASTORE_NAME", "$naverMapClientKey")
+        buildConfigField("String", "MIMO_SERVER_URL", "$mimoServerUrl")
+        buildConfigField("String", "MIMO_VIDEO_BASE_URL", "$mimoServerVideoUrlBase")
+        buildConfigField("String", "MIMO_POST_THUMBNAIL_BASE_URL", "$mimoServerPostThumbnailUrlBase")
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
 
