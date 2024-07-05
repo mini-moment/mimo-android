@@ -10,7 +10,7 @@ import com.mimo.android.R
 @BindingAdapter("setImage")
 fun loadImage(imageView: ImageView, url: String?) {
     Glide.with(imageView.context)
-        .load(BuildConfig.MIMO_POST_THUMBNAIL_BASE_URL + url)
+        .load(BuildConfig.MIMO_SERVER_URL + BuildConfig.MIMO_POST_THUMBNAIL_BASE_URL + url)
         .centerCrop()
         .placeholder(ContextCompat.getDrawable(imageView.context, R.color.black))
         .into(imageView)

@@ -2,13 +2,12 @@ package com.mimo.android.presentation.component.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.media3.common.BuildConfig
 import androidx.media3.common.MediaItem
 import androidx.media3.common.Player.REPEAT_MODE_ALL
 import androidx.media3.exoplayer.ExoPlayer
-import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.mimo.android.BuildConfig
 import com.mimo.android.databinding.ItemPostBinding
 import com.mimo.android.domain.model.PostData
 
@@ -47,7 +46,7 @@ class PostItemViewHolder(
     fun bind(item: PostData) {
         with(binding) {
             post = item
-            mediaItem = MediaItem.fromUri(com.mimo.android.BuildConfig.MIMO_VIDEO_BASE_URL + item.videoUrl)
+            mediaItem = MediaItem.fromUri(BuildConfig.MIMO_SERVER_URL + BuildConfig.MIMO_VIDEO_BASE_URL + item.videoUrl)
         }
     }
 
