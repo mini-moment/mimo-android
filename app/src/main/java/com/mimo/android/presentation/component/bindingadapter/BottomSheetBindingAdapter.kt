@@ -12,6 +12,7 @@ fun ChipGroup.bindHashTags(tagList: List<PostData.Tag>) {
     tagList.forEach { tag ->
         Chip(context).apply {
             text = tag.name
+            letterSpacing = (-0.07).toFloat()
             setChipIconResource(R.drawable.ic_hash_tag)
             chipIconSize = 30f
             setChipBackgroundColorResource(R.color.splash_logo_message_color)

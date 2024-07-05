@@ -23,6 +23,7 @@
             android:text="@{tag.name}"
             app:chipBackgroundColor="@color/splash_logo_message_color"
             app:chipIcon="@drawable/ic_hash_tag"
+            app:chipIconSize="12dp"
             app:chipStrokeColor="@color/black"
             app:chipStrokeWidth="1.5dp"
             app:layout_constraintBottom_toBottomOf="parent"

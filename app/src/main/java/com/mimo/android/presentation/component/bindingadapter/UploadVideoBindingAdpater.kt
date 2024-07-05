@@ -23,10 +23,12 @@ fun ChipGroup.bindSelectedChips(items: List<TagData>, click: () -> Unit) {
     items.forEach { tag ->
         Chip(context).apply {
             text = tag.name
+            letterSpacing = (-0.07).toFloat()
             isCloseIconVisible = true
             setChipIconResource(R.drawable.ic_hash_tag)
             setChipBackgroundColorResource(R.color.splash_background)
             setChipStrokeColorResource(R.color.black)
+            chipIconSize = 40f
             chipStrokeWidth = 5f
             setOnCloseIconClickListener {
                 tag.isSelected = false
