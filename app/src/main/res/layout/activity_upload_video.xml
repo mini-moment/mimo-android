@@ -39,9 +39,10 @@
 
         <ImageButton
             android:id="@+id/btn_upload_video"
-            android:layout_width="50dp"
+            android:layout_width="70dp"
             android:layout_height="50dp"
             android:background="@drawable/ic_upload_video"
+            android:backgroundTint="@color/splash_background"
             android:visibility="@{viewModel.uiState.videoUri.isEmpty() ? View.VISIBLE : View.GONE}"
             app:layout_constraintBottom_toBottomOf="@id/player_view_video"
             app:layout_constraintEnd_toEndOf="@id/player_view_video"
@@ -71,10 +72,22 @@
             android:layout_marginTop="10dp"
             android:valueFrom="0.0"
             android:valueTo="100.0"
+            android:visibility="invisible"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/player_view_video"
             app:values="@array/video_clip_values" />
+
+        <ProgressBar
+            android:id="@+id/progress"
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:visibility="@{viewModel.uiState.isThumbnailLoading ? View.VISIBLE : View.GONE}"
+            app:layout_constraintTop_toTopOf="@id/slider_video_thumbnail"
+            app:layout_constraintBottom_toBottomOf="@id/slider_video_thumbnail"
+            app:layout_constraintStart_toStartOf="@id/slider_video_thumbnail"
+            app:layout_constraintEnd_toEndOf="@id/slider_video_thumbnail"
+            />
 
         <com.google.android.material.slider.Slider
             android:id="@+id/slider_video_time"
@@ -100,7 +113,7 @@
 
         <TextView
             android:id="@+id/tv_hash_tag"
-            style="@style/Typography.Title01"
+            style="@style/Typography.Title03"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
@@ -132,6 +145,7 @@
             android:id="@+id/recycler_view_tag"
             android:layout_width="0dp"
             android:layout_height="0dp"
+            android:padding="5dp"
             android:background="@drawable/back_ground_hash_tag_group"
             app:chips="@{viewModel.uiState.tags}"
             app:layoutManager="com.google.android.flexbox.FlexboxLayoutManager"
@@ -150,7 +164,7 @@
 
         <TextView
             android:id="@+id/tv_video_topic"
-            style="@style/Typography.Title01"
+            style="@style/Typography.Title03"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
@@ -172,6 +186,8 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHeight_percent="0.07"
             app:layout_constraintStart_toStartOf="parent"
+            app:boxStrokeColor="@color/splash_background"
+            app:hintTextColor="@color/splash_background"
             app:layout_constraintTop_toBottomOf="@id/tv_video_topic">
 
             <com.google.android.material.textfield.TextInputEditText
@@ -181,12 +197,13 @@
                 android:onTextChanged="@{viewModel.onTextChanged}" />
         </com.google.android.material.textfield.TextInputLayout>
 
-        <Button
+        <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/btn_finish_upload"
-            style="@style/Typography.Title02"
-            android:layout_width="wrap_content"
+            style="@style/Typography.Title03"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:text="@string/finish_button_message"
+            android:background="@drawable/rectangle_fill_gray_radius_10"
             android:textColor="@color/white"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
