@@ -102,6 +102,9 @@ class UploadVideoViewModel @Inject constructor(
     fun getThumbnails(width: Int, path: String) {
         viewModelScope.launch {
             withContext(Dispatchers.IO) {
+                _uiState.update { state ->
+                    state.copy(isThumbnailLoading = true)
+                }
                 val thumbnails = VideoThumbnailUtil().getVideoThumbnails(width, path)
                 if (thumbnails.isEmpty()) {
                     _event.emit(
@@ -113,6 +116,7 @@ class UploadVideoViewModel @Inject constructor(
                     _uiState.update { state ->
                         state.copy(
                             thumbnails = thumbnails,
+                            isThumbnailLoading = false,
                         )
                     }
                     _event.emit(UploadVideoEvent.ThumbnailsGetSuccess(uiState.value.videoUri))
@@ -125,7 +129,7 @@ class UploadVideoViewModel @Inject constructor(
         viewModelScope.launch {
             _uiState.update { uiState ->
                 uiState.copy(
-                    isLoading = LoadingUiState.Loading,
+                    isPostUploadLoading = LoadingUiState.Loading,
                 )
             }
             videoRepository.uploadVideo(file).collectLatest { response ->
@@ -153,7 +157,7 @@ class UploadVideoViewModel @Inject constructor(
                         )
                         _uiState.update { uiState ->
                             uiState.copy(
-                                isLoading = LoadingUiState.Finish,
+                                isPostUploadLoading = LoadingUiState.Finish,
                             )
                         }
                     }
@@ -204,7 +208,7 @@ class UploadVideoViewModel @Inject constructor(
                     is ApiResponse.Success -> {
                         _uiState.update { uiState ->
                             uiState.copy(
-                                isLoading = LoadingUiState.Finish,
+                                isPostUploadLoading = LoadingUiState.Finish,
                             )
                         }
                         _event.emit(UploadVideoEvent.PostUploadSuccess)
@@ -213,7 +217,7 @@ class UploadVideoViewModel @Inject constructor(
                     is ApiResponse.Error -> {
                         _uiState.update { uiState ->
                             uiState.copy(
-                                isLoading = LoadingUiState.Finish,
+                                isPostUploadLoading = LoadingUiState.Finish,
                             )
                         }
                         _event.emit(

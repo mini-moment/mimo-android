@@ -3,9 +3,10 @@
     android:shape="rectangle">
 
     <solid
-        android:color="@color/my_page_gray"/>
+        android:color="@color/splash_background"/>
 
     <corners
-        android:radius="10dp"/>
+        android:radius="10dp">
+    </corners>
 
 </shape>

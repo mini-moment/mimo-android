@@ -8,6 +8,7 @@ import android.media.MediaFormat
 import android.media.MediaMuxer
 import android.net.Uri
 import android.os.Environment
+import android.view.View
 import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts.*
 import androidx.activity.viewModels
@@ -66,6 +67,7 @@ class UploadVideoActivity :
         if (uri != null) {
             val fileUrl = getRealPathFromURI(this, uri)
             val file = File(fileUrl)
+            binding.sliderVideoThumbnail.visibility = View.VISIBLE
             uploadVideoViewModel.setVideoUrl(uri.toString())
             val widthPixels = binding.recyclerViewVideoThumbnail.measuredWidth
             uploadVideoViewModel.getThumbnails(width = widthPixels, path = file.path)
@@ -291,7 +293,7 @@ class UploadVideoActivity :
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
                 uploadVideoViewModel.uiState.collectLatest { uiState ->
-                    when (uiState.isLoading) {
+                    when (uiState.isPostUploadLoading) {
                         LoadingUiState.Finish -> {
                             dialog.dismiss()
                         }
