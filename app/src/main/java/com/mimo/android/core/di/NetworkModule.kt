@@ -1,6 +1,7 @@
 package com.mimo.android.core.di
 
 import com.google.gson.GsonBuilder
+import com.mimo.android.BuildConfig
 import com.mimo.android.data.network.AccessTokenInterceptor
 import dagger.Module
 import dagger.Provides
@@ -19,12 +20,9 @@ object NetworkModule {
     @Singleton
     @Provides
     fun provideRetrofit(okHttpClient: OkHttpClient): Retrofit {
-        // val apiKey = "http://192.168.0.115:8080/"
-        val apiKey = "http://192.168.45.71:8080/"
-
         return Retrofit.Builder()
             .addConverterFactory(GsonConverterFactory.create(GsonBuilder().setLenient().create()))
-            .baseUrl(apiKey)
+            .baseUrl(BuildConfig.MIMO_SERVER_URL)
             .client(okHttpClient)
             .build()
     }
