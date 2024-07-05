@@ -35,8 +35,8 @@
 
         <com.navercorp.nid.oauth.view.NidOAuthLoginButton
             android:id="@+id/btn_naver_login"
-            android:layout_width="wrap_content"
-            android:layout_height="60dp"
+            android:layout_width="match_parent"
+            android:layout_height="45dp"
             android:layout_marginTop="20dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
