@@ -2,4 +2,5 @@
 <resources>
     <string name="menu_map">지도</string>
     <string name="menu_my_page">마이페이지</string>
+    <string name="menu_upload">업로드</string>
 </resources>
