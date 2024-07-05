@@ -1,6 +1,7 @@
 package com.mimo.android.presentation.component.bindingadapter
 
 import android.widget.ImageView
+import androidx.core.content.ContextCompat
 import androidx.databinding.BindingAdapter
 import androidx.viewpager2.widget.ViewPager2
 import com.bumptech.glide.Glide
@@ -21,6 +22,9 @@ fun ViewPager2.bindPosts(items: List<PostData>) {
 fun ImageView.bindUserProfileImage(url: String) {
     Glide.with(context)
         .load(url)
+        .centerCrop()
+        .circleCrop()
+        .placeholder(ContextCompat.getDrawable(this.context, R.drawable.ic_user_selected))
         .into(this)
 }
 
@@ -30,6 +34,7 @@ fun ChipGroup.bindPostHashTags(tagList: List<PostData.Tag>) {
     tagList.forEach { tag ->
         Chip(context).apply {
             text = tag.name
+            letterSpacing = (-0.07).toFloat()
             setChipIconResource(R.drawable.ic_hash_tag)
             chipIconSize = 30f
             setChipBackgroundColorResource(R.color.splash_logo_message_color)

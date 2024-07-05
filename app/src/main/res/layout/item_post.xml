@@ -15,26 +15,17 @@
         android:layout_height="match_parent"
         android:background="@color/black">
 
-        <androidx.cardview.widget.CardView
-            android:id="@+id/card_view_videodetail_user_image"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+        <ImageView
+            android:id="@+id/iv_video_detail_user_image"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
             android:layout_marginStart="15dp"
-            android:layout_marginTop="25dp"
-            android:backgroundTint="@color/black"
-            app:cardCornerRadius="100dp"
+            android:layout_marginTop="15dp"
+            android:src="@drawable/videodetail_profile"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
-
-            <ImageView
-                android:id="@+id/iv_videodetail_user_image"
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:src="@drawable/videodetail_profile"
-                app:userProfileImage="@{post.profileImageUrl}"
-                tools:src="@drawable/videodetail_profile" />
-
-        </androidx.cardview.widget.CardView>
+            app:layout_constraintTop_toTopOf="parent"
+            app:userProfileImage="@{post.profileImageUrl}"
+            tools:src="@drawable/videodetail_profile" />
 
         <TextView
             android:id="@+id/tv_videodetail_username"
@@ -46,9 +37,9 @@
             android:textColor="@color/white"
             android:textSize="18sp"
 
-            app:layout_constraintBottom_toBottomOf="@id/card_view_videodetail_user_image"
-            app:layout_constraintLeft_toRightOf="@id/card_view_videodetail_user_image"
-            app:layout_constraintTop_toTopOf="@id/card_view_videodetail_user_image"
+            app:layout_constraintBottom_toBottomOf="@id/iv_video_detail_user_image"
+            app:layout_constraintLeft_toRightOf="@id/iv_video_detail_user_image"
+            app:layout_constraintTop_toTopOf="@id/iv_video_detail_user_image"
             tools:text="username" />
 
         <TextView
@@ -56,9 +47,9 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="5dp"
             android:fontFamily="@font/pretendard_regular"
+            android:text="@{post.uploadTime}"
             android:textColor="@color/gray"
             android:textSize="14sp"
-            android:text="@{post.uploadTime}"
             app:layout_constraintBottom_toBottomOf="@id/tv_videodetail_username"
             app:layout_constraintStart_toEndOf="@id/tv_videodetail_username"
             app:layout_constraintTop_toTopOf="@id/tv_videodetail_username"
@@ -71,7 +62,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/card_view_videodetail_user_image" />
+            app:layout_constraintTop_toBottomOf="@id/iv_video_detail_user_image" />
 
         <TextView
             android:id="@+id/tv_videodetail_title"
