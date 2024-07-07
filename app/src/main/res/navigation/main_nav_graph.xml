@@ -22,8 +22,8 @@
 
     <activity
         android:id="@+id/uploadVideoActivity"
-        android:name="com.mimo.android.presentation.video.upload.UploadVideoActivity"
-        tools:layout="@layout/activity_upload_video"/>
+        android:name="com.mimo.android.presentation.upload_video.UploadVideoActivity"
+        tools:layout="@layout/activity_upload_video" />
 
     <fragment
         android:id="@+id/myPageFragment"
@@ -53,12 +53,12 @@
 
         <argument
             android:name="postList"
-            app:argType="com.mimo.android.domain.model.PostData[]"
+            app:argType="string"
             app:nullable="true" />
 
         <argument
             android:name="clusterPostList"
-            app:argType="com.mimo.android.domain.model.PostData[]"
+            app:argType="string"
             app:nullable="true" />
 
         <argument
