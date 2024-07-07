@@ -1,8 +1,8 @@
-package com.mimo.android.data.network.login
+package com.mimo.android.presentation.login
 
 import android.content.Context
-import com.mimo.android.data.model.response.ApiResponse
-import com.mimo.android.data.model.response.LoginResponse
+import com.mimo.android.domain.model.ApiResponse
+import com.mimo.android.domain.model.User
 import com.navercorp.nid.NaverIdLoginSDK
 import com.navercorp.nid.oauth.NidOAuthLogin
 import com.navercorp.nid.oauth.OAuthLoginCallback
@@ -13,13 +13,13 @@ import kotlinx.coroutines.flow.StateFlow
 
 object NaverLoginManager {
 
-    private val _loginResult = MutableStateFlow<ApiResponse<LoginResponse>>(ApiResponse.Failure)
-    val loginResult: StateFlow<ApiResponse<LoginResponse>> = _loginResult
+    private val _loginResult = MutableStateFlow<ApiResponse<User>>(ApiResponse.Failure)
+    val loginResult: StateFlow<ApiResponse<User>> = _loginResult
 
     private val profileCallback = object : NidProfileCallback<NidProfileResponse> {
         override fun onSuccess(response: NidProfileResponse) {
             _loginResult.value = ApiResponse.Success(
-                LoginResponse(
+                User(
                     userName = response.profile?.name ?: "",
                     userContact = response.profile?.mobile ?: "",
                     profileImageUrl = response.profile?.profileImage ?: "",
