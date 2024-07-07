@@ -1,7 +1,7 @@
-package com.mimo.android.data.network.api
+package com.mimo.android.data.api
 
-import com.mimo.android.data.model.response.InsertPostResponse
-import com.mimo.android.data.model.response.PostListResponse
+import com.mimo.android.data.model.InsertPostResponse
+import com.mimo.android.data.model.PostListResponse
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import retrofit2.Response
@@ -12,7 +12,6 @@ import retrofit2.http.Part
 import retrofit2.http.Query
 
 interface PostApi {
-
     @Multipart
     @POST("post/insert")
     suspend fun insertPost(
@@ -24,7 +23,7 @@ interface PostApi {
 
     @GET("post/posts")
     suspend fun getPostList(
-        @Query("ids") ids: List<Int>
+        @Query("ids") ids: List<Int>,
     ): Response<PostListResponse>
 
     @GET("post/posts/my")
