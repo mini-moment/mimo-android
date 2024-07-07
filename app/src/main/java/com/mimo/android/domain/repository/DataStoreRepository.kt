@@ -1,11 +1,11 @@
-package com.mimo.android.data.repository
+package com.mimo.android.domain.repository
 
-import com.mimo.android.data.model.response.ApiResponse
-import com.mimo.android.data.model.response.LoginResponse
+import com.mimo.android.domain.model.ApiResponse
+import com.mimo.android.domain.model.User
 import kotlinx.coroutines.flow.Flow
 
 interface DataStoreRepository {
-    suspend fun getUserToken(): Flow<ApiResponse<LoginResponse>>
+    suspend fun getUserToken(): Flow<ApiResponse<User>>
 
     suspend fun saveAccessToken(accessToken: String)
 

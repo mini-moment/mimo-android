@@ -1,6 +1,6 @@
-package com.mimo.android.data.repository
+package com.mimo.android.domain.repository
 
-import com.mimo.android.data.model.response.ApiResponse
+import com.mimo.android.domain.model.ApiResponse
 import kotlinx.coroutines.flow.Flow
 import java.io.File
 

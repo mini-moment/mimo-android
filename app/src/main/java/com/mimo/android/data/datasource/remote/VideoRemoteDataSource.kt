@@ -1,6 +1,6 @@
 package com.mimo.android.data.datasource.remote
 
-import com.mimo.android.data.model.response.UploadVideoResponse
+import com.mimo.android.data.model.UploadVideoResponse
 import okhttp3.MultipartBody
 import retrofit2.Response
 

@@ -1,7 +1,7 @@
 package com.mimo.android.data.datasource.remote
 
-import com.mimo.android.data.model.response.InsertPostResponse
-import com.mimo.android.data.model.response.PostListResponse
+import com.mimo.android.data.model.InsertPostResponse
+import com.mimo.android.data.model.PostListResponse
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import retrofit2.Response
@@ -15,8 +15,8 @@ interface PostRemoteDataSource {
     ): Response<InsertPostResponse>
 
     suspend fun getPostList(
-        ids : List<Int>
-    ) : Response<PostListResponse>
+        ids: List<Int>,
+    ): Response<PostListResponse>
 
-    suspend fun getMyPost() : Response<PostListResponse>
+    suspend fun getMyPost(): Response<PostListResponse>
 }
