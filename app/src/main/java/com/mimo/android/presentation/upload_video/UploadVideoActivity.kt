@@ -1,4 +1,4 @@
-package com.mimo.android.presentation.video.upload
+package com.mimo.android.presentation.upload_video
 
 import android.annotation.SuppressLint
 import android.location.Location
@@ -26,9 +26,9 @@ import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
 import com.google.android.material.slider.LabelFormatter
 import com.mimo.android.R
-import com.mimo.android.data.model.request.InsertPostRequest
+import com.mimo.android.domain.model.CreatePost
 import com.mimo.android.databinding.ActivityUploadVideoBinding
-import com.mimo.android.domain.model.TagData
+import com.mimo.android.domain.model.HashTag
 import com.mimo.android.presentation.base.BaseActivity
 import com.mimo.android.presentation.component.adapter.TagClickListener
 import com.mimo.android.presentation.component.adapter.TagListAdapter
@@ -224,7 +224,7 @@ class UploadVideoActivity :
     private fun setRecyclerView() {
         with(binding.recyclerViewTag) {
             tagListAdapter.setTagClickListener(object : TagClickListener {
-                override fun onClick(item: TagData) {
+                override fun onClick(item: HashTag) {
                     uploadVideoViewModel.selectTag()
                 }
             })
@@ -261,7 +261,7 @@ class UploadVideoActivity :
                                     this@UploadVideoActivity,
                                     image,
                                 )
-                                val postRequest = InsertPostRequest(
+                                val postRequest = CreatePost(
                                     title = uploadVideoViewModel.uiState.value.topic,
                                     videoUrl = uiEvent.videoPath,
                                     tagList = uploadVideoViewModel.uiState.value.selectedTags,

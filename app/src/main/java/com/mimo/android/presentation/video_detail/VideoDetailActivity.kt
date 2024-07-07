@@ -1,16 +1,15 @@
-package com.mimo.android.presentation.videodetail
+package com.mimo.android.presentation.video_detail
 
-
-import android.os.Build
 import androidx.activity.viewModels
 import androidx.media3.exoplayer.ExoPlayer
 import com.mimo.android.R
 import com.mimo.android.databinding.ActivityVideoDetailBinding
-import com.mimo.android.domain.model.PostData
+import com.mimo.android.domain.model.Post
 import com.mimo.android.presentation.base.BaseActivity
 import com.mimo.android.presentation.component.adapter.PostListAdapter
 import dagger.hilt.android.AndroidEntryPoint
-import timber.log.Timber
+import kotlinx.serialization.decodeFromString
+import kotlinx.serialization.json.Json
 
 @AndroidEntryPoint
 class VideoDetailActivity :
@@ -29,12 +28,10 @@ class VideoDetailActivity :
 
     private fun initData() {
         val postIndex = intent.getIntExtra("postIndex", -1)
-        val postList = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-            intent.getParcelableArrayExtra("postList", PostData::class.java)
-        } else {
-            intent.getParcelableArrayExtra("postList")
-        }
-        videoDetailViewModel.setPostList(postList?.toList() as List<PostData>)
+        val postList: List<Post> = intent.getStringExtra("postList")?.let {
+            Json.decodeFromString(it)
+        } ?: emptyList()
+        videoDetailViewModel.setPostList(postList)
     }
 
     private fun setPostListAdapter() {

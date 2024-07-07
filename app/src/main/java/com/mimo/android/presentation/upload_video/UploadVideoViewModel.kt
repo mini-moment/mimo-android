@@ -1,12 +1,12 @@
-package com.mimo.android.presentation.video.upload
+package com.mimo.android.presentation.upload_video
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.mimo.android.data.model.request.InsertPostRequest
-import com.mimo.android.data.model.response.ApiResponse
-import com.mimo.android.data.repository.PostRepository
-import com.mimo.android.data.repository.TagRepository
-import com.mimo.android.data.repository.VideoRepository
+import com.mimo.android.domain.model.CreatePost
+import com.mimo.android.domain.model.ApiResponse
+import com.mimo.android.domain.repository.PostRepository
+import com.mimo.android.domain.repository.TagRepository
+import com.mimo.android.domain.repository.VideoRepository
 import com.mimo.android.presentation.util.ErrorMessage
 import com.mimo.android.presentation.util.VideoThumbnailUtil
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -189,7 +189,7 @@ class UploadVideoViewModel @Inject constructor(
     }
 
     fun insertPost(
-        postRequest: InsertPostRequest,
+        postRequest: CreatePost,
         thumbnail: File,
         latitude: Double,
         longitude: Double,

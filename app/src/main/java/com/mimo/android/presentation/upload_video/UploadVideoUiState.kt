@@ -1,13 +1,12 @@
-package com.mimo.android.presentation.video.upload
+package com.mimo.android.presentation.upload_video
 
-import com.mimo.android.domain.model.TagData
-import com.mimo.android.domain.model.VideoThumbnail
+import com.mimo.android.domain.model.HashTag
 
 data class UploadVideoUiState(
     val videoUri: String = "",
-    val tags: List<TagData> = listOf(),
+    val tags: List<HashTag> = listOf(),
     val topic: String = "",
-    val selectedTags: List<TagData> = listOf(),
+    val selectedTags: List<HashTag> = listOf(),
     val thumbnails: List<VideoThumbnail> = listOf(),
     val isThumbnailLoading: Boolean = false,
     val isPostUploadLoading: LoadingUiState = LoadingUiState.Init,

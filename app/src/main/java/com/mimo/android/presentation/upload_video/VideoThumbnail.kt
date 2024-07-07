@@ -1,4 +1,4 @@
-package com.mimo.android.domain.model
+package com.mimo.android.presentation.upload_video
 
 import android.graphics.Bitmap
 

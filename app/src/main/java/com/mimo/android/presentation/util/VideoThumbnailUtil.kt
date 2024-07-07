@@ -2,7 +2,7 @@ package com.mimo.android.presentation.util
 
 import android.graphics.Bitmap
 import android.media.MediaMetadataRetriever
-import com.mimo.android.domain.model.VideoThumbnail
+import com.mimo.android.presentation.upload_video.VideoThumbnail
 
 class VideoThumbnailUtil {
 

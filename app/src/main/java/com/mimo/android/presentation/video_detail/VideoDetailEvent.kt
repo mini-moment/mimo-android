@@ -1,4 +1,4 @@
-package com.mimo.android.presentation.videodetail
+package com.mimo.android.presentation.video_detail
 
 interface VideoDetailEvent {
     data object PostsUploadSuccess : VideoDetailEvent
