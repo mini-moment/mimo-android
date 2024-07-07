@@ -12,7 +12,6 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import com.mimo.android.R
-import com.mimo.android.data.network.login.NaverLoginManager
 import com.mimo.android.databinding.ActivityLoginBinding
 import com.mimo.android.presentation.MainActivity
 import com.mimo.android.presentation.base.BaseActivity

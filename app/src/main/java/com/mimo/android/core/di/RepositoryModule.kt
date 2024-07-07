@@ -1,17 +1,17 @@
 package com.mimo.android.core.di
 
-import com.mimo.android.data.repository.DataStoreRepository
-import com.mimo.android.data.repository.MapRepository
-import com.mimo.android.data.repository.PostRepository
-import com.mimo.android.data.repository.TagRepository
-import com.mimo.android.data.repository.UserRepository
-import com.mimo.android.data.repository.VideoRepository
 import com.mimo.android.data.repositoryimpl.DataStoreRepositoryImpl
 import com.mimo.android.data.repositoryimpl.MapRepositoryImpl
 import com.mimo.android.data.repositoryimpl.PostRepositoryImpl
 import com.mimo.android.data.repositoryimpl.TagRepositoryImpl
 import com.mimo.android.data.repositoryimpl.UserRepositoryImpl
 import com.mimo.android.data.repositoryimpl.VideoRepositoryImpl
+import com.mimo.android.domain.repository.DataStoreRepository
+import com.mimo.android.domain.repository.MapRepository
+import com.mimo.android.domain.repository.PostRepository
+import com.mimo.android.domain.repository.TagRepository
+import com.mimo.android.domain.repository.UserRepository
+import com.mimo.android.domain.repository.VideoRepository
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn

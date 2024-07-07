@@ -9,14 +9,14 @@
 
         <variable
             name="viewModel"
-            type="com.mimo.android.presentation.video.upload.UploadVideoViewModel" />
+            type="com.mimo.android.presentation.upload_video.UploadVideoViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:padding="15dp"
-        tools:context=".presentation.video.upload.UploadVideoFragment">
+        tools:context=".presentation.video.uploadVideo.UploadVideoFragment">
 
         <androidx.constraintlayout.widget.Guideline
             android:id="@+id/gl_top"

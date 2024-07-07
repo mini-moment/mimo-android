@@ -8,11 +8,11 @@ import com.bumptech.glide.Glide
 import com.google.android.material.chip.Chip
 import com.google.android.material.chip.ChipGroup
 import com.mimo.android.R
-import com.mimo.android.domain.model.PostData
+import com.mimo.android.domain.model.Post
 import com.mimo.android.presentation.component.adapter.PostListAdapter
 
 @BindingAdapter("app:posts")
-fun ViewPager2.bindPosts(items: List<PostData>) {
+fun ViewPager2.bindPosts(items: List<Post>) {
     if (this.adapter != null) {
         (this.adapter as PostListAdapter).submitList(items.toMutableList())
     }
@@ -29,7 +29,7 @@ fun ImageView.bindUserProfileImage(url: String) {
 }
 
 @BindingAdapter("app:postHashTags")
-fun ChipGroup.bindPostHashTags(tagList: List<PostData.Tag>) {
+fun ChipGroup.bindPostHashTags(tagList: List<Post.Tag>) {
     removeAllViews()
     tagList.forEach { tag ->
         Chip(context).apply {

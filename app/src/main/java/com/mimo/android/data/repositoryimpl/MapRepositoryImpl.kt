@@ -2,22 +2,21 @@ package com.mimo.android.data.repositoryimpl
 
 import com.google.gson.Gson
 import com.mimo.android.data.datasource.remote.MapRemoteDataSource
-import com.mimo.android.data.model.response.ApiResponse
-import com.mimo.android.data.model.response.ErrorResponse
-import com.mimo.android.data.model.response.apiHandler
-import com.mimo.android.data.repository.MapRepository
+import com.mimo.android.data.mapper.toMarkerData
+import com.mimo.android.data.model.apiHandler
+import com.mimo.android.domain.model.ApiResponse
+import com.mimo.android.domain.model.ErrorResponse
 import com.mimo.android.domain.model.MarkerData
-import com.mimo.android.domain.model.toMarkerData
-import timber.log.Timber
+import com.mimo.android.domain.repository.MapRepository
 import javax.inject.Inject
 
 class MapRepositoryImpl @Inject constructor(
-    private val mapRemoteDataSource: MapRemoteDataSource
+    private val mapRemoteDataSource: MapRemoteDataSource,
 ) : MapRepository {
     override suspend fun getMarkers(
         latitude: Double,
         longitude: Double,
-        radius: Double
+        radius: Double,
     ): ApiResponse<List<MarkerData>> {
         val response = apiHandler {
             val result = mapRemoteDataSource.getMarkers(latitude, longitude, radius)

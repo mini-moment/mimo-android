@@ -5,20 +5,20 @@ import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.chip.Chip
 import com.google.android.material.chip.ChipGroup
 import com.mimo.android.R
-import com.mimo.android.domain.model.TagData
-import com.mimo.android.domain.model.VideoThumbnail
+import com.mimo.android.domain.model.HashTag
+import com.mimo.android.presentation.upload_video.VideoThumbnail
 import com.mimo.android.presentation.component.adapter.TagListAdapter
 import com.mimo.android.presentation.component.adapter.ThumbNailAdapter
 
 @BindingAdapter("chips")
-fun RecyclerView.bindChips(items: List<TagData>) {
+fun RecyclerView.bindChips(items: List<HashTag>) {
     if (this.adapter != null) {
         (this.adapter as TagListAdapter).submitList(items.toMutableList())
     }
 }
 
 @BindingAdapter("selectedChips", "clickEvent")
-fun ChipGroup.bindSelectedChips(items: List<TagData>, click: () -> Unit) {
+fun ChipGroup.bindSelectedChips(items: List<HashTag>, click: () -> Unit) {
     removeAllViews()
     items.forEach { tag ->
         Chip(context).apply {

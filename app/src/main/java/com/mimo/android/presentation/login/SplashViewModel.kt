@@ -2,8 +2,8 @@ package com.mimo.android.presentation.login
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.mimo.android.data.model.response.ApiResponse
-import com.mimo.android.data.repository.DataStoreRepository
+import com.mimo.android.domain.model.ApiResponse
+import com.mimo.android.domain.repository.DataStoreRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.SharedFlow

@@ -41,11 +41,11 @@
             android:name=".presentation.MainActivity"
             android:exported="false" />
         <activity
-            android:name=".presentation.videodetail.VideoDetailActivity"
+            android:name=".presentation.video_detail.VideoDetailActivity"
             android:exported="false" />
 
         <activity
-            android:name=".presentation.video.upload.UploadVideoActivity"
+            android:name=".presentation.upload_video.UploadVideoActivity"
             android:exported="false"
             android:windowSoftInputMode="adjustPan" />
         <activity

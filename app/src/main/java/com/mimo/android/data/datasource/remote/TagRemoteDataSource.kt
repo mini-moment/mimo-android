@@ -1,6 +1,6 @@
 package com.mimo.android.data.datasource.remote
 
-import com.mimo.android.data.model.response.TagsResponse
+import com.mimo.android.data.model.TagsResponse
 import retrofit2.Response
 
 interface TagRemoteDataSource {

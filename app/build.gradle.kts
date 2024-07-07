@@ -8,6 +8,7 @@ plugins {
     id("com.google.dagger.hilt.android")
     id("com.google.android.libraries.mapsplatform.secrets-gradle-plugin")
     id("kotlin-parcelize")
+    id("kotlinx-serialization")
 }
 
 android {
@@ -148,4 +149,7 @@ dependencies {
 
     // ViewPager2
     implementation("androidx.viewpager2:viewpager2:1.0.0")
+
+    // Serialization
+    implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.5.0")
 }
