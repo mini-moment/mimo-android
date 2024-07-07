@@ -1,6 +1,6 @@
 package com.mimo.android.presentation.util
 
-import com.mimo.android.domain.model.MarkerData
+import com.mimo.android.presentation.map.MapMarkerData
 import com.naver.maps.map.clustering.ClusterMarkerInfo
 import com.naver.maps.map.clustering.Clusterer
 import com.naver.maps.map.clustering.DefaultClusterMarkerUpdater
@@ -12,11 +12,11 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
 suspend fun makeMarker(
-    marker: List<MarkerData>,
-    builder: Clusterer.ComplexBuilder<MarkerData>,
+    marker: List<MapMarkerData>,
+    builder: Clusterer.ComplexBuilder<MapMarkerData>,
 
-): Clusterer<MarkerData> { // cluster 연결
-    val cluster: Clusterer<MarkerData> =
+): Clusterer<MapMarkerData> { // cluster 연결
+    val cluster: Clusterer<MapMarkerData> =
         builder.tagMergeStrategy { cluster ->
             cluster.children.map { it.tag }.joinToString(",")
         }.build()
@@ -29,15 +29,15 @@ suspend fun makeMarker(
     return cluster
 }
 
-suspend fun deleteMarker(marker: Clusterer<MarkerData>) {
+suspend fun deleteMarker(marker: Clusterer<MapMarkerData>) {
     withContext(Dispatchers.Default) {
         marker.map = null
     }
 }
 
 fun clickMarker(
-    builder: Clusterer.ComplexBuilder<MarkerData>,
-    markerInfo: (MarkerData) -> Unit?,
+    builder: Clusterer.ComplexBuilder<MapMarkerData>,
+    markerInfo: (MapMarkerData) -> Unit?,
     clusterTag: (List<Int>, Double, Double) -> Unit?,
 ) {
     builder.clusterMarkerUpdater(object : DefaultClusterMarkerUpdater() {
@@ -61,7 +61,7 @@ fun clickMarker(
                 width = 80
                 height = 100
                 onClickListener = Overlay.OnClickListener {
-                    val markerData = info.key as MarkerData
+                    val markerData = info.key as MapMarkerData
                     markerInfo(markerData)
                     true
                 }
