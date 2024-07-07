@@ -1,4 +1,6 @@
-package com.mimo.android.data.model.response
+package com.mimo.android.data.model
+
+import com.mimo.android.domain.model.Post.Tag
 
 data class PostListResponse(
     val data: List<Data>,
@@ -12,11 +14,6 @@ data class PostListResponse(
         val videoUrl: String,
         val uploadTime: String,
     ) {
-        data class Tag(
-            val id: Int,
-            val name: String,
-        )
-
         data class UserInfo(
             val accessToken: String,
             val id: Int,

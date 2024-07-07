@@ -1,6 +1,6 @@
-package com.mimo.android.data.model.response
+package com.mimo.android.domain.model
 
-data class LoginResponse(
+data class User(
     val userName: String? = null,
     val userContact: String? = null,
     val profileImageUrl: String? = null,

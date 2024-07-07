@@ -1,4 +1,4 @@
-package com.mimo.android.data.model.response
+package com.mimo.android.data.model
 
 data class MarkerResponse(
     val data: List<MarkerItemResponse>,
@@ -7,9 +7,8 @@ data class MarkerResponse(
 ) {
     data class MarkerItemResponse(
         val id: Int,
-        val postId : Int,
+        val postId: Int,
         val latitude: Double,
-        val longitude: Double
+        val longitude: Double,
     )
-
 }

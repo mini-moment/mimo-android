@@ -1,4 +1,4 @@
-package com.mimo.android.data.model.response
+package com.mimo.android.domain.model
 
 data class ErrorResponse(
     val statusCode: Int? = null,

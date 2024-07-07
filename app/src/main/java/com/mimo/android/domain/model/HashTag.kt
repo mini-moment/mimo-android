@@ -1,6 +1,6 @@
 package com.mimo.android.domain.model
 
-data class TagData(
+data class HashTag(
     val id: Int? = null,
     val name: String? = null,
     var isSelected: Boolean = false,
