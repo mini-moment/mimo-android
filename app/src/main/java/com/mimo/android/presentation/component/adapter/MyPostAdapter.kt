@@ -5,11 +5,11 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.mimo.android.databinding.ItemMyPostBinding
-import com.mimo.android.domain.model.PostData
-import com.mimo.android.domain.model.toTagData
+import com.mimo.android.domain.model.HashTag
+import com.mimo.android.domain.model.Post
 
-class MyPostAdapter : ListAdapter<PostData, MyPostAdapter.MyPostViewHolder>(
-    DiffUtilCallback<PostData>(),
+class MyPostAdapter : ListAdapter<Post, MyPostAdapter.MyPostViewHolder>(
+    DiffUtilCallback<Post>(),
 ) {
 
     private var onItemClickListener: ((Int) -> Unit)? = null
@@ -31,13 +31,17 @@ class MyPostAdapter : ListAdapter<PostData, MyPostAdapter.MyPostViewHolder>(
     class MyPostViewHolder(
         val binding: ItemMyPostBinding,
     ) : RecyclerView.ViewHolder(binding.root) {
-        fun bind(postData: PostData, value: Pair<Int, Int>) {
+        fun bind(post: Post, value: Pair<Int, Int>) {
             binding.apply {
-                this.postData = postData
+                this.postData = post
                 this.indicator = "${value.first} / ${value.second}"
                 val tagListAdapter = TagListAdapter()
                 rcTagList.adapter = tagListAdapter
-                tagListAdapter.submitList(postData.toTagData())
+                tagListAdapter.submitList(
+                    post.tagList.map {
+                        HashTag(it.id, it.name)
+                    },
+                )
             }
         }
     }
