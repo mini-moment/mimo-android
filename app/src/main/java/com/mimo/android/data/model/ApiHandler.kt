@@ -1,20 +1,8 @@
-package com.mimo.android.data.model.response
+package com.mimo.android.data.model
 
+import com.mimo.android.domain.model.ApiResponse
+import com.mimo.android.domain.model.ErrorResponse
 import retrofit2.Response
-import timber.log.Timber
-
-sealed class ApiResponse<out T : Any?> {
-    data class Success<out T : Any?>(
-        val data: T,
-    ) : ApiResponse<T>()
-
-    data class Error(
-        val errorCode: Int = 0,
-        val errorMessage: String = "",
-    ) : ApiResponse<Nothing>()
-
-    data object Failure : ApiResponse<Nothing>()
-}
 
 suspend fun <T> apiHandler(
     apiResponse: suspend () -> Pair<Response<T>, ErrorResponse?>,
@@ -22,7 +10,6 @@ suspend fun <T> apiHandler(
     runCatching {
         val action = apiResponse.invoke()
         val response = action.first
-        Timber.d("데이터 들어오는거 확인 ${response}")
         if (response.isSuccessful) {
             response.body()?.let { body ->
                 return ApiResponse.Success(body)
