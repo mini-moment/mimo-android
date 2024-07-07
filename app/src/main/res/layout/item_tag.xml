@@ -7,7 +7,7 @@
 
         <variable
             name="tag"
-            type="com.mimo.android.domain.model.TagData" />
+            type="com.mimo.android.domain.model.HashTag" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
