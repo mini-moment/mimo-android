@@ -5,7 +5,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
 import com.mimo.android.databinding.ItemVideoThumbnailBinding
-import com.mimo.android.domain.model.VideoThumbnail
+import com.mimo.android.presentation.upload_video.VideoThumbnail
 
 class ThumbNailAdapter :
     ListAdapter<VideoThumbnail, ThumbNailViewHolder>(DiffUtilCallback<VideoThumbnail>()) {

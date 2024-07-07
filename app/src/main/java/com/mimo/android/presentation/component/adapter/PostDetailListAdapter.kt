@@ -9,9 +9,9 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.mimo.android.BuildConfig
 import com.mimo.android.databinding.ItemPostBinding
-import com.mimo.android.domain.model.PostData
+import com.mimo.android.domain.model.Post
 
-class PostListAdapter(private val exoPlayer: ExoPlayer) : ListAdapter<PostData, PostItemViewHolder>(
+class PostListAdapter(private val exoPlayer: ExoPlayer) : ListAdapter<Post, PostItemViewHolder>(
     DiffUtilCallback()
 ) {
 
@@ -43,7 +43,7 @@ class PostItemViewHolder(
 
     private lateinit var mediaItem: MediaItem
 
-    fun bind(item: PostData) {
+    fun bind(item: Post) {
         with(binding) {
             post = item
             mediaItem = MediaItem.fromUri(BuildConfig.MIMO_SERVER_URL + BuildConfig.MIMO_VIDEO_BASE_URL + item.videoUrl)

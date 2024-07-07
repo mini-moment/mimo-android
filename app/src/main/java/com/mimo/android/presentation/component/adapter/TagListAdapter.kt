@@ -5,9 +5,9 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
 import com.mimo.android.databinding.ItemTagBinding
-import com.mimo.android.domain.model.TagData
+import com.mimo.android.domain.model.HashTag
 
-class TagListAdapter : ListAdapter<TagData, TagListViewHolder>(DiffUtilCallback<TagData>()) {
+class TagListAdapter : ListAdapter<HashTag, TagListViewHolder>(DiffUtilCallback<HashTag>()) {
 
     private var tagClickListener: TagClickListener? = null
 
@@ -31,7 +31,7 @@ class TagListViewHolder(
 ) :
     ViewHolder(binding.root) {
 
-    fun bind(item: TagData) {
+    fun bind(item: HashTag) {
         with(binding) {
             tag = item
             chipHashTag.setOnClickListener {
@@ -43,5 +43,5 @@ class TagListViewHolder(
 }
 
 interface TagClickListener {
-    fun onClick(item: TagData)
+    fun onClick(item: HashTag)
 }
