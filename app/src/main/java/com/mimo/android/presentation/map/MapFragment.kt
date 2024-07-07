@@ -11,9 +11,7 @@ import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
 import com.mimo.android.R
 import com.mimo.android.databinding.FragmentMapBinding
-import com.mimo.android.domain.model.MarkerData
-import com.mimo.android.domain.model.PostData
-import com.mimo.android.domain.model.findPostIndex
+import com.mimo.android.domain.model.Post
 import com.mimo.android.presentation.base.BaseMapFragment
 import com.mimo.android.presentation.util.UiState
 import com.mimo.android.presentation.util.checkLocationPermission
@@ -22,7 +20,7 @@ import com.mimo.android.presentation.util.deleteMarker
 import com.mimo.android.presentation.util.locationToAddress
 import com.mimo.android.presentation.util.makeMarker
 import com.mimo.android.presentation.util.requestMapPermission
-import com.mimo.android.presentation.videodetail.VideoDetailActivity
+import com.mimo.android.presentation.video_detail.VideoDetailActivity
 import com.naver.maps.geometry.LatLng
 import com.naver.maps.map.CameraPosition
 import com.naver.maps.map.CameraUpdate
@@ -38,6 +36,8 @@ import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
+import kotlinx.serialization.encodeToString
+import kotlinx.serialization.json.Json
 import kotlin.math.pow
 
 @AndroidEntryPoint
@@ -50,7 +50,7 @@ class MapFragment : BaseMapFragment<FragmentMapBinding>(R.layout.fragment_map) {
     private lateinit var fusedLocationClient: FusedLocationProviderClient
     private lateinit var circle: CircleOverlay
 
-    private lateinit var markerBuilder: Clusterer.ComplexBuilder<MarkerData>
+    private lateinit var markerBuilder: Clusterer.ComplexBuilder<MapMarkerData>
 
     override var mapView: MapView? = null
     var radius = 0.0
@@ -114,7 +114,7 @@ class MapFragment : BaseMapFragment<FragmentMapBinding>(R.layout.fragment_map) {
         this.naverMap = naverMap
         this.naverMap.locationSource = locationSource
         circle = CircleOverlay()
-        markerBuilder = Clusterer.ComplexBuilder<MarkerData>()
+        markerBuilder = Clusterer.ComplexBuilder<MapMarkerData>()
         binding.btnCurrentLocation.map = this.naverMap
         getLastLocation(naverMap)
     }
@@ -200,8 +200,9 @@ class MapFragment : BaseMapFragment<FragmentMapBinding>(R.layout.fragment_map) {
     private fun observeMarkerEvent() {
         mapViewModel.event.flowWithLifecycle(viewLifecycleOwner.lifecycle)
             .onEach {
-                val postList =
-                    (mapViewModel.postState.value as UiState.Success<List<PostData>>).data
+                val data =
+                    (mapViewModel.postState.value as UiState.Success<List<Post>>).data
+                val postList = Json.encodeToString(data)
                 when (it) {
                     is MarkerEvent.LeafMarker -> {
                         startActivity(
@@ -209,21 +210,28 @@ class MapFragment : BaseMapFragment<FragmentMapBinding>(R.layout.fragment_map) {
                                 requireActivity(),
                                 VideoDetailActivity::class.java,
                             ).apply {
-                                putExtra("postList", postList.toTypedArray())
-                                putExtra("postIndex", postList.findPostIndex(it.idx))
+                                putExtra("postList", postList)
+                                putExtra(
+                                    "postIndex",
+                                    data.indexOf(
+                                        data.filter { post ->
+                                            post.id == it.idx
+                                        }[0],
+                                    ),
+                                )
                             },
                         )
                     }
 
                     is MarkerEvent.ClusterMarker -> {
                         val clusterPostList =
-                            postList.filter { post -> it.idxList.contains(post.id) } ?: emptyList()
+                            Json.encodeToString(data.filter { post -> it.idxList.contains(post.id) })
                         requireActivity().locationToAddress(it.latitude, it.longitude) { address ->
                             this@MapFragment.findNavController().navigate(
                                 R.id.action_mapFragment_to_mapClusterBottomSheetDialogFragment,
                                 bundleOf(
-                                    "postList" to postList.toTypedArray(),
-                                    "clusterPostList" to clusterPostList.toTypedArray(),
+                                    "postList" to postList,
+                                    "clusterPostList" to clusterPostList,
                                     "address" to address,
                                 ),
                             )

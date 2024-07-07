@@ -4,10 +4,10 @@ import androidx.databinding.BindingAdapter
 import com.google.android.material.chip.Chip
 import com.google.android.material.chip.ChipGroup
 import com.mimo.android.R
-import com.mimo.android.domain.model.PostData
+import com.mimo.android.domain.model.Post
 
 @BindingAdapter("app:postHashTags")
-fun ChipGroup.bindHashTags(tagList: List<PostData.Tag>) {
+fun ChipGroup.bindHashTags(tagList: List<Post.Tag>) {
     removeAllViews()
     tagList.forEach { tag ->
         Chip(context).apply {

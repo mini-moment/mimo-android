@@ -5,13 +5,13 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.mimo.android.databinding.ItemClusterBinding
-import com.mimo.android.domain.model.PostData
+import com.mimo.android.domain.model.Post
 
-class MapClusterAdapter : ListAdapter<PostData, MapClusterAdapter.MapClusterViewHolder>(
-    DiffUtilCallback<PostData>(),
+class MapClusterAdapter : ListAdapter<Post, MapClusterAdapter.MapClusterViewHolder>(
+    DiffUtilCallback<Post>(),
 ) {
 
-    private var onItemClickListener: ((PostData) -> Unit)? = null
+    private var onItemClickListener: ((Post) -> Unit)? = null
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MapClusterViewHolder {
         val binding = ItemClusterBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return MapClusterViewHolder(binding)
@@ -29,12 +29,12 @@ class MapClusterAdapter : ListAdapter<PostData, MapClusterAdapter.MapClusterView
     class MapClusterViewHolder(
         val binding: ItemClusterBinding,
     ) : RecyclerView.ViewHolder(binding.root) {
-        fun bind(postData: PostData) {
-            binding.postData = postData
+        fun bind(post: Post) {
+            binding.postData = post
         }
     }
 
-    fun onItemClickListener(listener: (PostData) -> Unit) {
+    fun onItemClickListener(listener: (Post) -> Unit) {
         this.onItemClickListener = listener
     }
 }

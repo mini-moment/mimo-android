@@ -8,7 +8,7 @@ import com.mimo.android.R
 import com.mimo.android.databinding.FragmentMarkerBottomSheetDialogBinding
 import com.mimo.android.presentation.base.BaseBottomSheetDialogFragment
 import com.mimo.android.presentation.util.getSizeY
-import com.mimo.android.presentation.video.upload.UploadVideoActivity
+import com.mimo.android.presentation.upload_video.UploadVideoActivity
 import com.naver.maps.geometry.LatLng
 import dagger.hilt.android.AndroidEntryPoint
 
