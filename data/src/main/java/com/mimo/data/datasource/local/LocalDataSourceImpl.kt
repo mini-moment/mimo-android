@@ -1,10 +1,10 @@
-package com.mimo.android.data.datasource.local
+package com.mimo.data.datasource.local
 
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.stringPreferencesKey
-import com.mimo.android.BuildConfig
+import com.mimo.data.BuildConfig
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
 import javax.inject.Inject

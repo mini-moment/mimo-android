@@ -1,4 +1,4 @@
-package com.mimo.android.data.datasource.local
+package com.mimo.data.datasource.local
 
 interface LocalDataSource {
     suspend fun getAccessToken(): String
