@@ -1,4 +1,4 @@
-package com.mimo.android.presentation.component.adapter
+package com.mimo.presentation.component.adapter
 
 import android.annotation.SuppressLint
 import androidx.recyclerview.widget.DiffUtil

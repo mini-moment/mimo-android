@@ -1,10 +1,9 @@
-package com.mimo.android.presentation
+package com.mimo.presentation
 
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
-import com.mimo.android.R
-import com.mimo.android.databinding.ActivityMainBinding
-import com.mimo.android.presentation.base.BaseActivity
+import com.mimo.presentation.base.BaseActivity
+import com.mimo.presentation.databinding.ActivityMainBinding
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
