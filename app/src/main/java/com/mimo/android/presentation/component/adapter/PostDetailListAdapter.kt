@@ -9,7 +9,7 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.mimo.android.BuildConfig
 import com.mimo.android.databinding.ItemPostBinding
-import com.mimo.android.domain.model.Post
+import com.mimo.domain.model.Post
 
 class PostListAdapter(private val exoPlayer: ExoPlayer) : ListAdapter<Post, PostItemViewHolder>(
     DiffUtilCallback()

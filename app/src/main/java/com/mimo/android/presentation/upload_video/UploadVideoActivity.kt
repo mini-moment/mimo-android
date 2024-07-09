@@ -26,9 +26,9 @@ import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
 import com.google.android.material.slider.LabelFormatter
 import com.mimo.android.R
-import com.mimo.android.domain.model.CreatePost
+import com.mimo.domain.model.CreatePost
 import com.mimo.android.databinding.ActivityUploadVideoBinding
-import com.mimo.android.domain.model.HashTag
+import com.mimo.domain.model.HashTag
 import com.mimo.android.presentation.base.BaseActivity
 import com.mimo.android.presentation.component.adapter.TagClickListener
 import com.mimo.android.presentation.component.adapter.TagListAdapter

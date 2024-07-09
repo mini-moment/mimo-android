@@ -1,7 +1,7 @@
 package com.mimo.android.data.model
 
-import com.mimo.android.domain.model.ApiResponse
-import com.mimo.android.domain.model.ErrorResponse
+import com.mimo.domain.model.ApiResponse
+import com.mimo.domain.model.ErrorResponse
 import retrofit2.Response
 
 suspend fun <T> apiHandler(

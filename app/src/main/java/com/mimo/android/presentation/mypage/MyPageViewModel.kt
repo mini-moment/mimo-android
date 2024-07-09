@@ -4,9 +4,9 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.mimo.android.domain.model.ApiResponse
-import com.mimo.android.domain.model.Post
-import com.mimo.android.domain.repository.PostRepository
+import com.mimo.domain.model.ApiResponse
+import com.mimo.domain.model.Post
+import com.mimo.domain.repository.PostRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import timber.log.Timber

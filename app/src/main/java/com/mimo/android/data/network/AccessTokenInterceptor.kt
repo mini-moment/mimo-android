@@ -1,8 +1,8 @@
 package com.mimo.android.data.network
 
 import com.mimo.android.data.util.NetworkContract
-import com.mimo.android.domain.model.ApiResponse
-import com.mimo.android.domain.repository.DataStoreRepository
+import com.mimo.domain.model.ApiResponse
+import com.mimo.domain.repository.DataStoreRepository
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.runBlocking
 import okhttp3.Interceptor

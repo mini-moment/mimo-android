@@ -7,13 +7,12 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.mimo.android.R
 import com.mimo.android.databinding.FragmentMapClusterBottomSheetDialogBinding
-import com.mimo.android.domain.model.Post
 import com.mimo.android.presentation.base.BaseBottomSheetDialogFragment
 import com.mimo.android.presentation.component.adapter.MapClusterAdapter
 import com.mimo.android.presentation.util.getSizeY
 import com.mimo.android.presentation.video_detail.VideoDetailActivity
+import com.mimo.domain.model.Post
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
 

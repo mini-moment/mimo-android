@@ -4,10 +4,10 @@ import com.google.gson.Gson
 import com.mimo.android.data.datasource.remote.MapRemoteDataSource
 import com.mimo.android.data.mapper.toMarkerData
 import com.mimo.android.data.model.apiHandler
-import com.mimo.android.domain.model.ApiResponse
-import com.mimo.android.domain.model.ErrorResponse
-import com.mimo.android.domain.model.MarkerData
-import com.mimo.android.domain.repository.MapRepository
+import com.mimo.domain.model.ApiResponse
+import com.mimo.domain.model.ErrorResponse
+import com.mimo.domain.model.MarkerData
+import com.mimo.domain.repository.MapRepository
 import javax.inject.Inject
 
 class MapRepositoryImpl @Inject constructor(

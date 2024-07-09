@@ -5,7 +5,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.mimo.android.databinding.ItemClusterBinding
-import com.mimo.android.domain.model.Post
+import com.mimo.domain.model.Post
 
 class MapClusterAdapter : ListAdapter<Post, MapClusterAdapter.MapClusterViewHolder>(
     DiffUtilCallback<Post>(),

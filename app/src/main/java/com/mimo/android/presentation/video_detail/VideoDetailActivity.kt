@@ -4,11 +4,10 @@ import androidx.activity.viewModels
 import androidx.media3.exoplayer.ExoPlayer
 import com.mimo.android.R
 import com.mimo.android.databinding.ActivityVideoDetailBinding
-import com.mimo.android.domain.model.Post
+import com.mimo.domain.model.Post
 import com.mimo.android.presentation.base.BaseActivity
 import com.mimo.android.presentation.component.adapter.PostListAdapter
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.json.Json
 
 @AndroidEntryPoint

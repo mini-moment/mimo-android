@@ -5,7 +5,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.chip.Chip
 import com.google.android.material.chip.ChipGroup
 import com.mimo.android.R
-import com.mimo.android.domain.model.HashTag
+import com.mimo.domain.model.HashTag
 import com.mimo.android.presentation.upload_video.VideoThumbnail
 import com.mimo.android.presentation.component.adapter.TagListAdapter
 import com.mimo.android.presentation.component.adapter.ThumbNailAdapter

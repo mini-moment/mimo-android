@@ -1,10 +1,10 @@
 package com.mimo.android.data.repositoryimpl
 
 import com.mimo.android.data.datasource.local.LocalDataSource
-import com.mimo.android.domain.repository.DataStoreRepository
-import com.mimo.android.domain.model.ApiResponse
-import com.mimo.android.domain.model.User
+import com.mimo.domain.repository.DataStoreRepository
 import com.mimo.android.presentation.util.ErrorMessage
+import com.mimo.domain.model.ApiResponse
+import com.mimo.domain.model.User
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import javax.inject.Inject

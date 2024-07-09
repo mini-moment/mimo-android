@@ -4,9 +4,10 @@ import com.google.gson.Gson
 import com.mimo.android.data.datasource.remote.VideoRemoteDataSource
 import com.mimo.android.data.model.apiHandler
 import com.mimo.android.data.util.MultiPartUtil
-import com.mimo.android.domain.model.ApiResponse
-import com.mimo.android.domain.model.ErrorResponse
-import com.mimo.android.domain.repository.VideoRepository
+import com.mimo.domain.model.ApiResponse
+import com.mimo.domain.model.ErrorResponse
+import com.mimo.domain.repository.VideoRepository
+
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import java.io.File

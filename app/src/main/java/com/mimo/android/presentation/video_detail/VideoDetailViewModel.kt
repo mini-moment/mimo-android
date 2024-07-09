@@ -1,7 +1,7 @@
 package com.mimo.android.presentation.video_detail
 
 import androidx.lifecycle.ViewModel
-import com.mimo.android.domain.model.Post
+import com.mimo.domain.model.Post
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow

@@ -11,7 +11,7 @@ import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
 import com.mimo.android.R
 import com.mimo.android.databinding.FragmentMapBinding
-import com.mimo.android.domain.model.Post
+import com.mimo.domain.model.Post
 import com.mimo.android.presentation.base.BaseMapFragment
 import com.mimo.android.presentation.util.UiState
 import com.mimo.android.presentation.util.checkLocationPermission

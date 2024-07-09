@@ -5,8 +5,8 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.mimo.android.databinding.ItemMyPostBinding
-import com.mimo.android.domain.model.HashTag
-import com.mimo.android.domain.model.Post
+import com.mimo.domain.model.HashTag
+import com.mimo.domain.model.Post
 
 class MyPostAdapter : ListAdapter<Post, MyPostAdapter.MyPostViewHolder>(
     DiffUtilCallback<Post>(),

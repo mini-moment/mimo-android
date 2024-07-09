@@ -1,6 +1,6 @@
 package com.mimo.android.data.model
 
-import com.mimo.android.domain.model.Post.Tag
+import com.mimo.domain.model.Post.Tag
 
 data class PostListResponse(
     val data: List<Data>,

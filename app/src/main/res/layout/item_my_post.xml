@@ -6,7 +6,7 @@
 
         <variable
             name="postData"
-            type="com.mimo.android.domain.model.Post" />
+            type="com.mimo.domain.model.Post" />
 
         <variable
             name="indicator"

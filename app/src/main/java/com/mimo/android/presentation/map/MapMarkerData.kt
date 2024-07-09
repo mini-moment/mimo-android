@@ -1,6 +1,6 @@
 package com.mimo.android.presentation.map
 
-import com.mimo.android.domain.model.MarkerData
+import com.mimo.domain.model.MarkerData
 import com.naver.maps.geometry.LatLng
 import com.naver.maps.map.clustering.ClusteringKey
 

@@ -4,10 +4,11 @@ import com.google.gson.Gson
 import com.mimo.android.data.datasource.local.LocalDataSource
 import com.mimo.android.data.datasource.remote.UserRemoteDataSource
 import com.mimo.android.data.model.apiHandler
-import com.mimo.android.domain.model.ApiResponse
-import com.mimo.android.domain.model.ErrorResponse
-import com.mimo.android.domain.model.User
-import com.mimo.android.domain.repository.UserRepository
+import com.mimo.domain.model.ApiResponse
+import com.mimo.domain.model.ErrorResponse
+import com.mimo.domain.model.User
+import com.mimo.domain.repository.UserRepository
+
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import javax.inject.Inject

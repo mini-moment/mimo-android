@@ -1,6 +1,6 @@
 package com.mimo.android.presentation.upload_video
 
-import com.mimo.android.domain.model.HashTag
+import com.mimo.domain.model.HashTag
 
 data class UploadVideoUiState(
     val videoUri: String = "",

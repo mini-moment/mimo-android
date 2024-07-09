@@ -2,11 +2,11 @@ package com.mimo.android.presentation.upload_video
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.mimo.android.domain.model.CreatePost
-import com.mimo.android.domain.model.ApiResponse
-import com.mimo.android.domain.repository.PostRepository
-import com.mimo.android.domain.repository.TagRepository
-import com.mimo.android.domain.repository.VideoRepository
+import com.mimo.domain.model.CreatePost
+import com.mimo.domain.model.ApiResponse
+import com.mimo.domain.repository.PostRepository
+import com.mimo.domain.repository.TagRepository
+import com.mimo.domain.repository.VideoRepository
 import com.mimo.android.presentation.util.ErrorMessage
 import com.mimo.android.presentation.util.VideoThumbnailUtil
 import dagger.hilt.android.lifecycle.HiltViewModel

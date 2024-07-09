@@ -5,7 +5,8 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
 import com.mimo.android.databinding.ItemTagBinding
-import com.mimo.android.domain.model.HashTag
+import com.mimo.domain.model.HashTag
+
 
 class TagListAdapter : ListAdapter<HashTag, TagListViewHolder>(DiffUtilCallback<HashTag>()) {
 

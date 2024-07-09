@@ -8,7 +8,7 @@ import com.bumptech.glide.Glide
 import com.google.android.material.chip.Chip
 import com.google.android.material.chip.ChipGroup
 import com.mimo.android.R
-import com.mimo.android.domain.model.Post
+import com.mimo.domain.model.Post
 import com.mimo.android.presentation.component.adapter.PostListAdapter
 
 @BindingAdapter("app:posts")

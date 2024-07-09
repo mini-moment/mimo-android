@@ -1,8 +1,8 @@
 package com.mimo.android.presentation.login
 
 import android.content.Context
-import com.mimo.android.domain.model.ApiResponse
-import com.mimo.android.domain.model.User
+import com.mimo.domain.model.ApiResponse
+import com.mimo.domain.model.User
 import com.navercorp.nid.NaverIdLoginSDK
 import com.navercorp.nid.oauth.NidOAuthLogin
 import com.navercorp.nid.oauth.OAuthLoginCallback

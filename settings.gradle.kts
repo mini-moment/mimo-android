@@ -16,4 +16,4 @@ dependencyResolutionManagement {
 
 rootProject.name = "MiniMoment"
 include(":app")
- 
+include(":domain")

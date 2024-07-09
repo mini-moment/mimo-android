@@ -1,7 +1,7 @@
 package com.mimo.android.data.datasource.remote
 
 import com.mimo.android.data.model.UserSignUpResponse
-import com.mimo.android.domain.model.User
+import com.mimo.domain.model.User
 import retrofit2.Response
 
 interface UserRemoteDataSource {
