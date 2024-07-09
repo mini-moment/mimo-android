@@ -15,6 +15,10 @@ android {
     namespace = "com.mimo.android"
     compileSdk = 34
 
+    packagingOptions {
+        exclude("META-INF/gradle/incremental.annotation.processors")
+    }
+
     val properties = Properties()
     properties.load(project.rootProject.file("local.properties").inputStream())
     val clientId = properties["NAVER_CLIENT_ID"] ?: ""
@@ -41,7 +45,11 @@ android {
         buildConfigField("String", "NAVER_MAP_CLIENT_KEY", "$naverMapClientKey")
         buildConfigField("String", "MIMO_SERVER_URL", "$mimoServerUrl")
         buildConfigField("String", "MIMO_VIDEO_BASE_URL", "$mimoServerVideoUrlBase")
-        buildConfigField("String", "MIMO_POST_THUMBNAIL_BASE_URL", "$mimoServerPostThumbnailUrlBase")
+        buildConfigField(
+            "String",
+            "MIMO_POST_THUMBNAIL_BASE_URL",
+            "$mimoServerPostThumbnailUrlBase",
+        )
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
 
@@ -153,4 +161,5 @@ dependencies {
     // Serialization
     implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.5.0")
     implementation(project(":domain"))
+    implementation(project(":data"))
 }
