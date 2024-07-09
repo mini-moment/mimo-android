@@ -1,8 +1,8 @@
-package com.mimo.android.presentation.util
+package com.mimo.presentation.util
 
 import android.graphics.Bitmap
 import android.media.MediaMetadataRetriever
-import com.mimo.android.presentation.upload_video.VideoThumbnail
+import com.mimo.presentation.upload_video.VideoThumbnail
 
 class VideoThumbnailUtil {
 

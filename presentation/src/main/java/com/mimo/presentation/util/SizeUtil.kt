@@ -1,4 +1,4 @@
-package com.mimo.android.presentation.util
+package com.mimo.presentation.util
 
 import android.content.Context
 import android.os.Build

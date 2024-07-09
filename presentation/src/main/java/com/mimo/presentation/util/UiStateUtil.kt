@@ -1,4 +1,4 @@
-package com.mimo.android.presentation.util
+package com.mimo.presentation.util
 
 sealed class UiState<out T> {
     data object Loading : UiState<Nothing>()
@@ -6,9 +6,8 @@ sealed class UiState<out T> {
     data class Success<out T>(val data: T) : UiState<T>()
 }
 
-
-fun<T> handleUiState(result : UiState<T>) : Any? {
-    return when(result){
+fun<T> handleUiState(result: UiState<T>): Any? {
+    return when (result) {
         is UiState.Success -> result.data
         is UiState.Error -> result.message
         is UiState.Loading -> null

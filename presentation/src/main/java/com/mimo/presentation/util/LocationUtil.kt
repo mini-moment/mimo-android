@@ -1,4 +1,4 @@
-package com.mimo.android.presentation.util
+package com.mimo.presentation.util
 
 import android.content.Context
 import android.location.Geocoder
@@ -9,9 +9,7 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import java.util.Locale
 
-
 fun Context.locationToAddress(latitude: Double, longitude: Double, success: (String) -> Unit) {
-
     val geocoder = Geocoder(this@locationToAddress, Locale.KOREAN)
     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
         geocoder.getFromLocation(latitude, longitude, 1) { address ->

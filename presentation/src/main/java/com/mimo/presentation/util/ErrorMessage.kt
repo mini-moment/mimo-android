@@ -1,4 +1,4 @@
-package com.mimo.android.presentation.util
+package com.mimo.presentation.util
 
 object ErrorMessage {
     const val NO_ACCESS_TOKEN_MESSAGE = "No Access Token"

@@ -1,4 +1,4 @@
-package com.mimo.android.presentation.util
+package com.mimo.presentation.util
 
 import android.Manifest
 import android.content.Context
@@ -7,7 +7,7 @@ import android.os.Build
 import androidx.core.app.ActivityCompat
 import com.gun0912.tedpermission.PermissionListener
 import com.gun0912.tedpermission.normal.TedPermission
-import com.mimo.android.R
+import com.mimo.presentation.R
 import timber.log.Timber
 
 fun Context.requestMapPermission(complete: () -> Unit) {

@@ -1,6 +1,6 @@
-package com.mimo.android.presentation.util
+package com.mimo.presentation.util
 
-import com.mimo.android.presentation.map.MapMarkerData
+import com.mimo.presentation.map.MapMarkerData
 import com.naver.maps.map.clustering.ClusterMarkerInfo
 import com.naver.maps.map.clustering.Clusterer
 import com.naver.maps.map.clustering.DefaultClusterMarkerUpdater
