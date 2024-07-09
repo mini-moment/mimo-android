@@ -1,12 +1,12 @@
-package com.mimo.android.presentation.mypage
+package com.mimo.presentation.mypage
 
 import android.content.Intent
 import androidx.fragment.app.viewModels
-import com.mimo.android.R
-import com.mimo.android.databinding.FragmentMyPageBinding
-import com.mimo.android.presentation.base.BaseFragment
-import com.mimo.android.presentation.component.adapter.MyPostAdapter
-import com.mimo.android.presentation.video_detail.VideoDetailActivity
+import com.mimo.presentation.R
+import com.mimo.presentation.base.BaseFragment
+import com.mimo.presentation.component.adapter.MyPostAdapter
+import com.mimo.presentation.databinding.FragmentMyPageBinding
+import com.mimo.presentation.video_detail.VideoDetailActivity
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint

@@ -1,12 +1,12 @@
-package com.mimo.android.presentation.component.adapter
+package com.mimo.presentation.component.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.mimo.android.databinding.ItemMyPostBinding
 import com.mimo.domain.model.HashTag
 import com.mimo.domain.model.Post
+import com.mimo.presentation.databinding.ItemMyPostBinding
 
 class MyPostAdapter : ListAdapter<Post, MyPostAdapter.MyPostViewHolder>(
     DiffUtilCallback<Post>(),

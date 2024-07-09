@@ -1,4 +1,4 @@
-package com.mimo.android.presentation.mypage
+package com.mimo.presentation.mypage
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
