@@ -1,11 +1,11 @@
 package com.mimo.android.core.di
 
-import com.mimo.android.data.repositoryimpl.DataStoreRepositoryImpl
-import com.mimo.android.data.repositoryimpl.MapRepositoryImpl
-import com.mimo.android.data.repositoryimpl.PostRepositoryImpl
-import com.mimo.android.data.repositoryimpl.TagRepositoryImpl
-import com.mimo.android.data.repositoryimpl.UserRepositoryImpl
-import com.mimo.android.data.repositoryimpl.VideoRepositoryImpl
+import com.mimo.data.repositoryimpl.DataStoreRepositoryImpl
+import com.mimo.data.repositoryimpl.MapRepositoryImpl
+import com.mimo.data.repositoryimpl.PostRepositoryImpl
+import com.mimo.data.repositoryimpl.TagRepositoryImpl
+import com.mimo.data.repositoryimpl.UserRepositoryImpl
+import com.mimo.data.repositoryimpl.VideoRepositoryImpl
 import com.mimo.domain.repository.DataStoreRepository
 import com.mimo.domain.repository.MapRepository
 import com.mimo.domain.repository.PostRepository
