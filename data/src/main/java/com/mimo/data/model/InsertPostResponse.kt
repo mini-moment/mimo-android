@@ -1,4 +1,4 @@
-package com.mimo.android.data.model
+package com.mimo.data.model
 
 data class InsertPostResponse(
     val data: String? = null,

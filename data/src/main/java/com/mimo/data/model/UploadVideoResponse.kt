@@ -1,4 +1,4 @@
-package com.mimo.android.data.model
+package com.mimo.data.model
 
 data class UploadVideoResponse(
     val data: String? = null,

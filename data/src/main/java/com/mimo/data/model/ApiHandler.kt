@@ -1,4 +1,4 @@
-package com.mimo.android.data.model
+package com.mimo.data.model
 
 import com.mimo.domain.model.ApiResponse
 import com.mimo.domain.model.ErrorResponse
