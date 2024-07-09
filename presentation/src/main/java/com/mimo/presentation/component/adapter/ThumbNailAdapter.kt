@@ -1,11 +1,11 @@
-package com.mimo.android.presentation.component.adapter
+package com.mimo.presentation.component.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
-import com.mimo.android.databinding.ItemVideoThumbnailBinding
-import com.mimo.android.presentation.upload_video.VideoThumbnail
+import com.mimo.presentation.databinding.ItemVideoThumbnailBinding
+import com.mimo.presentation.upload_video.VideoThumbnail
 
 class ThumbNailAdapter :
     ListAdapter<VideoThumbnail, ThumbNailViewHolder>(DiffUtilCallback<VideoThumbnail>()) {

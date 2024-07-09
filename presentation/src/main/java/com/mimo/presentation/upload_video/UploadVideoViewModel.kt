@@ -1,4 +1,4 @@
-package com.mimo.android.presentation.upload_video
+package com.mimo.presentation.upload_video
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -7,8 +7,8 @@ import com.mimo.domain.model.ApiResponse
 import com.mimo.domain.repository.PostRepository
 import com.mimo.domain.repository.TagRepository
 import com.mimo.domain.repository.VideoRepository
-import com.mimo.android.presentation.util.ErrorMessage
-import com.mimo.android.presentation.util.VideoThumbnailUtil
+import com.mimo.presentation.util.ErrorMessage
+import com.mimo.presentation.util.VideoThumbnailUtil
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableSharedFlow

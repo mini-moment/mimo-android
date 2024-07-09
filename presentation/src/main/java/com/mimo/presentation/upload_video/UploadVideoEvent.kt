@@ -1,4 +1,4 @@
-package com.mimo.android.presentation.upload_video
+package com.mimo.presentation.upload_video
 
 interface UploadVideoEvent {
 

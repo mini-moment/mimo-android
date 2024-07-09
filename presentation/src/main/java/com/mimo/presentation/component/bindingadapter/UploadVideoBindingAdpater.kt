@@ -1,14 +1,14 @@
-package com.mimo.android.presentation.component.bindingadapter
+package com.mimo.presentation.component.bindingadapter
 
 import androidx.databinding.BindingAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.chip.Chip
 import com.google.android.material.chip.ChipGroup
-import com.mimo.android.R
 import com.mimo.domain.model.HashTag
-import com.mimo.android.presentation.upload_video.VideoThumbnail
-import com.mimo.android.presentation.component.adapter.TagListAdapter
-import com.mimo.android.presentation.component.adapter.ThumbNailAdapter
+import com.mimo.presentation.R
+import com.mimo.presentation.component.adapter.TagListAdapter
+import com.mimo.presentation.component.adapter.ThumbNailAdapter
+import com.mimo.presentation.upload_video.VideoThumbnail
 
 @BindingAdapter("chips")
 fun RecyclerView.bindChips(items: List<HashTag>) {

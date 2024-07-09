@@ -1,11 +1,11 @@
-package com.mimo.android.presentation.component.adapter
+package com.mimo.presentation.component.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
-import com.mimo.android.databinding.ItemTagBinding
 import com.mimo.domain.model.HashTag
+import com.mimo.presentation.databinding.ItemTagBinding
 
 
 class TagListAdapter : ListAdapter<HashTag, TagListViewHolder>(DiffUtilCallback<HashTag>()) {
