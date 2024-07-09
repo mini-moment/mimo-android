@@ -38,7 +38,7 @@ android {
         buildConfigField("String", "ACCESS_TOKEN_KEY", "$accessTokenKey")
         buildConfigField("String", "REFRESH_TOKEN_KEY", "$refreshTokenKey")
         buildConfigField("String", "DATASTORE_NAME", "$dataStoreName")
-        buildConfigField("String", "DATASTORE_NAME", "$naverMapClientKey")
+        buildConfigField("String", "NAVER_MAP_CLIENT_KEY", "$naverMapClientKey")
         buildConfigField("String", "MIMO_SERVER_URL", "$mimoServerUrl")
         buildConfigField("String", "MIMO_VIDEO_BASE_URL", "$mimoServerVideoUrlBase")
         buildConfigField("String", "MIMO_POST_THUMBNAIL_BASE_URL", "$mimoServerPostThumbnailUrlBase")
@@ -152,4 +152,5 @@ dependencies {
 
     // Serialization
     implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.5.0")
+    implementation(project(":domain"))
 }
