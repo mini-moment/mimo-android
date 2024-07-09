@@ -1,4 +1,4 @@
-package com.mimo.android.data.util
+package com.mimo.data.util
 
 object NetworkContract {
     const val Authorization = "Authorization"

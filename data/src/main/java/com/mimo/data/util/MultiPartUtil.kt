@@ -1,4 +1,4 @@
-package com.mimo.android.data.util
+package com.mimo.data.util
 
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
