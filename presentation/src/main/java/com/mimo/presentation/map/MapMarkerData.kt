@@ -1,4 +1,4 @@
-package com.mimo.android.presentation.map
+package com.mimo.presentation.map
 
 import com.mimo.domain.model.MarkerData
 import com.naver.maps.geometry.LatLng

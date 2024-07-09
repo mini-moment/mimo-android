@@ -1,14 +1,14 @@
-package com.mimo.android.presentation.map
+package com.mimo.presentation.map
 
 import android.content.Intent
 import androidx.core.os.bundleOf
 import androidx.navigation.fragment.navArgs
 import com.google.android.material.bottomsheet.BottomSheetDialog
-import com.mimo.android.R
-import com.mimo.android.databinding.FragmentMarkerBottomSheetDialogBinding
-import com.mimo.android.presentation.base.BaseBottomSheetDialogFragment
-import com.mimo.android.presentation.util.getSizeY
-import com.mimo.android.presentation.upload_video.UploadVideoActivity
+import com.mimo.presentation.R
+import com.mimo.presentation.base.BaseBottomSheetDialogFragment
+import com.mimo.presentation.databinding.FragmentMarkerBottomSheetDialogBinding
+import com.mimo.presentation.upload_video.UploadVideoActivity
+import com.mimo.presentation.util.getSizeY
 import com.naver.maps.geometry.LatLng
 import dagger.hilt.android.AndroidEntryPoint
 

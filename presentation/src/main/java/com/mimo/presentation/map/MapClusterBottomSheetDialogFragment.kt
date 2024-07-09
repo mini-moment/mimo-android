@@ -1,17 +1,17 @@
-package com.mimo.android.presentation.map
+package com.mimo.presentation.map
 
 import android.content.Intent
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.bottomsheet.BottomSheetDialog
-import com.mimo.android.R
-import com.mimo.android.databinding.FragmentMapClusterBottomSheetDialogBinding
-import com.mimo.android.presentation.base.BaseBottomSheetDialogFragment
-import com.mimo.android.presentation.component.adapter.MapClusterAdapter
-import com.mimo.android.presentation.util.getSizeY
-import com.mimo.android.presentation.video_detail.VideoDetailActivity
 import com.mimo.domain.model.Post
+import com.mimo.presentation.R
+import com.mimo.presentation.base.BaseBottomSheetDialogFragment
+import com.mimo.presentation.component.adapter.MapClusterAdapter
+import com.mimo.presentation.databinding.FragmentMapClusterBottomSheetDialogBinding
+import com.mimo.presentation.util.getSizeY
+import com.mimo.presentation.video_detail.VideoDetailActivity
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json

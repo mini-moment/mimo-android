@@ -1,4 +1,4 @@
-package com.mimo.android.presentation.map
+package com.mimo.presentation.map
 
 import android.content.Intent
 import androidx.core.content.ContextCompat
@@ -9,18 +9,18 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
-import com.mimo.android.R
-import com.mimo.android.databinding.FragmentMapBinding
 import com.mimo.domain.model.Post
-import com.mimo.android.presentation.base.BaseMapFragment
-import com.mimo.android.presentation.util.UiState
-import com.mimo.android.presentation.util.checkLocationPermission
-import com.mimo.android.presentation.util.clickMarker
-import com.mimo.android.presentation.util.deleteMarker
-import com.mimo.android.presentation.util.locationToAddress
-import com.mimo.android.presentation.util.makeMarker
-import com.mimo.android.presentation.util.requestMapPermission
-import com.mimo.android.presentation.video_detail.VideoDetailActivity
+import com.mimo.presentation.R
+import com.mimo.presentation.base.BaseMapFragment
+import com.mimo.presentation.databinding.FragmentMapBinding
+import com.mimo.presentation.util.UiState
+import com.mimo.presentation.util.checkLocationPermission
+import com.mimo.presentation.util.clickMarker
+import com.mimo.presentation.util.deleteMarker
+import com.mimo.presentation.util.locationToAddress
+import com.mimo.presentation.util.makeMarker
+import com.mimo.presentation.util.requestMapPermission
+import com.mimo.presentation.video_detail.VideoDetailActivity
 import com.naver.maps.geometry.LatLng
 import com.naver.maps.map.CameraPosition
 import com.naver.maps.map.CameraUpdate
@@ -38,6 +38,7 @@ import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
+import timber.log.Timber
 import kotlin.math.pow
 
 @AndroidEntryPoint
@@ -57,6 +58,7 @@ class MapFragment : BaseMapFragment<FragmentMapBinding>(R.layout.fragment_map) {
     private var longClickMarker: Marker? = null
 
     override fun initOnCreateView() {
+        Timber.tag("mini-moment").d("hihi")
         initMapView()
     }
 

@@ -1,11 +1,11 @@
-package com.mimo.android.presentation.component.adapter
+package com.mimo.presentation.component.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.mimo.android.databinding.ItemClusterBinding
 import com.mimo.domain.model.Post
+import com.mimo.presentation.databinding.ItemClusterBinding
 
 class MapClusterAdapter : ListAdapter<Post, MapClusterAdapter.MapClusterViewHolder>(
     DiffUtilCallback<Post>(),

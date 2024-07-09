@@ -1,15 +1,14 @@
-package com.mimo.android.presentation.map
+package com.mimo.presentation.map
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-
-import com.mimo.android.presentation.util.UiState
 import com.mimo.domain.model.ApiResponse
 import com.mimo.domain.model.Post
 import com.mimo.domain.repository.MapRepository
 import com.mimo.domain.repository.PostRepository
+import com.mimo.presentation.util.UiState
 import com.naver.maps.map.clustering.Clusterer
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableSharedFlow

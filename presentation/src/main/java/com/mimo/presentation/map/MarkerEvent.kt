@@ -1,4 +1,4 @@
-package com.mimo.android.presentation.map
+package com.mimo.presentation.map
 
 interface MarkerEvent {
 
