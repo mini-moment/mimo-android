@@ -1,4 +1,4 @@
-package com.mimo.android.presentation.component.adapter
+package com.mimo.presentation.component.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -7,9 +7,9 @@ import androidx.media3.common.Player.REPEAT_MODE_ALL
 import androidx.media3.exoplayer.ExoPlayer
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.mimo.android.BuildConfig
-import com.mimo.android.databinding.ItemPostBinding
 import com.mimo.domain.model.Post
+import com.mimo.presentation.BuildConfig
+import com.mimo.presentation.databinding.ItemPostBinding
 
 class PostListAdapter(private val exoPlayer: ExoPlayer) : ListAdapter<Post, PostItemViewHolder>(
     DiffUtilCallback()

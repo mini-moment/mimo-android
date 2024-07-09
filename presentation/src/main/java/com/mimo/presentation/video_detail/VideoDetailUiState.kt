@@ -1,4 +1,4 @@
-package com.mimo.android.presentation.video_detail
+package com.mimo.presentation.video_detail
 
 import com.mimo.domain.model.Post
 

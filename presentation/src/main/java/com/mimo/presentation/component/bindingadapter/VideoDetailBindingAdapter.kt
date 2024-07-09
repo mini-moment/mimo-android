@@ -1,4 +1,4 @@
-package com.mimo.android.presentation.component.bindingadapter
+package com.mimo.presentation.component.bindingadapter
 
 import android.widget.ImageView
 import androidx.core.content.ContextCompat
@@ -7,9 +7,9 @@ import androidx.viewpager2.widget.ViewPager2
 import com.bumptech.glide.Glide
 import com.google.android.material.chip.Chip
 import com.google.android.material.chip.ChipGroup
-import com.mimo.android.R
 import com.mimo.domain.model.Post
-import com.mimo.android.presentation.component.adapter.PostListAdapter
+import com.mimo.presentation.R
+import com.mimo.presentation.component.adapter.PostListAdapter
 
 @BindingAdapter("app:posts")
 fun ViewPager2.bindPosts(items: List<Post>) {

@@ -1,4 +1,4 @@
-package com.mimo.android.presentation.video_detail
+package com.mimo.presentation.video_detail
 
 import androidx.lifecycle.ViewModel
 import com.mimo.domain.model.Post
@@ -11,8 +11,7 @@ import kotlinx.coroutines.flow.update
 import javax.inject.Inject
 
 @HiltViewModel
-class VideoDetailViewModel @Inject constructor(
-) : ViewModel() {
+class VideoDetailViewModel @Inject constructor() : ViewModel() {
     private val _event = MutableSharedFlow<VideoDetailEvent>()
     val event: SharedFlow<VideoDetailEvent> = _event
     private val _uiState = MutableStateFlow(VideoDetailUiState())
@@ -22,7 +21,7 @@ class VideoDetailViewModel @Inject constructor(
         if (postList != null) {
             _uiState.update { uiState ->
                 uiState.copy(
-                    posts = postList
+                    posts = postList,
                 )
             }
         }
