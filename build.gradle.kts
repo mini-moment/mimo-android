@@ -1,14 +1,15 @@
 // Top-level build file where you can add configuration options common to all sub-projects/modules.
 plugins {
-    id("com.android.application") version "8.2.2" apply false
-    id("org.jetbrains.kotlin.android") version "1.9.22" apply false
-    id("com.google.dagger.hilt.android") version "2.48" apply false
+    alias(libs.plugins.com.android.application) apply false
+    alias(libs.plugins.org.jetbrains.kotlin.android) apply false
+    alias(libs.plugins.hilt) apply false
+    alias(libs.plugins.com.android.library) apply false
+    alias(libs.plugins.org.jetbrains.kotlin.jvm) apply false
+    alias(libs.plugins.kotlinx.serialization) apply false
+    alias(libs.plugins.navigation.safe.args) apply false
 }
 buildscript {
     dependencies {
-        classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:1.8.0")
-        classpath("org.jetbrains.kotlin:kotlin-serialization:1.8.0")
-        classpath("androidx.navigation:navigation-safe-args-gradle-plugin:2.7.7")
         classpath("com.google.android.libraries.mapsplatform.secrets-gradle-plugin:secrets-gradle-plugin:2.0.1")
     }
 }
