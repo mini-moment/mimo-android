@@ -1,6 +1,6 @@
-package com.mimo.android.data.api
+package com.mimo.data.api
 
-import com.mimo.android.data.model.MarkerResponse
+import com.mimo.data.model.MarkerResponse
 import retrofit2.Response
 import retrofit2.http.GET
 import retrofit2.http.Query

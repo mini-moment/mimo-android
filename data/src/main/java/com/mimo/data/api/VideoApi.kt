@@ -1,6 +1,6 @@
-package com.mimo.android.data.api
+package com.mimo.data.api
 
-import com.mimo.android.data.model.UploadVideoResponse
+import com.mimo.data.model.UploadVideoResponse
 import okhttp3.MultipartBody
 import retrofit2.Response
 import retrofit2.http.Multipart

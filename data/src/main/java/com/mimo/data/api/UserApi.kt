@@ -1,6 +1,6 @@
-package com.mimo.android.data.api
+package com.mimo.data.api
 
-import com.mimo.android.data.model.UserSignUpResponse
+import com.mimo.data.model.UserSignUpResponse
 import com.mimo.domain.model.User
 import retrofit2.Response
 import retrofit2.http.Body
