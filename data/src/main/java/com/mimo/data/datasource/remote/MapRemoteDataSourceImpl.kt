@@ -1,7 +1,7 @@
-package com.mimo.android.data.datasource.remote
+package com.mimo.data.datasource.remote
 
-import com.mimo.android.data.model.MarkerResponse
-import com.mimo.android.data.api.MapApi
+import com.mimo.data.api.MapApi
+import com.mimo.data.model.MarkerResponse
 import retrofit2.Response
 import javax.inject.Inject
 

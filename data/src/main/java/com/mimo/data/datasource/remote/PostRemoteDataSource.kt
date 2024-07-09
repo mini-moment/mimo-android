@@ -1,7 +1,7 @@
-package com.mimo.android.data.datasource.remote
+package com.mimo.data.datasource.remote
 
-import com.mimo.android.data.model.InsertPostResponse
-import com.mimo.android.data.model.PostListResponse
+import com.mimo.data.model.InsertPostResponse
+import com.mimo.data.model.PostListResponse
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import retrofit2.Response

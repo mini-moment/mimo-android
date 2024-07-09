@@ -1,6 +1,6 @@
-package com.mimo.android.data.datasource.remote
+package com.mimo.data.datasource.remote
 
-import com.mimo.android.data.model.UserSignUpResponse
+import com.mimo.data.model.UserSignUpResponse
 import com.mimo.domain.model.User
 import retrofit2.Response
 

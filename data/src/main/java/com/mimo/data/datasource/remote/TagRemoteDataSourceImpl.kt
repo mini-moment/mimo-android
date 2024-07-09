@@ -1,7 +1,7 @@
-package com.mimo.android.data.datasource.remote
+package com.mimo.data.datasource.remote
 
-import com.mimo.android.data.model.TagsResponse
-import com.mimo.android.data.api.TagApi
+import com.mimo.data.api.TagApi
+import com.mimo.data.model.TagsResponse
 import retrofit2.Response
 import javax.inject.Inject
 
