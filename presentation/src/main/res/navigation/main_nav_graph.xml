@@ -8,7 +8,7 @@
 
     <fragment
         android:id="@+id/mapFragment"
-        android:name="com.mimo.android.presentation.map.MapFragment"
+        android:name="com.mimo.presentation.map.MapFragment"
         tools:layout="@layout/fragment_map">
 
         <action
@@ -22,17 +22,17 @@
 
     <activity
         android:id="@+id/uploadVideoActivity"
-        android:name="com.mimo.android.presentation.upload_video.UploadVideoActivity"
+        android:name="com.mimo.presentation.upload_video.UploadVideoActivity"
         tools:layout="@layout/activity_upload_video" />
 
     <fragment
         android:id="@+id/myPageFragment"
-        android:name="com.mimo.android.presentation.mypage.MyPageFragment"
+        android:name="com.mimo.presentation.mypage.MyPageFragment"
         tools:layout="@layout/fragment_my_page" />
 
     <dialog
         android:id="@+id/markerBottomSheetDialogFragment"
-        android:name="com.mimo.android.presentation.map.MarkerBottomSheetDialogFragment"
+        android:name="com.mimo.presentation.map.MarkerBottomSheetDialogFragment"
         android:label="MarkerBottomSheetDialogFragment"
         tools:layout="@layout/fragment_marker_bottom_sheet_dialog">
         <argument
@@ -48,7 +48,7 @@
 
     <dialog
         android:id="@+id/mapClusterBottomSheetDialogFragment"
-        android:name="com.mimo.android.presentation.map.MapClusterBottomSheetDialogFragment"
+        android:name="com.mimo.presentation.map.MapClusterBottomSheetDialogFragment"
         tools:layout="@layout/fragment_map_cluster_bottom_sheet_dialog">
 
         <argument

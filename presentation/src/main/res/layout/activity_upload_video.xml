@@ -9,7 +9,7 @@
 
         <variable
             name="viewModel"
-            type="com.mimo.android.presentation.upload_video.UploadVideoViewModel" />
+            type="com.mimo.presentation.upload_video.UploadVideoViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

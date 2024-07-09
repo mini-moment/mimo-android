@@ -7,7 +7,7 @@
 
         <variable
             name="viewModel"
-            type="com.mimo.android.presentation.video_detail.VideoDetailViewModel" />
+            type="com.mimo.presentation.video_detail.VideoDetailViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
