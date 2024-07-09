@@ -1,6 +1,6 @@
-package com.mimo.android.data.network
+package com.mimo.data.network
 
-import com.mimo.android.data.util.NetworkContract
+import com.mimo.data.util.NetworkContract
 import com.mimo.domain.model.ApiResponse
 import com.mimo.domain.repository.DataStoreRepository
 import kotlinx.coroutines.flow.collectLatest
