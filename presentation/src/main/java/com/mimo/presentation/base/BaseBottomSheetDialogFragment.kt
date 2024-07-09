@@ -1,4 +1,4 @@
-package com.mimo.android.presentation.base
+package com.mimo.presentation.base
 
 import android.app.Dialog
 import android.os.Bundle

@@ -1,4 +1,4 @@
-package com.mimo.android.presentation.base
+package com.mimo.presentation.base
 
 import android.os.Bundle
 import android.view.LayoutInflater

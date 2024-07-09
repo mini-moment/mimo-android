@@ -1,4 +1,4 @@
-package com.mimo.android.presentation.base
+package com.mimo.presentation.base
 
 import android.content.Context
 import android.content.Intent
