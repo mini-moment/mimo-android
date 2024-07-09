@@ -1,4 +1,4 @@
-package com.mimo.android.presentation.login
+package com.mimo.presentation.login
 
 
 sealed interface LoginEvent {

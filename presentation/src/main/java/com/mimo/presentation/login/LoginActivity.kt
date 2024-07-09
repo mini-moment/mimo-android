@@ -1,4 +1,4 @@
-package com.mimo.android.presentation.login
+package com.mimo.presentation.login
 
 import android.animation.ObjectAnimator
 import android.os.Bundle
@@ -11,13 +11,14 @@ import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
-import com.mimo.android.R
-import com.mimo.android.databinding.ActivityLoginBinding
-import com.mimo.android.presentation.MainActivity
-import com.mimo.android.presentation.base.BaseActivity
+import com.mimo.presentation.MainActivity
+import com.mimo.presentation.R
+import com.mimo.presentation.base.BaseActivity
+import com.mimo.presentation.databinding.ActivityLoginBinding
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
+import timber.log.Timber
 
 @AndroidEntryPoint
 class LoginActivity : BaseActivity<ActivityLoginBinding>(R.layout.activity_login) {
@@ -54,6 +55,7 @@ class LoginActivity : BaseActivity<ActivityLoginBinding>(R.layout.activity_login
                         }
 
                         is LoginEvent.Error -> {
+                            Timber.tag("mini-moment").d("${loginEvent.errorCode} ${loginEvent.errorMessage}")
                             showMessage(loginEvent.errorMessage)
                         }
                     }

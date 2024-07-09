@@ -1,4 +1,4 @@
-package com.mimo.android.presentation.login
+package com.mimo.presentation.login
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope

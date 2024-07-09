@@ -1,4 +1,4 @@
-package com.mimo.android.presentation.login
+package com.mimo.presentation.login
 
 import android.content.Context
 import com.mimo.domain.model.ApiResponse
@@ -10,6 +10,7 @@ import com.navercorp.nid.profile.NidProfileCallback
 import com.navercorp.nid.profile.data.NidProfileResponse
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import timber.log.Timber
 
 object NaverLoginManager {
 
@@ -37,6 +38,7 @@ object NaverLoginManager {
         }
 
         override fun onError(errorCode: Int, message: String) {
+            Timber.tag("mini-moment").d("$errorCode $message")
             onFailure(errorCode, message)
         }
     }
@@ -53,6 +55,7 @@ object NaverLoginManager {
         }
 
         override fun onError(errorCode: Int, message: String) {
+            Timber.tag("mini-moment").d("$errorCode $message")
             onFailure(errorCode, message)
         }
     }

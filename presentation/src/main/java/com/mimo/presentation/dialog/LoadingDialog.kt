@@ -1,4 +1,4 @@
-package com.mimo.android.presentation.dialog
+package com.mimo.presentation.dialog
 
 import android.app.Dialog
 import android.content.DialogInterface
@@ -9,7 +9,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.DialogFragment
-import com.mimo.android.databinding.DialogLoadingBinding
+import com.mimo.presentation.databinding.DialogLoadingBinding
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
