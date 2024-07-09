@@ -1,9 +1,9 @@
-package com.mimo.android.data.repositoryimpl
+package com.mimo.data.repositoryimpl
 
 import com.google.gson.Gson
-import com.mimo.android.data.datasource.local.LocalDataSource
-import com.mimo.android.data.datasource.remote.UserRemoteDataSource
-import com.mimo.android.data.model.apiHandler
+import com.mimo.data.datasource.local.LocalDataSource
+import com.mimo.data.datasource.remote.UserRemoteDataSource
+import com.mimo.data.model.apiHandler
 import com.mimo.domain.model.ApiResponse
 import com.mimo.domain.model.ErrorResponse
 import com.mimo.domain.model.User

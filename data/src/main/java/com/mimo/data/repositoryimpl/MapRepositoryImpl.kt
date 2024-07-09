@@ -1,9 +1,9 @@
-package com.mimo.android.data.repositoryimpl
+package com.mimo.data.repositoryimpl
 
 import com.google.gson.Gson
-import com.mimo.android.data.datasource.remote.MapRemoteDataSource
-import com.mimo.android.data.mapper.toMarkerData
-import com.mimo.android.data.model.apiHandler
+import com.mimo.data.datasource.remote.MapRemoteDataSource
+import com.mimo.data.mapper.toMarkerData
+import com.mimo.data.model.apiHandler
 import com.mimo.domain.model.ApiResponse
 import com.mimo.domain.model.ErrorResponse
 import com.mimo.domain.model.MarkerData

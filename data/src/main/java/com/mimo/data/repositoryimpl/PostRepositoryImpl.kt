@@ -1,11 +1,11 @@
-package com.mimo.android.data.repositoryimpl
+package com.mimo.data.repositoryimpl
 
 import com.google.gson.Gson
-import com.mimo.android.data.datasource.remote.PostRemoteDataSource
-import com.mimo.android.data.mapper.toPostList
-import com.mimo.android.data.model.apiHandler
-import com.mimo.android.data.util.MultiPartUtil
-import com.mimo.android.data.util.NetworkContract
+import com.mimo.data.datasource.remote.PostRemoteDataSource
+import com.mimo.data.mapper.toPostList
+import com.mimo.data.model.apiHandler
+import com.mimo.data.util.MultiPartUtil
+import com.mimo.data.util.NetworkContract
 import com.mimo.domain.model.ApiResponse
 import com.mimo.domain.model.CreatePost
 import com.mimo.domain.model.ErrorResponse
