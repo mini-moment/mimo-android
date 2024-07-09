@@ -1,6 +1,6 @@
-package com.mimo.android.data.mapper
+package com.mimo.data.mapper
 
-import com.mimo.android.data.model.MarkerResponse
+import com.mimo.data.model.MarkerResponse
 import com.mimo.domain.model.MarkerData
 
 fun MarkerResponse.toMarkerData(): List<MarkerData> {

@@ -1,6 +1,6 @@
-package com.mimo.android.data.mapper
+package com.mimo.data.mapper
 
-import com.mimo.android.data.model.PostListResponse
+import com.mimo.data.model.PostListResponse
 import com.mimo.domain.model.Post
 
 fun PostListResponse.toPostList(): List<Post> {
