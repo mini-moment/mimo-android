@@ -1,4 +1,4 @@
-package com.mimo.android.domain.model
+package com.mimo.domain.model
 
 sealed class ApiResponse<out T : Any?> {
     data class Success<out T : Any?>(
