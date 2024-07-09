@@ -1,7 +1,7 @@
-package com.mimo.android.domain.repository
+package com.mimo.domain.repository
 
-import com.mimo.android.domain.model.ApiResponse
-import com.mimo.android.domain.model.MarkerData
+import com.mimo.domain.model.ApiResponse
+import com.mimo.domain.model.MarkerData
 
 interface MapRepository {
 

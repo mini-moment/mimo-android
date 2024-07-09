@@ -1,8 +1,8 @@
-package com.mimo.android.domain.repository
+package com.mimo.domain.repository
 
-import com.mimo.android.domain.model.CreatePost
-import com.mimo.android.domain.model.ApiResponse
-import com.mimo.android.domain.model.Post
+import com.mimo.domain.model.ApiResponse
+import com.mimo.domain.model.CreatePost
+import com.mimo.domain.model.Post
 import kotlinx.coroutines.flow.Flow
 import java.io.File
 
