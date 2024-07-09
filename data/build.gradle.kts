@@ -42,9 +42,9 @@ android {
 }
 
 dependencies {
-    implementation(project(":domain"))
     implementation(libs.bundles.hilt)
     implementation(libs.bundles.network)
     implementation(libs.datastore.preferences)
     implementation(libs.junit)
+    implementation(project(":domain"))
 }
