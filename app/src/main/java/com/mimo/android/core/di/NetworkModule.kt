@@ -2,7 +2,7 @@ package com.mimo.android.core.di
 
 import com.google.gson.GsonBuilder
 import com.mimo.android.BuildConfig
-import com.mimo.android.data.network.AccessTokenInterceptor
+import com.mimo.data.network.AccessTokenInterceptor
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

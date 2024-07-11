@@ -1,0 +1,10 @@
+package com.mimo.data.datasource.remote
+
+import com.mimo.data.model.UploadVideoResponse
+import okhttp3.MultipartBody
+import retrofit2.Response
+
+interface VideoRemoteDataSource {
+
+    suspend fun uploadVideo(file: MultipartBody.Part): Response<UploadVideoResponse>
+}

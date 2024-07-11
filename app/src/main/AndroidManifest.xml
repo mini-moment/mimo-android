@@ -19,7 +19,7 @@
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
         <activity
-            android:name=".presentation.video.VideoActivity"
+            android:name="com.mimo.presentation.upload_video.UploadVideoActivity"
             android:exported="false"
             android:windowSoftInputMode="adjustPan" />
         <!-- NaverMap -->
@@ -28,7 +28,7 @@
             android:value="${NAVER_MAP_CLIENT_KEY}" />
 
         <activity
-            android:name=".presentation.login.LoginActivity"
+            android:name="com.mimo.presentation.login.LoginActivity"
             android:exported="true"
             android:theme="@style/Theme.MiniMoment.Splash">
             <intent-filter>
@@ -38,18 +38,10 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".presentation.MainActivity"
+            android:name="com.mimo.presentation.MainActivity"
             android:exported="false" />
         <activity
-            android:name=".presentation.video_detail.VideoDetailActivity"
-            android:exported="false" />
-
-        <activity
-            android:name=".presentation.upload_video.UploadVideoActivity"
-            android:exported="false"
-            android:windowSoftInputMode="adjustPan" />
-        <activity
-            android:name=".presentation.splash.SplashActivity"
+            android:name="com.mimo.presentation.video_detail.VideoDetailActivity"
             android:exported="false" />
     </application>
 

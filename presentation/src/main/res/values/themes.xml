@@ -1,0 +1,37 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <!-- Base application theme. -->
+    <style name="Base.Theme.MiniMoment" parent="Theme.Material3.DayNight.NoActionBar">
+        <!-- Customize your light theme here. -->
+        <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
+    </style>
+
+    <style name="Theme.MiniMoment" parent="Base.Theme.MiniMoment" />
+
+    <style name="Theme.MiniMoment.Splash" parent="Theme.SplashScreen">
+        <item name="windowSplashScreenBackground">@color/white</item>
+        <item name="windowSplashScreenAnimatedIcon">
+            @mipmap/mini_moment_icon_round
+        </item>
+        <item name="windowSplashScreenIconBackgroundColor">@color/white</item>
+        <item name="postSplashScreenTheme">@style/Theme.MiniMoment</item>
+    </style>
+
+    <style name="BottomNavigationViewTextAppearance" parent="TextAppearance.AppCompat.Medium">
+        <item name="android:textSize">10sp</item>
+        <item name="fontFamily">@font/pretendard_regular</item>
+        <item name="android:letterSpacing">-0.07</item>
+        <item name="android:textColor">@color/black</item>
+    </style>
+
+    <style name="NoRippleEffect" parent="Widget.Design.BottomNavigationView">
+        <item name="itemBackground">@android:color/transparent</item>
+    </style>
+
+    <style name="Theme.MiniMoment.RangeSlider" parent="Theme.MiniMoment">
+        <item name="trackHeight">30dp</item>
+        <item name="trackCornerRadius">0dp</item>
+        <item name="trackColorInactive">#7F000000</item>
+        <item name="trackColorActive">@color/transparent</item>
+        <item name="labelBehavior">gone</item>
+    </style>
+</resources>
