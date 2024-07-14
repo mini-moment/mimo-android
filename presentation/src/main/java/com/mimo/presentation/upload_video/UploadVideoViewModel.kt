@@ -2,8 +2,8 @@ package com.mimo.presentation.upload_video
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.mimo.domain.model.CreatePost
 import com.mimo.domain.model.ApiResponse
+import com.mimo.domain.model.CreatePost
 import com.mimo.domain.repository.PostRepository
 import com.mimo.domain.repository.TagRepository
 import com.mimo.domain.repository.VideoRepository
@@ -166,28 +166,6 @@ class UploadVideoViewModel @Inject constructor(
         }
     }
 
-    private suspend fun validationPost(): Boolean {
-        with(uiState.value) {
-            if (videoUri.isBlank()) {
-                _event.emit(
-                    UploadVideoEvent.Error(
-                        errorMessage = ErrorMessage.NO_POST_VIDEO_URL,
-                    ),
-                )
-                return false
-            }
-            if (topic.isBlank()) {
-                _event.emit(
-                    UploadVideoEvent.Error(
-                        errorMessage = ErrorMessage.NO_POST_TOPIC,
-                    ),
-                )
-                return false
-            }
-        }
-        return true
-    }
-
     fun insertPost(
         postRequest: CreatePost,
         thumbnail: File,
@@ -195,9 +173,6 @@ class UploadVideoViewModel @Inject constructor(
         longitude: Double,
     ) {
         viewModelScope.launch {
-            if (validationPost().not()) {
-                return@launch
-            }
             postRepository.insertPost(
                 postRequest = postRequest,
                 thumbnail = thumbnail,

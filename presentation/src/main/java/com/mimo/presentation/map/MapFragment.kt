@@ -38,7 +38,6 @@ import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
-import timber.log.Timber
 import kotlin.math.pow
 
 @AndroidEntryPoint
@@ -58,7 +57,6 @@ class MapFragment : BaseMapFragment<FragmentMapBinding>(R.layout.fragment_map) {
     private var longClickMarker: Marker? = null
 
     override fun initOnCreateView() {
-        Timber.tag("mini-moment").d("hihi")
         initMapView()
     }
 

@@ -52,7 +52,6 @@ dependencies {
     implementation(libs.timber)
     //naver oauth
     implementation(libs.naver.maps)
-    implementation(files("libs/oauth-5.9.1.aar"))
     implementation("androidx.legacy:legacy-support-core-utils:1.0.0")
     implementation("androidx.databinding:databinding-common:8.3.2")
     implementation("androidx.browser:browser:1.4.0")
@@ -75,5 +74,6 @@ dependencies {
     implementation(libs.play.services.location)
     implementation(libs.flex.box)
     implementation(libs.bundles.tedpermission)
+    implementation(project(":libs"))
     implementation(project(":domain"))
 }

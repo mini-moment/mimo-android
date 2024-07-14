@@ -1,5 +1,6 @@
 package com.mimo.presentation.component.bindingadapter
 
+import androidx.appcompat.widget.AppCompatButton
 import androidx.databinding.BindingAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.chip.Chip
@@ -45,4 +46,9 @@ fun RecyclerView.bindThumbnails(items: List<VideoThumbnail>) {
     if (this.adapter != null) {
         (this.adapter as ThumbNailAdapter).submitList(items.toMutableList())
     }
+}
+
+@BindingAdapter(value = ["app:topic", "app:isThumbnailLoading", "app:videoUrl"])
+fun AppCompatButton.bindEnabled(topic: String, isThumbnailLoading: Boolean, videoUrl: String) {
+    this.isEnabled = topic.isNotBlank() && isThumbnailLoading.not() && videoUrl.isNotBlank()
 }

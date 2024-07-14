@@ -83,11 +83,10 @@
             android:layout_width="wrap_content"
             android:layout_height="0dp"
             android:visibility="@{viewModel.uiState.isThumbnailLoading ? View.VISIBLE : View.GONE}"
-            app:layout_constraintTop_toTopOf="@id/slider_video_thumbnail"
             app:layout_constraintBottom_toBottomOf="@id/slider_video_thumbnail"
-            app:layout_constraintStart_toStartOf="@id/slider_video_thumbnail"
             app:layout_constraintEnd_toEndOf="@id/slider_video_thumbnail"
-            />
+            app:layout_constraintStart_toStartOf="@id/slider_video_thumbnail"
+            app:layout_constraintTop_toTopOf="@id/slider_video_thumbnail" />
 
         <com.google.android.material.slider.Slider
             android:id="@+id/slider_video_time"
@@ -145,8 +144,8 @@
             android:id="@+id/recycler_view_tag"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:padding="5dp"
             android:background="@drawable/back_ground_hash_tag_group"
+            android:padding="5dp"
             app:chips="@{viewModel.uiState.tags}"
             app:layoutManager="com.google.android.flexbox.FlexboxLayoutManager"
             app:layout_constraintBottom_toTopOf="@id/gl_bottom"
@@ -180,14 +179,14 @@
             android:layout_height="wrap_content"
             android:focusable="true"
             android:hint="@string/video_topic_title"
+            app:boxStrokeColor="@color/splash_background"
             app:endIconDrawable="@drawable/ic_back_space"
             app:endIconMode="clear_text"
+            app:hintTextColor="@color/splash_background"
             app:layout_constraintBottom_toTopOf="@id/btn_finish_upload"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHeight_percent="0.07"
             app:layout_constraintStart_toStartOf="parent"
-            app:boxStrokeColor="@color/splash_background"
-            app:hintTextColor="@color/splash_background"
             app:layout_constraintTop_toBottomOf="@id/tv_video_topic">
 
             <com.google.android.material.textfield.TextInputEditText
@@ -202,11 +201,14 @@
             style="@style/Typography.Title03"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:background="@drawable/button_background_selector"
             android:text="@string/finish_button_message"
-            android:background="@drawable/rectangle_fill_gray_radius_10"
             android:textColor="@color/white"
+            app:isThumbnailLoading="@{viewModel.uiState.isThumbnailLoading}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
+            app:layout_constraintStart_toStartOf="parent"
+            app:topic="@{viewModel.uiState.topic}"
+            app:videoUrl="@{viewModel.uiState.videoUri}" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

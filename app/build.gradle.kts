@@ -77,6 +77,7 @@ dependencies {
     implementation(project(":domain"))
     implementation(project(":data"))
     implementation(project(":presentation"))
+    implementation(project(":libs"))
     // hilt
     implementation(libs.hilt.android)
     kapt(libs.hilt.compiler)
@@ -90,6 +91,5 @@ dependencies {
     // timber
     implementation(libs.timber)
     // naver
-    implementation(files("libs/oauth-5.9.1.aar"))
     implementation(libs.naver.maps)
 }
