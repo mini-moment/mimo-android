@@ -6,8 +6,11 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.mimo.domain.model.ApiResponse
 import com.mimo.domain.model.Post
+import com.mimo.domain.repository.DataStoreRepository
 import com.mimo.domain.repository.PostRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.MutableSharedFlow
+import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.launch
 import timber.log.Timber
 import javax.inject.Inject
@@ -15,9 +18,13 @@ import javax.inject.Inject
 @HiltViewModel
 class MyPageViewModel @Inject constructor(
     private val postRepository: PostRepository,
+    private val dataStoreRepository: DataStoreRepository,
 ) : ViewModel() {
 
     private val _myPostList = MutableLiveData<List<Post>>()
+    private val _event = MutableSharedFlow<MyPageViewEvent>()
+    val event: SharedFlow<MyPageViewEvent> = _event
+
     val myPostList: LiveData<List<Post>> get() = _myPostList
 
     fun setMyPostList(value: List<Post>) {
@@ -40,6 +47,14 @@ class MyPageViewModel @Inject constructor(
                     Timber.d("나의 게시글 불러오기 알 수 없는 에러 발생!")
                 }
             }
+        }
+    }
+
+    fun userLogout() {
+        viewModelScope.launch {
+            dataStoreRepository.deleteAccessToken()
+            dataStoreRepository.deleteRefreshToken()
+            _event.emit(MyPageViewEvent.Logout)
         }
     }
 }
