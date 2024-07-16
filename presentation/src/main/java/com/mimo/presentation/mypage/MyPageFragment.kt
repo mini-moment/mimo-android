@@ -2,12 +2,17 @@ package com.mimo.presentation.mypage
 
 import android.content.Intent
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import com.mimo.presentation.R
 import com.mimo.presentation.base.BaseFragment
 import com.mimo.presentation.component.adapter.MyPostAdapter
 import com.mimo.presentation.databinding.FragmentMyPageBinding
 import com.mimo.presentation.video_detail.VideoDetailActivity
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class MyPageFragment : BaseFragment<FragmentMyPageBinding>(R.layout.fragment_my_page) {
@@ -21,6 +26,8 @@ class MyPageFragment : BaseFragment<FragmentMyPageBinding>(R.layout.fragment_my_
         initAdapter()
         observeMyPost()
         setMyPostClickEvent()
+        collectMyPageEvent()
+        setUserLogOutEvent()
     }
 
     private fun initData() {
@@ -49,6 +56,28 @@ class MyPageFragment : BaseFragment<FragmentMyPageBinding>(R.layout.fragment_my_
                     putExtra("postIndex", index)
                 },
             )
+        }
+    }
+
+    private fun setUserLogOutEvent() {
+        with(binding) {
+            tvLogout.setOnClickListener {
+                myPageViewModel.userLogout()
+            }
+        }
+    }
+
+    private fun collectMyPageEvent() {
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                myPageViewModel.event.collectLatest { event ->
+                    when (event) {
+                        is MyPageViewEvent.Logout -> {
+                            requireActivity().finish()
+                        }
+                    }
+                }
+            }
         }
     }
 }
