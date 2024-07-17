@@ -75,6 +75,10 @@ class MyPageFragment : BaseFragment<FragmentMyPageBinding>(R.layout.fragment_my_
                         is MyPageViewEvent.Logout -> {
                             requireActivity().finish()
                         }
+
+                        is MyPageViewEvent.Error -> {
+                            showMessage(event.errorMessage)
+                        }
                     }
                 }
             }

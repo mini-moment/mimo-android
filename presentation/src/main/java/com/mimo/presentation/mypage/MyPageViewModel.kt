@@ -8,6 +8,7 @@ import com.mimo.domain.model.ApiResponse
 import com.mimo.domain.model.Post
 import com.mimo.domain.repository.DataStoreRepository
 import com.mimo.domain.repository.PostRepository
+import com.mimo.presentation.util.ErrorMessage
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.SharedFlow
@@ -52,9 +53,14 @@ class MyPageViewModel @Inject constructor(
 
     fun userLogout() {
         viewModelScope.launch {
-            dataStoreRepository.deleteAccessToken()
-            dataStoreRepository.deleteRefreshToken()
-            _event.emit(MyPageViewEvent.Logout)
+            runCatching {
+                dataStoreRepository.deleteAccessToken()
+                dataStoreRepository.deleteRefreshToken()
+            }.onSuccess {
+                _event.emit(MyPageViewEvent.Logout)
+            }.onFailure {
+                _event.emit(MyPageViewEvent.Error(ErrorMessage.LOGOUT_ERROR_MESSAGE))
+            }
         }
     }
 }
