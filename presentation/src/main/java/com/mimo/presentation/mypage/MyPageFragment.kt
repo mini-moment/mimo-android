@@ -28,6 +28,7 @@ class MyPageFragment : BaseFragment<FragmentMyPageBinding>(R.layout.fragment_my_
         setMyPostClickEvent()
         collectMyPageEvent()
         setUserLogOutEvent()
+        setUserUnRegisterEvent()
     }
 
     private fun initData() {
@@ -67,12 +68,24 @@ class MyPageFragment : BaseFragment<FragmentMyPageBinding>(R.layout.fragment_my_
         }
     }
 
+    private fun setUserUnRegisterEvent() {
+        with(binding) {
+            tvUnRegister.setOnClickListener {
+                myPageViewModel.unRegisterUser()
+            }
+        }
+    }
+
     private fun collectMyPageEvent() {
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
                 myPageViewModel.event.collectLatest { event ->
                     when (event) {
                         is MyPageViewEvent.Logout -> {
+                            requireActivity().finish()
+                        }
+
+                        is MyPageViewEvent.UnRegister -> {
                             requireActivity().finish()
                         }
 
