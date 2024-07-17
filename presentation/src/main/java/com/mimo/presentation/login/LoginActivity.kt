@@ -18,7 +18,6 @@ import com.mimo.presentation.databinding.ActivityLoginBinding
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
-import timber.log.Timber
 
 @AndroidEntryPoint
 class LoginActivity : BaseActivity<ActivityLoginBinding>(R.layout.activity_login) {
@@ -55,7 +54,6 @@ class LoginActivity : BaseActivity<ActivityLoginBinding>(R.layout.activity_login
                         }
 
                         is LoginEvent.Error -> {
-                            Timber.tag("mini-moment").d("${loginEvent.errorCode} ${loginEvent.errorMessage}")
                             showMessage(loginEvent.errorMessage)
                         }
                     }

@@ -48,7 +48,7 @@ class LoginViewModel @Inject constructor(
     }
 
     private suspend fun userSignUp(user: User) {
-        userRepository.signUp(
+        userRepository.login(
             User(
                 userName = user.userName ?: "",
                 userContact = user.userContact ?: "",

@@ -8,7 +8,6 @@ import com.mimo.domain.model.ApiResponse
 import com.mimo.domain.model.ErrorResponse
 import com.mimo.domain.model.User
 import com.mimo.domain.repository.UserRepository
-
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import javax.inject.Inject
@@ -17,9 +16,9 @@ class UserRepositoryImpl @Inject constructor(
     private val userRemoteDataSource: UserRemoteDataSource,
     private val localDataSource: LocalDataSource,
 ) : UserRepository {
-    override fun signUp(user: User): Flow<ApiResponse<Boolean>> = flow {
+    override fun login(user: User): Flow<ApiResponse<Boolean>> = flow {
         val response = apiHandler {
-            val result = userRemoteDataSource.signUp(user)
+            val result = userRemoteDataSource.login(user)
             val errorData = Gson().fromJson(result.errorBody()?.string(), ErrorResponse::class.java)
             Pair(result, errorData)
         }
