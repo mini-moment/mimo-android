@@ -41,4 +41,30 @@ class UserRepositoryImpl @Inject constructor(
             else -> {}
         }
     }
+
+    override fun unRegister(): Flow<ApiResponse<Boolean>> = flow {
+        val response = apiHandler {
+            val result = userRemoteDataSource.unRegisterUser()
+            val errorData = Gson().fromJson(result.errorBody()?.string(), ErrorResponse::class.java)
+            Pair(result, errorData)
+        }
+        when (response) {
+            is ApiResponse.Success -> {
+                localDataSource.deleteAccessToken()
+                localDataSource.deleteRefreshToken()
+                emit(ApiResponse.Success(data = response.data.data ?: false))
+            }
+
+            is ApiResponse.Error -> {
+                emit(
+                    ApiResponse.Error(
+                        errorCode = response.errorCode,
+                        errorMessage = response.errorMessage,
+                    ),
+                )
+            }
+
+            else -> {}
+        }
+    }
 }

@@ -1,6 +1,7 @@
 package com.mimo.data.datasource.remote
 
 import com.mimo.data.api.UserApi
+import com.mimo.data.model.UnRegisterResponse
 import com.mimo.data.model.UserLoginResponse
 import com.mimo.domain.model.User
 import retrofit2.Response
@@ -11,5 +12,9 @@ class UserRemoteDataSourceImpl @Inject constructor(
 ) : UserRemoteDataSource {
     override suspend fun login(user: User): Response<UserLoginResponse> {
         return userApi.login(user)
+    }
+
+    override suspend fun unRegisterUser(): Response<UnRegisterResponse> {
+        return userApi.unRegisterUser()
     }
 }
