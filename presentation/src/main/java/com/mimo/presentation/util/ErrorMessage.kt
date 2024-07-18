@@ -9,4 +9,5 @@ object ErrorMessage {
     const val GET_THUMBNAILS_ERROR_MESSAGE = "썸네일을 불러오는데 실패했습니다."
     const val FILE_SIZE_EXCEEDED_MESSAGE = "파일 용량이 초과되었습니다."
     const val GPS_ERROR_MESSAGE = "위치정보를 불러오는데 실패했습니다."
+    const val LOGOUT_ERROR_MESSAGE = "로그아웃에 실피했습니다."
 }
