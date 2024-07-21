@@ -7,4 +7,6 @@ import kotlinx.coroutines.flow.Flow
 interface UserRepository {
 
     fun login(user: User): Flow<ApiResponse<Boolean>>
+
+    fun unRegister(): Flow<ApiResponse<Boolean>>
 }

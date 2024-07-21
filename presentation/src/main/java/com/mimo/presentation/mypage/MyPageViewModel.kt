@@ -8,10 +8,12 @@ import com.mimo.domain.model.ApiResponse
 import com.mimo.domain.model.Post
 import com.mimo.domain.repository.DataStoreRepository
 import com.mimo.domain.repository.PostRepository
+import com.mimo.domain.repository.UserRepository
 import com.mimo.presentation.util.ErrorMessage
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.SharedFlow
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import timber.log.Timber
 import javax.inject.Inject
@@ -20,6 +22,7 @@ import javax.inject.Inject
 class MyPageViewModel @Inject constructor(
     private val postRepository: PostRepository,
     private val dataStoreRepository: DataStoreRepository,
+    private val userRepository: UserRepository,
 ) : ViewModel() {
 
     private val _myPostList = MutableLiveData<List<Post>>()
@@ -60,6 +63,24 @@ class MyPageViewModel @Inject constructor(
                 _event.emit(MyPageViewEvent.Logout)
             }.onFailure {
                 _event.emit(MyPageViewEvent.Error(ErrorMessage.LOGOUT_ERROR_MESSAGE))
+            }
+        }
+    }
+
+    fun unRegisterUser() {
+        viewModelScope.launch {
+            userRepository.unRegister().collectLatest { response ->
+                when (response) {
+                    is ApiResponse.Success -> {
+                        _event.emit(MyPageViewEvent.UnRegister)
+                    }
+
+                    is ApiResponse.Error -> {
+                        _event.emit(MyPageViewEvent.Error(errorMessage = response.errorMessage))
+                    }
+
+                    is ApiResponse.Failure -> {}
+                }
             }
         }
     }
