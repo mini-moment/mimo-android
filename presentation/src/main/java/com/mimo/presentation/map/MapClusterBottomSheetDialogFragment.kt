@@ -19,7 +19,6 @@ import kotlinx.serialization.json.Json
 @AndroidEntryPoint
 class MapClusterBottomSheetDialogFragment :
     BaseBottomSheetDialogFragment<FragmentMapClusterBottomSheetDialogBinding>(R.layout.fragment_map_cluster_bottom_sheet_dialog) {
-
     private lateinit var mapClusterAdapter: MapClusterAdapter
     private var markerList: List<Post> = emptyList()
     private var clusterList: List<Post> = emptyList()
