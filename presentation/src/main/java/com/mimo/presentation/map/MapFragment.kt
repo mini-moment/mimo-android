@@ -30,8 +30,8 @@ import com.naver.maps.map.NaverMap
 import com.naver.maps.map.clustering.Clusterer
 import com.naver.maps.map.overlay.CircleOverlay
 import com.naver.maps.map.overlay.Marker
-import com.naver.maps.map.overlay.OverlayImage
 import com.naver.maps.map.util.FusedLocationSource
+import com.naver.maps.map.util.MarkerIcons
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
@@ -42,7 +42,6 @@ import kotlin.math.pow
 
 @AndroidEntryPoint
 class MapFragment : BaseMapFragment<FragmentMapBinding>(R.layout.fragment_map) {
-
     private val mapViewModel: MapViewModel by viewModels()
 
     private lateinit var naverMap: NaverMap
@@ -82,31 +81,33 @@ class MapFragment : BaseMapFragment<FragmentMapBinding>(R.layout.fragment_map) {
     }
 
     private fun setMapLongClickListener(naverMap: NaverMap) {
-        naverMap.onMapLongClickListener = NaverMap.OnMapLongClickListener { _, latLng ->
-            longClickMarker?.let { marker ->
-                marker.position = latLng
-            } ?: run {
-                longClickMarker = Marker().apply {
-                    position = latLng
-                    map = naverMap
-                    icon = OverlayImage.fromResource(R.drawable.pin)
-                    width = 100
-                    height = 100
+        naverMap.onMapLongClickListener =
+            NaverMap.OnMapLongClickListener { _, latLng ->
+                longClickMarker?.let { marker ->
+                    marker.position = latLng
+                } ?: run {
+                    longClickMarker =
+                        Marker().apply {
+                            position = latLng
+                            map = naverMap
+                            width = 80
+                            height = 100
+                            icon = MarkerIcons.RED
+                        }
+                }
+                val cameraUpdate = CameraUpdate.scrollTo(latLng)
+                naverMap.moveCamera(cameraUpdate)
+                binding.locationSearchVisible = true
+                requireActivity().locationToAddress(latLng.latitude, latLng.longitude) { address ->
+                    mapViewModel.setMarkerEvent(
+                        MarkerEvent.LongClickMarker(
+                            latitude = latLng.latitude,
+                            longitude = latLng.longitude,
+                            address = address,
+                        ),
+                    )
                 }
             }
-            val cameraUpdate = CameraUpdate.scrollTo(latLng)
-            naverMap.moveCamera(cameraUpdate)
-            binding.locationSearchVisible = true
-            requireActivity().locationToAddress(latLng.latitude, latLng.longitude) { address ->
-                mapViewModel.setMarkerEvent(
-                    MarkerEvent.LongClickMarker(
-                        latitude = latLng.latitude,
-                        longitude = latLng.longitude,
-                        address = address,
-                    ),
-                )
-            }
-        }
     }
 
     private fun initNaverMap(naverMap: NaverMap) { // 위치 및 naverMap 세팅
@@ -124,11 +125,12 @@ class MapFragment : BaseMapFragment<FragmentMapBinding>(R.layout.fragment_map) {
         checkLocationPermission(requireActivity())
         requireContext().requestMapPermission {
             fusedLocationClient.lastLocation.addOnSuccessListener { location ->
-                val loc = if (location == null) {
-                    LatLng(DEFAULT_LATITUDE, DEFAULT_LONGITUDE)
-                } else {
-                    LatLng(location.latitude, location.longitude)
-                }
+                val loc =
+                    if (location == null) {
+                        LatLng(DEFAULT_LATITUDE, DEFAULT_LONGITUDE)
+                    } else {
+                        LatLng(location.latitude, location.longitude)
+                    }
                 map.cameraPosition = CameraPosition(loc, DEFAULT_ZOOM)
                 map.locationTrackingMode = LocationTrackingMode.Follow
                 getMarkerList(loc.latitude, loc.longitude, DEFAULT_ZOOM)
@@ -136,7 +138,11 @@ class MapFragment : BaseMapFragment<FragmentMapBinding>(R.layout.fragment_map) {
         }
     }
 
-    private fun getMarkerList(latitude: Double, longitude: Double, round: Double) {
+    private fun getMarkerList(
+        latitude: Double,
+        longitude: Double,
+        round: Double,
+    ) {
         mapViewModel.getMarkerList(
             latitude,
             longitude,
@@ -158,7 +164,10 @@ class MapFragment : BaseMapFragment<FragmentMapBinding>(R.layout.fragment_map) {
         }
     }
 
-    private fun setCircleOverlay(location: LatLng, zoom: Double) { // 범위 생성
+    private fun setCircleOverlay(
+        location: LatLng,
+        zoom: Double,
+    ) { // 범위 생성
         circle.map = null
         circle.center = LatLng(location.latitude, location.longitude)
         radius = 3 * 2.0.pow(22 - zoom) / 1000
@@ -198,10 +207,17 @@ class MapFragment : BaseMapFragment<FragmentMapBinding>(R.layout.fragment_map) {
     }
 
     private fun observeMarkerEvent() {
-        mapViewModel.event.flowWithLifecycle(viewLifecycleOwner.lifecycle)
+        mapViewModel.event
+            .flowWithLifecycle(viewLifecycleOwner.lifecycle)
             .onEach {
                 val data =
-                    (mapViewModel.postState.value as UiState.Success<List<Post>>).data
+                    when (mapViewModel.postState.value) {
+                        is UiState.Success -> {
+                            (mapViewModel.postState.value as UiState.Success<List<Post>>).data
+                        }
+
+                        else -> null
+                    }
                 val postList = Json.encodeToString(data)
                 when (it) {
                     is MarkerEvent.LeafMarker -> {
@@ -213,7 +229,7 @@ class MapFragment : BaseMapFragment<FragmentMapBinding>(R.layout.fragment_map) {
                                 putExtra("postList", postList)
                                 putExtra(
                                     "postIndex",
-                                    data.indexOf(
+                                    data?.indexOf(
                                         data.filter { post ->
                                             post.id == it.idx
                                         }[0],
@@ -225,7 +241,7 @@ class MapFragment : BaseMapFragment<FragmentMapBinding>(R.layout.fragment_map) {
 
                     is MarkerEvent.ClusterMarker -> {
                         val clusterPostList =
-                            Json.encodeToString(data.filter { post -> it.idxList.contains(post.id) })
+                            Json.encodeToString(data?.filter { post -> it.idxList.contains(post.id) })
                         requireActivity().locationToAddress(it.latitude, it.longitude) { address ->
                             this@MapFragment.findNavController().navigate(
                                 R.id.action_mapFragment_to_mapClusterBottomSheetDialogFragment,
@@ -250,8 +266,7 @@ class MapFragment : BaseMapFragment<FragmentMapBinding>(R.layout.fragment_map) {
                         }
                     }
                 }
-            }
-            .launchIn(viewLifecycleOwner.lifecycleScope)
+            }.launchIn(viewLifecycleOwner.lifecycleScope)
     }
 
     companion object {
