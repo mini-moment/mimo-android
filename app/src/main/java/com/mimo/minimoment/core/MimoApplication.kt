@@ -1,8 +1,8 @@
-package com.mimo.android.core
+package com.mimo.minimoment.core
 
 import android.app.Application
 import androidx.appcompat.app.AppCompatDelegate
-import com.mimo.android.BuildConfig
+import com.mimo.minimoment.BuildConfig
 import com.navercorp.nid.NaverIdLoginSDK
 import dagger.hilt.android.HiltAndroidApp
 import timber.log.Timber

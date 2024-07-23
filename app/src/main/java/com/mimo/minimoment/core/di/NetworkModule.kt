@@ -1,7 +1,7 @@
-package com.mimo.android.core.di
+package com.mimo.minimoment.core.di
 
 import com.google.gson.GsonBuilder
-import com.mimo.android.BuildConfig
+import com.mimo.minimoment.BuildConfig
 import com.mimo.data.network.AccessTokenInterceptor
 import dagger.Module
 import dagger.Provides

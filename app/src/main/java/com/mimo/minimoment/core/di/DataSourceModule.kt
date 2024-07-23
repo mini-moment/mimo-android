@@ -1,4 +1,4 @@
-package com.mimo.android.core.di
+package com.mimo.minimoment.core.di
 
 import com.mimo.data.datasource.local.LocalDataSource
 import com.mimo.data.datasource.local.LocalDataSourceImpl
