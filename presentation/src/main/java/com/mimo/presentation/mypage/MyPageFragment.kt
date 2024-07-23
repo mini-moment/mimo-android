@@ -1,10 +1,12 @@
 package com.mimo.presentation.mypage
 
 import android.content.Intent
+import android.net.Uri
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
+import com.mimo.presentation.BuildConfig
 import com.mimo.presentation.R
 import com.mimo.presentation.base.BaseFragment
 import com.mimo.presentation.component.adapter.MyPostAdapter
@@ -13,10 +15,11 @@ import com.mimo.presentation.video_detail.VideoDetailActivity
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
+import kotlinx.serialization.encodeToString
+import kotlinx.serialization.json.Json
 
 @AndroidEntryPoint
 class MyPageFragment : BaseFragment<FragmentMyPageBinding>(R.layout.fragment_my_page) {
-
     private val myPageViewModel: MyPageViewModel by viewModels()
 
     private lateinit var myPostAdapter: MyPostAdapter
@@ -29,6 +32,7 @@ class MyPageFragment : BaseFragment<FragmentMyPageBinding>(R.layout.fragment_my_
         collectMyPageEvent()
         setUserLogOutEvent()
         setUserUnRegisterEvent()
+        setInformationClickEvent()
     }
 
     private fun initData() {
@@ -46,14 +50,22 @@ class MyPageFragment : BaseFragment<FragmentMyPageBinding>(R.layout.fragment_my_
         }
     }
 
+    private fun setInformationClickEvent() {
+        binding.tvPrivacy.setOnClickListener {
+            val intent = Intent(Intent.ACTION_VIEW, Uri.parse(BuildConfig.PRIVACY_WEB_URL))
+            startActivity(intent)
+        }
+    }
+
     private fun setMyPostClickEvent() {
         myPostAdapter.setOnItemClickListener { index ->
+            val myPostList = Json.encodeToString(myPageViewModel.myPostList.value)
             startActivity(
                 Intent(
                     requireActivity(),
                     VideoDetailActivity::class.java,
                 ).apply {
-                    putExtra("postList", myPageViewModel.myPostList.value?.toTypedArray())
+                    putExtra("postList", myPostList)
                     putExtra("postIndex", index)
                 },
             )
