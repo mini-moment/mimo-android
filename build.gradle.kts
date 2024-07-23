@@ -7,9 +7,10 @@ plugins {
     alias(libs.plugins.org.jetbrains.kotlin.jvm) apply false
     alias(libs.plugins.kotlinx.serialization) apply false
     alias(libs.plugins.navigation.safe.args) apply false
+    alias(libs.plugins.google.service) apply false
 }
 buildscript {
     dependencies {
-        classpath("com.google.android.libraries.mapsplatform.secrets-gradle-plugin:secrets-gradle-plugin:2.0.1")
+        classpath(libs.secrets.gradle.plugin)
     }
 }
