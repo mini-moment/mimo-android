@@ -20,7 +20,8 @@ fun ViewPager2.bindPosts(items: List<Post>) {
 
 @BindingAdapter("app:userProfileImage")
 fun ImageView.bindUserProfileImage(url: String) {
-    Glide.with(context)
+    Glide
+        .with(context)
         .load(url)
         .centerCrop()
         .circleCrop()
@@ -38,7 +39,8 @@ fun ChipGroup.bindPostHashTags(tagList: List<Post.Tag>) {
             setChipIconResource(R.drawable.ic_hash_tag)
             chipIconSize = 30f
             setChipBackgroundColorResource(R.color.splash_logo_message_color)
-            setChipStrokeColorResource(R.color.black)
+            setChipStrokeColorResource(R.color.white)
+            chipStrokeWidth = 1f
             addView(this)
         }
     }
