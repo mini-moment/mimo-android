@@ -44,7 +44,7 @@
             android:paddingHorizontal="53dp"
             android:paddingVertical="12dp"
             android:text="@string/location_search"
-            android:textColor="@color/bold_purple"
+            android:textColor="@color/splash_background"
             android:visibility="@{locationSearchVisible ? View.VISIBLE : View.GONE, default = gone}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
