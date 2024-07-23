@@ -1,8 +1,7 @@
-package com.mimo.android
-
-import org.junit.Test
+package com.mimo.minimoment
 
 import org.junit.Assert.*
+import org.junit.Test
 
 /**
  * Example local unit test, which will execute on the development machine (host).

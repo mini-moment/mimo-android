@@ -1,4 +1,4 @@
-package com.mimo.data
+package com.mimo.minimoment
 
 /**
  * Instrumented test, which will execute on an Android device.
