@@ -19,7 +19,10 @@ fun RecyclerView.bindChips(items: List<HashTag>) {
 }
 
 @BindingAdapter("selectedChips", "clickEvent")
-fun ChipGroup.bindSelectedChips(items: List<HashTag>, click: () -> Unit) {
+fun ChipGroup.bindSelectedChips(
+    items: List<HashTag>,
+    click: () -> Unit,
+) {
     removeAllViews()
     items.forEach { tag ->
         Chip(context).apply {
@@ -28,7 +31,7 @@ fun ChipGroup.bindSelectedChips(items: List<HashTag>, click: () -> Unit) {
             isCloseIconVisible = true
             setChipIconResource(R.drawable.ic_hash_tag)
             setChipBackgroundColorResource(R.color.splash_background)
-            setChipStrokeColorResource(R.color.black)
+            setChipStrokeColorResource(R.color.white)
             chipIconSize = 40f
             chipStrokeWidth = 5f
             setOnCloseIconClickListener {
@@ -49,6 +52,10 @@ fun RecyclerView.bindThumbnails(items: List<VideoThumbnail>) {
 }
 
 @BindingAdapter(value = ["app:topic", "app:isThumbnailLoading", "app:videoUrl"])
-fun AppCompatButton.bindEnabled(topic: String, isThumbnailLoading: Boolean, videoUrl: String) {
+fun AppCompatButton.bindEnabled(
+    topic: String,
+    isThumbnailLoading: Boolean,
+    videoUrl: String,
+) {
     this.isEnabled = topic.isNotBlank() && isThumbnailLoading.not() && videoUrl.isNotBlank()
 }
