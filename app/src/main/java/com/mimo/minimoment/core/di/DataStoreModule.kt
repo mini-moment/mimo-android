@@ -1,11 +1,11 @@
-package com.mimo.android.core.di
+package com.mimo.minimoment.core.di
 
 import android.content.Context
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.PreferenceDataStoreFactory
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.preferencesDataStoreFile
-import com.mimo.android.BuildConfig
+import com.mimo.minimoment.BuildConfig
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

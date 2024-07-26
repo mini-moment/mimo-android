@@ -21,7 +21,6 @@ import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class LoginActivity : BaseActivity<ActivityLoginBinding>(R.layout.activity_login) {
-
     private val loginViewModel: LoginViewModel by viewModels()
     private val splashViewModel: SplashViewModel by viewModels()
     private lateinit var splashScreen: SplashScreen
@@ -88,12 +87,13 @@ class LoginActivity : BaseActivity<ActivityLoginBinding>(R.layout.activity_login
 
     private fun startAnimation() {
         splashScreen.setOnExitAnimationListener { splashScreenView ->
-            val slideUp = ObjectAnimator.ofFloat(
-                splashScreenView.view,
-                View.TRANSLATION_Y,
-                0f,
-                -splashScreenView.view.height.toFloat(),
-            )
+            val slideUp =
+                ObjectAnimator.ofFloat(
+                    splashScreenView.view,
+                    View.TRANSLATION_Y,
+                    0f,
+                    -splashScreenView.view.height.toFloat(),
+                )
             slideUp.interpolator = AnticipateInterpolator()
             slideUp.duration = 1500
             slideUp.doOnEnd {

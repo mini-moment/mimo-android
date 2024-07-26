@@ -1,20 +1,18 @@
+import java.io.FileInputStream
 import java.util.Properties
 
 plugins {
     alias(libs.plugins.com.android.application)
     alias(libs.plugins.org.jetbrains.kotlin.android)
-    kotlin("kapt")
-    id("com.google.dagger.hilt.android")
+    id("kotlin-kapt")
+    alias(libs.plugins.google.service)
+    alias(libs.plugins.hilt)
     id("com.google.android.libraries.mapsplatform.secrets-gradle-plugin")
 }
 
 android {
-    namespace = "com.mimo.android"
+    namespace = "com.mimo.minimoment"
     compileSdk = 34
-
-    packagingOptions {
-        exclude("META-INF/gradle/incremental.annotation.processors")
-    }
 
     val properties = Properties()
     properties.load(project.rootProject.file("local.properties").inputStream())
@@ -23,18 +21,29 @@ android {
     val dataStoreName = properties["DATASTORE_NAME"] ?: ""
     val naverMapClientKey = properties["NAVER_MAP_CLIENT_KEY"]
     val mimoServerUrl = properties["MIMO_SERVER_URL"] ?: ""
+    val keystorePropertiesFile = rootProject.file("keystore.properties")
+    val keystoreProperties = Properties()
+    keystoreProperties.load(FileInputStream(keystorePropertiesFile))
 
     defaultConfig {
-        applicationId = "com.mimo.android"
+        applicationId = "com.mimo.minimoment"
         minSdk = 26
         targetSdk = 34
-        versionCode = 1
-        versionName = "1.0"
+        versionCode = 2
+        versionName = "1.0.0"
         buildConfigField("String", "CLIENT_ID", "$clientId")
         buildConfigField("String", "CLIENT_SECRET", "$clientSecret")
         buildConfigField("String", "DATASTORE_NAME", "$dataStoreName")
         buildConfigField("String", "MIMO_SERVER_URL", "$mimoServerUrl")
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+    }
+    signingConfigs {
+        create("release") {
+            keyAlias = keystoreProperties["keyAlias"] as String
+            keyPassword = keystoreProperties["keyPassword"] as String
+            storeFile = file(keystoreProperties["storeFile"] as String)
+            storePassword = keystoreProperties["storePassword"] as String
+        }
     }
 
     buildTypes {
@@ -81,15 +90,16 @@ dependencies {
     // hilt
     implementation(libs.hilt.android)
     kapt(libs.hilt.compiler)
-    implementation("androidx.hilt:hilt-navigation-fragment:1.2.0")
+    implementation(libs.androidx.hilt.navigation.fragment)
     // retrofit,
-    implementation("com.squareup.retrofit2:converter-gson:2.9.0")
+    implementation(libs.converter.gson)
     // okHttpClient
     implementation(libs.bundles.network)
     // datastore
     implementation(libs.datastore.preferences)
     // timber
     implementation(libs.timber)
+    implementation(platform(libs.firebase.bom))
     // naver
     implementation(libs.naver.maps)
 }

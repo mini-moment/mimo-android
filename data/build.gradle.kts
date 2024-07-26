@@ -5,7 +5,7 @@ plugins {
     alias(libs.plugins.com.android.library)
     alias(libs.plugins.org.jetbrains.kotlin.android)
     alias(libs.plugins.hilt)
-    kotlin("kapt")
+    id("kotlin-kapt")
 }
 
 val properties = Properties()
@@ -42,9 +42,11 @@ android {
 }
 
 dependencies {
-    implementation(libs.bundles.hilt)
+    implementation(libs.hilt.android)
+    kapt(libs.hilt.compiler)
     implementation(libs.bundles.network)
     implementation(libs.datastore.preferences)
     implementation(libs.junit)
+    implementation(libs.androidx.test.ext.junit)
     implementation(project(":domain"))
 }

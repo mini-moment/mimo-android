@@ -8,7 +8,7 @@ plugins {
     alias(libs.plugins.hilt)
     alias(libs.plugins.kotlinx.serialization)
     id("com.google.android.libraries.mapsplatform.secrets-gradle-plugin")
-    kotlin("kapt")
+    id("kotlin-kapt")
 }
 
 val properties = Properties()
@@ -52,15 +52,15 @@ dependencies {
     implementation(libs.timber)
     //naver oauth
     implementation(libs.naver.maps)
-    implementation("androidx.legacy:legacy-support-core-utils:1.0.0")
-    implementation("androidx.databinding:databinding-common:8.3.2")
-    implementation("androidx.browser:browser:1.4.0")
-    implementation("androidx.security:security-crypto:1.1.0-alpha06")
-    implementation("com.airbnb.android:lottie:3.1.0")
+    implementation(libs.androidx.legacy.support.core.utils)
+    implementation(libs.androidx.databinding.common)
+    implementation(libs.androidx.browser)
+    implementation(libs.androidx.security.crypto)
+    implementation(libs.lottie)
     //hilt
     implementation(libs.hilt.android)
-    kapt("com.google.dagger:hilt-android-compiler:2.48")
-    implementation("androidx.hilt:hilt-navigation-fragment:1.2.0")
+    kapt(libs.hilt.compiler)
+    implementation(libs.androidx.hilt.navigation.fragment)
     //exoplayer
     implementation(libs.bundles.media3)
     //splash screen

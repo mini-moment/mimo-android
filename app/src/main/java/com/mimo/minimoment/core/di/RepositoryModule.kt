@@ -1,4 +1,4 @@
-package com.mimo.android.core.di
+package com.mimo.minimoment.core.di
 
 import com.mimo.data.repositoryimpl.DataStoreRepositoryImpl
 import com.mimo.data.repositoryimpl.MapRepositoryImpl

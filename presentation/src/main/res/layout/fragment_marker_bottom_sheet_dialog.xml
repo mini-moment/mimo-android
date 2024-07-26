@@ -14,6 +14,7 @@
         android:id="@+id/cl_marker_bottom_sheet"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:padding="15dp"
         tools:context=".presentation.map.MarkerBottomSheetDialogFragment">
 
         <TextView
@@ -27,12 +28,13 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
+        <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/btn_upload_video"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
+            style="@style/Typography.Title03"
             android:text="@string/upload_video_message"
-            app:icon="@drawable/ic_upload_video"
+            android:background="@drawable/button_background_selector"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"

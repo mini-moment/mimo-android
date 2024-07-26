@@ -4,8 +4,14 @@ androidxCore = "1.3.0"
 androidxAppCompat = "1.6.1"
 androidxDataStore = "1.1.1"
 androidxNavigation = "2.7.7"
+browser = "1.8.0"
+databindingCommon = "8.5.1"
+firebaseBom = "33.1.2"
+hiltNavigationFragment = "1.2.0"
+legacySupportCoreUtils = "1.0.0"
 lifecycle-runtime-ktx = "2.8.1"
 lifecycle-extensions = "2.2.0"
+lottie = "3.1.0"
 navermaps = "3.18.0"
 gson = "2.8.8"
 kotlin = "1.9.22"
@@ -21,6 +27,8 @@ kotlinx-serialization = "1.6.0"
 kotlinx-serialization-converter = "1.0.0"
 coroutines = "1.7.0"
 glide = "4.15.0"
+secretsGradlePlugin = "2.0.1"
+securityCrypto = "1.1.0-alpha06"
 timber = "5.0.1"
 media3 = "1.3.1"
 junit = "4.13.2"
@@ -28,16 +36,24 @@ androidx-test-ext-junit = "1.2.1"
 espresso-core = "3.6.1"
 splashscreen = "1.0.1"
 playServicesLocation = "21.3.0"
+gms = "4.4.2"
 flexbox = "3.0.0"
 ted-permission = "3.3.0"
 
 [libraries]
 android-gradlePlugin = { group = "com.android.tools.build", name = "gradle", version.ref = "agp" }
+androidx-browser = { module = "androidx.browser:browser", version.ref = "browser" }
+androidx-databinding-common = { module = "androidx.databinding:databinding-common", version.ref = "databindingCommon" }
+androidx-hilt-navigation-fragment = { module = "androidx.hilt:hilt-navigation-fragment", version.ref = "hiltNavigationFragment" }
+androidx-legacy-support-core-utils = { module = "androidx.legacy:legacy-support-core-utils", version.ref = "legacySupportCoreUtils" }
+androidx-security-crypto = { module = "androidx.security:security-crypto", version.ref = "securityCrypto" }
+converter-gson = { module = "com.squareup.retrofit2:converter-gson", version.ref = "retrofit" }
 kotlin-gradlePlugin = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin", version.ref = "kotlin" }
 lifecycle-runtime-ktx = { group = "androidx.lifecycle", name = "lifecycle-runtime-ktx", version.ref = "lifecycle-runtime-ktx" }
 lifecycle-extensions = { group = "androidx.lifecycle", name = "lifecycle-extensions", version.ref = "lifecycle-extensions" }
 core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "androidxCore" }
 appcompat = { group = "androidx.appcompat", name = "appcompat", version.ref = "androidxAppCompat" }
+lottie = { module = "com.airbnb.android:lottie", version.ref = "lottie" }
 navigation-fragment-ktx = { group = "androidx.navigation", name = "navigation-fragment-ktx", version.ref = "androidxNavigation" }
 navigation-ui-ktx = { group = "androidx.navigation", name = "navigation-ui-ktx", version.ref = "androidxNavigation" }
 datastore-preferences = { group = "androidx.datastore", name = "datastore-preferences", version.ref = "androidxDataStore" }
@@ -55,6 +71,7 @@ kotlinx-serialization-converter = { module = "com.jakewharton.retrofit:retrofit2
 coroutines-core = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-core", version.ref = "coroutines" }
 coroutines-android = {group = "org.jetbrains.kotlinx", name="kotlinx-coroutines-android",version.ref="coroutines"}
 glide = { group = "com.github.bumptech.glide", name = "glide", version.ref = "glide" }
+secrets-gradle-plugin = { module = "com.google.android.libraries.mapsplatform.secrets-gradle-plugin:secrets-gradle-plugin", version.ref = "secretsGradlePlugin" }
 timber = { module = "com.jakewharton.timber:timber", version.ref = "timber" }
 
 exoplayer-core = { group = "androidx.media3", name = "media3-exoplayer", version.ref = "media3" }
@@ -73,10 +90,10 @@ play-services-location = { group = "com.google.android.gms", name = "play-servic
 flex-box = { group = "com.google.android.flexbox", name = "flexbox", version.ref = "flexbox" }
 ted-permission-normal = { group = "io.github.ParkSangGwon", name = "tedpermission-normal", version.ref = "ted-permission" }
 ted-permission-coroutine = { group = "io.github.ParkSangGwon", name = "tedpermission-coroutine", version.ref = "ted-permission" }
+firebase-bom = { module = "com.google.firebase:firebase-bom", version.ref = "firebaseBom" }
 [bundles]
 media3 = ["exoplayer-core", "exoplayer-ui", "exoplayer-hls"]
 android = ["core-ktx", "lifecycle-runtime-ktx", "material", "lifecycle-extensions", "glide","appcompat"]
-hilt = ["hilt-android", "hilt-compiler"]
 network = ["retrofit", "okhttp-logging-interceptor", "gson"]
 navigation = ["navigation-fragment-ktx", "navigation-ui-ktx"]
 tedpermission = ["ted-permission-coroutine","ted-permission-normal"]
@@ -90,3 +107,4 @@ hilt = { id = "com.google.dagger.hilt.android", version.ref = "hilt" }
 kotlinx-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
 navigation-safe-args = { id = "androidx.navigation.safeargs.kotlin", version.ref = "androidxNavigation" }
 ksp = { id = "com.google.devtools.ksp", version = "1.9.22-1.0.12" }
+google-service = { id = "com.google.gms.google-services", version.ref = "gms"}
