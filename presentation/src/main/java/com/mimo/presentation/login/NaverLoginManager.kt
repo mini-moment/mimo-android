@@ -75,4 +75,8 @@ object NaverLoginManager {
     fun login(context: Context) {
         NaverIdLoginSDK.authenticate(context, oauthLoginCallback)
     }
+
+    fun logout() {
+        NaverIdLoginSDK.logout()
+    }
 }
