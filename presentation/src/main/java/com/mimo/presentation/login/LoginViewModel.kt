@@ -13,60 +13,62 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class LoginViewModel @Inject constructor(
-    private val userRepository: UserRepository,
-) : ViewModel() {
+class LoginViewModel
+    @Inject
+    constructor(
+        private val userRepository: UserRepository,
+    ) : ViewModel() {
+        private val _event = MutableSharedFlow<LoginEvent>()
+        val event: SharedFlow<LoginEvent> = _event
 
-    private val _event = MutableSharedFlow<LoginEvent>()
-    val event: SharedFlow<LoginEvent> = _event
+        init {
+            observerLoginResponse()
+        }
 
-    init {
-        observerLoginResponse()
-    }
+        private fun observerLoginResponse() {
+            viewModelScope.launch {
+                NaverLoginManager.loginResult.collectLatest { loginResponse ->
+                    when (loginResponse) {
+                        is ApiResponse.Success -> {
+                            userSignUp(loginResponse.data)
+                        }
 
-    private fun observerLoginResponse() {
-        viewModelScope.launch {
-            NaverLoginManager.loginResult.collectLatest { loginResponse ->
-                when (loginResponse) {
-                    is ApiResponse.Success -> {
-                        userSignUp(loginResponse.data)
+                        is ApiResponse.Error -> {
+                            _event.emit(
+                                LoginEvent.Error(
+                                    errorCode = loginResponse.errorCode,
+                                    errorMessage = loginResponse.errorMessage,
+                                ),
+                            )
+                        }
+
+                        is ApiResponse.Failure -> {}
                     }
-
-                    is ApiResponse.Error -> {
-                        _event.emit(
-                            LoginEvent.Error(
-                                errorCode = loginResponse.errorCode,
-                                errorMessage = loginResponse.errorMessage,
-                            ),
-                        )
-                    }
-
-                    is ApiResponse.Failure -> {}
                 }
             }
         }
-    }
 
-    private suspend fun userSignUp(user: User) {
-        userRepository.login(
-            User(
-                userName = user.userName ?: "",
-                userContact = user.userContact ?: "",
-                accessToken = user.accessToken ?: "",
-                profileImageUrl = user.profileImageUrl ?: "",
-                refreshToken = user.refreshToken ?: "",
-            ),
-        ).collectLatest { signUpResponse ->
-            when (signUpResponse) {
-                is ApiResponse.Success -> _event.emit(LoginEvent.Success)
-                is ApiResponse.Failure -> {}
-                is ApiResponse.Error -> _event.emit(
-                    LoginEvent.Error(
-                        errorCode = signUpResponse.errorCode,
-                        errorMessage = signUpResponse.errorMessage,
+        private suspend fun userSignUp(user: User) {
+            userRepository
+                .login(
+                    User(
+                        userName = user.userName ?: "",
+                        accessToken = user.accessToken ?: "",
+                        profileImageUrl = user.profileImageUrl ?: "",
+                        refreshToken = user.refreshToken ?: "",
                     ),
-                )
-            }
+                ).collectLatest { signUpResponse ->
+                    when (signUpResponse) {
+                        is ApiResponse.Success -> _event.emit(LoginEvent.Success)
+                        is ApiResponse.Failure -> {}
+                        is ApiResponse.Error ->
+                            _event.emit(
+                                LoginEvent.Error(
+                                    errorCode = signUpResponse.errorCode,
+                                    errorMessage = signUpResponse.errorMessage,
+                                ),
+                            )
+                    }
+                }
         }
     }
-}
