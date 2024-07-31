@@ -17,13 +17,12 @@ object NaverLoginManager {
 
     private val profileCallback =
         object : NidProfileCallback<NidProfileResponse> {
-            override fun onSuccess(response: NidProfileResponse) {
+            override fun onSuccess(result: NidProfileResponse) {
                 _loginResult.value =
                     ApiResponse.Success(
                         User(
-                            userName = response.profile?.name ?: "",
-                            userContact = response.profile?.mobile ?: "",
-                            profileImageUrl = response.profile?.profileImage ?: "",
+                            userName = result.profile?.name ?: "",
+                            profileImageUrl = result.profile?.profileImage ?: "",
                             accessToken = NaverIdLoginSDK.getAccessToken() ?: "",
                             refreshToken = NaverIdLoginSDK.getRefreshToken() ?: "",
                         ),
@@ -75,5 +74,9 @@ object NaverLoginManager {
 
     fun login(context: Context) {
         NaverIdLoginSDK.authenticate(context, oauthLoginCallback)
+    }
+
+    fun logout() {
+        NaverIdLoginSDK.logout()
     }
 }
