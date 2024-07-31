@@ -12,35 +12,36 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class SplashViewModel @Inject constructor(
-    private val dataStoreRepository: DataStoreRepository,
-) : ViewModel() {
+class SplashViewModel
+    @Inject
+    constructor(
+        private val dataStoreRepository: DataStoreRepository,
+    ) : ViewModel() {
+        private val _event = MutableSharedFlow<LoginEvent>()
+        val event: SharedFlow<LoginEvent> = _event
 
-    private val _event = MutableSharedFlow<LoginEvent>()
-    val event: SharedFlow<LoginEvent> = _event
+        init {
+            getUserPreferences()
+        }
 
-    init {
-        getUserPreferences()
-    }
+        private fun getUserPreferences() {
+            viewModelScope.launch {
+                dataStoreRepository.getUserToken().collectLatest { apiResponse ->
+                    when (apiResponse) {
+                        is ApiResponse.Success -> _event.emit(LoginEvent.Success)
 
-    private fun getUserPreferences() {
-        viewModelScope.launch {
-            dataStoreRepository.getUserToken().collectLatest { apiResponse ->
-                when (apiResponse) {
-                    is ApiResponse.Success -> _event.emit(LoginEvent.Success)
+                        is ApiResponse.Error -> {
+                            _event.emit(
+                                LoginEvent.Error(
+                                    errorCode = apiResponse.errorCode,
+                                    errorMessage = apiResponse.errorMessage,
+                                ),
+                            )
+                        }
 
-                    is ApiResponse.Error -> {
-                        _event.emit(
-                            LoginEvent.Error(
-                                errorCode = apiResponse.errorCode,
-                                errorMessage = apiResponse.errorMessage,
-                            ),
-                        )
+                        is ApiResponse.Failure -> {}
                     }
-
-                    is ApiResponse.Failure -> {}
                 }
             }
         }
     }
-}
