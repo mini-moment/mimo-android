@@ -11,16 +11,23 @@ import com.mimo.domain.model.Post
 import com.mimo.presentation.BuildConfig
 import com.mimo.presentation.databinding.ItemPostBinding
 
-class PostListAdapter(private val exoPlayer: ExoPlayer) : ListAdapter<Post, PostItemViewHolder>(
-    DiffUtilCallback()
-) {
-
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PostItemViewHolder {
+class PostListAdapter(
+    private val exoPlayer: ExoPlayer,
+) : ListAdapter<Post, PostItemViewHolder>(
+        DiffUtilCallback(),
+    ) {
+    override fun onCreateViewHolder(
+        parent: ViewGroup,
+        viewType: Int,
+    ): PostItemViewHolder {
         val binding = ItemPostBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return PostItemViewHolder(binding, exoPlayer)
     }
 
-    override fun onBindViewHolder(holder: PostItemViewHolder, position: Int) {
+    override fun onBindViewHolder(
+        holder: PostItemViewHolder,
+        position: Int,
+    ) {
         holder.bind(getItem(position))
     }
 
@@ -37,26 +44,27 @@ class PostListAdapter(private val exoPlayer: ExoPlayer) : ListAdapter<Post, Post
 
 class PostItemViewHolder(
     private val binding: ItemPostBinding,
-    private val exoPlayer: ExoPlayer
-) :
-    RecyclerView.ViewHolder(binding.root) {
-
+    private val exoPlayer: ExoPlayer,
+) : RecyclerView.ViewHolder(binding.root) {
     private lateinit var mediaItem: MediaItem
 
     fun bind(item: Post) {
         with(binding) {
             post = item
-            mediaItem = MediaItem.fromUri(BuildConfig.MIMO_SERVER_URL + BuildConfig.MIMO_VIDEO_BASE_URL + item.videoUrl)
+            mediaItem =
+                MediaItem.fromUri(BuildConfig.MIMO_SERVER_URL + BuildConfig.MIMO_VIDEO_BASE_URL + item.videoUrl)
         }
     }
 
     fun startPlayer() {
         binding.playerViewVideodetailPostVideo.player = exoPlayer
         binding.playerViewVideodetailPostVideo.useController = false
-        exoPlayer?.repeatMode = REPEAT_MODE_ALL
-        exoPlayer?.setMediaItem(mediaItem)
-        exoPlayer?.prepare()
-        exoPlayer?.playWhenReady = true
+        with(exoPlayer) {
+            repeatMode = REPEAT_MODE_ALL
+            setMediaItem(mediaItem)
+            prepare()
+            playWhenReady = true
+        }
     }
 
     fun stopPlayer() {
