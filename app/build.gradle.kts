@@ -29,8 +29,8 @@ android {
         applicationId = "com.mimo.minimoment"
         minSdk = 26
         targetSdk = 34
-        versionCode = 3
-        versionName = "1.0.0"
+        versionCode = 5
+        versionName = "1.0.1"
         buildConfigField("String", "CLIENT_ID", "$clientId")
         buildConfigField("String", "CLIENT_SECRET", "$clientSecret")
         buildConfigField("String", "DATASTORE_NAME", "$dataStoreName")
