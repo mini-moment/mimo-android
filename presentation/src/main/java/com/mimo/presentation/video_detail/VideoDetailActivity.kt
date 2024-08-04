@@ -11,8 +11,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.serialization.json.Json
 
 @AndroidEntryPoint
-class VideoDetailActivity :
-    BaseActivity<ActivityVideoDetailBinding>(R.layout.activity_video_detail) {
+class VideoDetailActivity : BaseActivity<ActivityVideoDetailBinding>(R.layout.activity_video_detail) {
     private val videoDetailViewModel: VideoDetailViewModel by viewModels()
     private lateinit var postListAdapter: PostListAdapter
     private lateinit var exoPlayer: ExoPlayer
@@ -27,10 +26,11 @@ class VideoDetailActivity :
 
     private fun initData() {
         val postIndex = intent.getIntExtra("postIndex", -1)
-        val postList: List<Post> = intent.getStringExtra("postList")?.let {
-            Json.decodeFromString(it)
-        } ?: emptyList()
-        videoDetailViewModel.setPostList(postList)
+        val postList: List<Post> =
+            intent.getStringExtra("postList")?.let {
+                Json.decodeFromString(it)
+            } ?: emptyList()
+        videoDetailViewModel.setPostList(postList, postIndex)
     }
 
     private fun setPostListAdapter() {
