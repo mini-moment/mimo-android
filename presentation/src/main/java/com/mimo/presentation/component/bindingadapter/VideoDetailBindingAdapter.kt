@@ -18,6 +18,11 @@ fun ViewPager2.bindPosts(items: List<Post>) {
     }
 }
 
+@BindingAdapter("app:postIndex")
+fun ViewPager2.bindPostIndex(index: Int) {
+    this.setCurrentItem(index, false)
+}
+
 @BindingAdapter("app:userProfileImage")
 fun ImageView.bindUserProfileImage(url: String) {
     Glide
