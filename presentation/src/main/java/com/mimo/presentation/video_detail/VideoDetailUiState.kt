@@ -4,4 +4,5 @@ import com.mimo.domain.model.Post
 
 data class VideoDetailUiState(
     val posts: List<Post> = listOf(),
+    val postIndex: Int = 0,
 )
