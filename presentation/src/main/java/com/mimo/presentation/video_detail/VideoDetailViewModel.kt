@@ -11,19 +11,25 @@ import kotlinx.coroutines.flow.update
 import javax.inject.Inject
 
 @HiltViewModel
-class VideoDetailViewModel @Inject constructor() : ViewModel() {
-    private val _event = MutableSharedFlow<VideoDetailEvent>()
-    val event: SharedFlow<VideoDetailEvent> = _event
-    private val _uiState = MutableStateFlow(VideoDetailUiState())
-    val uiState: StateFlow<VideoDetailUiState> = _uiState
+class VideoDetailViewModel
+    @Inject
+    constructor() : ViewModel() {
+        private val _event = MutableSharedFlow<VideoDetailEvent>()
+        val event: SharedFlow<VideoDetailEvent> = _event
+        private val _uiState = MutableStateFlow(VideoDetailUiState())
+        val uiState: StateFlow<VideoDetailUiState> = _uiState
 
-    fun setPostList(postList: List<Post>?) {
-        if (postList != null) {
-            _uiState.update { uiState ->
-                uiState.copy(
-                    posts = postList,
-                )
+        fun setPostList(
+            postList: List<Post>?,
+            postIndex: Int,
+        ) {
+            if (postList != null && postIndex != -1) {
+                _uiState.update { uiState ->
+                    uiState.copy(
+                        posts = postList,
+                        postIndex = postIndex,
+                    )
+                }
             }
         }
     }
-}
