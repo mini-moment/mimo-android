@@ -45,7 +45,14 @@ class VideoThumbnailUtil {
 }
 
 fun Long.converterTimeLine(): String {
-    val posSeconds = (this / 1000) % 60
-    val posMinutes = (this / (1000 * 60)) % 60
-    return String.format("%02d:%02d", posMinutes, posSeconds)
+    val absoluteMillis = abs(this)
+    val posSeconds = (absoluteMillis / 1000) % 60
+    val posMinutes = (absoluteMillis / (1000 * 60)) % 60
+    val posHours = (absoluteMillis / (1000 * 60 * 60)) % 24
+
+    return if (posHours > 0) {
+        String.format(Locale.ROOT, "%02d:%02d:%02d", posHours, posMinutes, posSeconds)
+    } else {
+        String.format(Locale.ROOT, "%02d:%02d", posMinutes, posSeconds)
+    }
 }
