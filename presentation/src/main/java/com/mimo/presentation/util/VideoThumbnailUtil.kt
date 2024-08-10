@@ -3,9 +3,10 @@ package com.mimo.presentation.util
 import android.graphics.Bitmap
 import android.media.MediaMetadataRetriever
 import com.mimo.presentation.upload_video.VideoThumbnail
+import java.util.Locale
+import kotlin.math.abs
 
 class VideoThumbnailUtil {
-
     private val thumbnailCount = 10
 
     fun getVideoThumbnails(
@@ -21,9 +22,10 @@ class VideoThumbnailUtil {
         for (i in 0 until thumbnailCount) {
             val timeUs = (i * interval) * 1000L
             val bitmap = retriever.getFrameAtTime(timeUs, MediaMetadataRetriever.OPTION_CLOSEST)
-            val scaledBitmap = bitmap?.let {
-                Bitmap.createScaledBitmap(it, width / 10, it.height, false)
-            }
+            val scaledBitmap =
+                bitmap?.let {
+                    Bitmap.createScaledBitmap(it, width / 10, it.height, false)
+                }
             if (scaledBitmap != null) {
                 thumbnails.add(VideoThumbnail(thumbnails.size, scaledBitmap))
             }
@@ -32,10 +34,13 @@ class VideoThumbnailUtil {
         return thumbnails
     }
 
-    fun getVideoThumbnail(start: Long, path: String): Bitmap? {
+    fun getVideoThumbnail(
+        start: Long,
+        path: String,
+    ): Bitmap? {
         val retriever = MediaMetadataRetriever()
         retriever.setDataSource(path)
-        return retriever.getFrameAtTime(start, MediaMetadataRetriever.OPTION_CLOSEST)
+        return retriever.getFrameAtTime(start, MediaMetadataRetriever.OPTION_CLOSEST_SYNC)
     }
 }
 
