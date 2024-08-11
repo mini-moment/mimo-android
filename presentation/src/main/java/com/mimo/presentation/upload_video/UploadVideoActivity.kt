@@ -10,7 +10,7 @@ import android.net.Uri
 import android.os.Environment
 import android.view.View
 import androidx.activity.result.PickVisualMediaRequest
-import androidx.activity.result.contract.ActivityResultContracts.*
+import androidx.activity.result.contract.ActivityResultContracts.PickVisualMedia
 import androidx.activity.viewModels
 import androidx.core.net.toUri
 import androidx.lifecycle.Lifecycle
@@ -35,10 +35,12 @@ import com.mimo.presentation.component.adapter.ThumbNailAdapter
 import com.mimo.presentation.databinding.ActivityUploadVideoBinding
 import com.mimo.presentation.dialog.LoadingDialog
 import com.mimo.presentation.util.ErrorMessage
+import com.mimo.presentation.util.ThrottleDuration
 import com.mimo.presentation.util.VideoThumbnailUtil
 import com.mimo.presentation.util.convertBitmapToFile
 import com.mimo.presentation.util.converterTimeLine
 import com.mimo.presentation.util.getRealPathFromURI
+import com.mimo.presentation.util.setClickEvent
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
@@ -50,9 +52,7 @@ import java.io.File
 import java.nio.ByteBuffer
 
 @AndroidEntryPoint
-class UploadVideoActivity :
-    BaseActivity<ActivityUploadVideoBinding>(R.layout.activity_upload_video) {
-
+class UploadVideoActivity : BaseActivity<ActivityUploadVideoBinding>(R.layout.activity_upload_video) {
     private val uploadVideoViewModel: UploadVideoViewModel by viewModels()
     private val tagListAdapter = TagListAdapter()
     private val thumbNailAdapter = ThumbNailAdapter()
@@ -63,41 +63,46 @@ class UploadVideoActivity :
     private var latitude = 0.0
     private var longitude = 0.0
 
-    private val pickMedia = registerForActivityResult(PickVisualMedia()) { uri ->
-        if (uri != null) {
-            val fileUrl = getRealPathFromURI(this, uri)
-            val file = File(fileUrl)
-            binding.sliderVideoThumbnail.visibility = View.VISIBLE
-            uploadVideoViewModel.setVideoUrl(uri.toString())
-            val widthPixels = binding.recyclerViewVideoThumbnail.measuredWidth
-            uploadVideoViewModel.getThumbnails(width = widthPixels, path = file.path)
+    private val pickMedia =
+        registerForActivityResult(PickVisualMedia()) { uri ->
+            if (uri != null) {
+                val fileUrl = getRealPathFromURI(this, uri)
+                val file = File(fileUrl)
+                binding.sliderVideoThumbnail.visibility = View.VISIBLE
+                uploadVideoViewModel.setVideoUrl(uri.toString())
+                val widthPixels = binding.recyclerViewVideoThumbnail.measuredWidth
+                uploadVideoViewModel.getThumbnails(width = widthPixels, path = file.path)
+            }
         }
-    }
 
     private fun playVideo(uri: Uri) {
-        player = ExoPlayer.Builder(this).build().also { exoPlayer ->
-            binding.playerViewVideo.player = exoPlayer
-            exoPlayer.setMediaItem(MediaItem.fromUri(uri))
-            exoPlayer.prepare()
-            exoPlayer.addListener(object : Player.Listener {
-                override fun onIsPlayingChanged(isPlaying: Boolean) {
-                    if (isPlaying) {
-                        startTracking()
-                    } else {
-                        stopTracking()
-                    }
-                }
-            })
-        }
+        player =
+            ExoPlayer.Builder(this).build().also { exoPlayer ->
+                binding.playerViewVideo.player = exoPlayer
+                exoPlayer.setMediaItem(MediaItem.fromUri(uri))
+                exoPlayer.prepare()
+                exoPlayer.addListener(
+                    object : Player.Listener {
+                        override fun onIsPlayingChanged(isPlaying: Boolean) {
+                            if (isPlaying) {
+                                startTracking()
+                            } else {
+                                stopTracking()
+                            }
+                        }
+                    },
+                )
+            }
     }
 
     private fun startTracking() {
-        trackingJob = lifecycleScope.launch {
-            while (true) {
-                trackingVideo()
-                delay(100)
+        trackingJob =
+            lifecycleScope.launch {
+                while (true) {
+                    trackingVideo()
+                    delay(100)
+                }
             }
-        }
     }
 
     private fun stopTracking() {
@@ -118,10 +123,16 @@ class UploadVideoActivity :
 
     override fun init() {
         with(binding) {
-            btnFinishUpload.setOnClickListener {
+            btnFinishUpload.setClickEvent(
+                uiScope = lifecycleScope,
+                duration = ThrottleDuration.LONG.period,
+            ) {
                 loadVideo()
             }
-            btnUploadVideo.setOnClickListener {
+            btnUploadVideo.setClickEvent(
+                uiScope = lifecycleScope,
+                duration = ThrottleDuration.LONG.period,
+            ) {
                 pickMedia.launch(PickVisualMediaRequest(PickVisualMedia.VideoOnly))
             }
             viewModel = uploadVideoViewModel
@@ -146,8 +157,7 @@ class UploadVideoActivity :
                         longitude = location.longitude
                         latitude = location.latitude
                     }
-                }
-                .addOnFailureListener {
+                }.addOnFailureListener {
                     showMessage(ErrorMessage.GPS_ERROR_MESSAGE)
                 }
         }
@@ -162,25 +172,33 @@ class UploadVideoActivity :
             val newPosition1 = (videoLength * binding.sliderVideoThumbnail.values[0] / 100).toLong()
             val newPosition2 = (videoLength * binding.sliderVideoThumbnail.values[1] / 100).toLong()
             lifecycleScope.launch {
-                val videoClip = withContext(Dispatchers.IO) {
-                    editVideo(file, newPosition1, newPosition2)
-                }
+                val videoClip =
+                    withContext(Dispatchers.IO) {
+                        editVideo(file, newPosition1, newPosition2)
+                    }
                 uploadVideoViewModel.uploadVideo(videoClip)
             }
         }
     }
 
     @SuppressLint("WrongConstant")
-    private fun editVideo(file: File, start: Long, end: Long): File {
+    private fun editVideo(
+        file: File,
+        start: Long,
+        end: Long,
+    ): File {
         val rootPath =
-            Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES)
+            Environment
+                .getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES)
                 .toString()
-        video = File(
-            "$rootPath/" + file.name.replace(
-                file.name,
-                "edit_${file.name}",
-            ),
-        )
+        video =
+            File(
+                "$rootPath/" +
+                    file.name.replace(
+                        file.name,
+                        "edit_${file.name}",
+                    ),
+            )
         val outputFilePath = video.absolutePath
         val extractor = MediaExtractor()
         extractor.setDataSource(file.path)
@@ -223,16 +241,19 @@ class UploadVideoActivity :
 
     private fun setRecyclerView() {
         with(binding.recyclerViewTag) {
-            tagListAdapter.setTagClickListener(object : TagClickListener {
-                override fun onClick(item: HashTag) {
-                    uploadVideoViewModel.selectTag()
-                }
-            })
+            tagListAdapter.setTagClickListener(
+                object : TagClickListener {
+                    override fun onClick(item: HashTag) {
+                        uploadVideoViewModel.selectTag()
+                    }
+                },
+            )
             adapter = tagListAdapter
-            layoutManager = FlexboxLayoutManager(context).apply {
-                flexWrap = FlexWrap.WRAP
-                flexDirection = FlexDirection.ROW
-            }
+            layoutManager =
+                FlexboxLayoutManager(context).apply {
+                    flexWrap = FlexWrap.WRAP
+                    flexDirection = FlexDirection.ROW
+                }
         }
         with(binding.recyclerViewVideoThumbnail) {
             adapter = thumbNailAdapter
@@ -257,15 +278,17 @@ class UploadVideoActivity :
                             val filePath = getRealPathFromURI(this@UploadVideoActivity, uri.toUri())
                             val image = VideoThumbnailUtil().getVideoThumbnail(start, filePath)
                             image?.let { image ->
-                                val thumbnailRequest = convertBitmapToFile(
-                                    this@UploadVideoActivity,
-                                    image,
-                                )
-                                val postRequest = CreatePost(
-                                    title = uploadVideoViewModel.uiState.value.topic,
-                                    videoUrl = uiEvent.videoPath,
-                                    tagList = uploadVideoViewModel.uiState.value.selectedTags,
-                                )
+                                val thumbnailRequest =
+                                    convertBitmapToFile(
+                                        this@UploadVideoActivity,
+                                        image,
+                                    )
+                                val postRequest =
+                                    CreatePost(
+                                        title = uploadVideoViewModel.uiState.value.topic,
+                                        videoUrl = uiEvent.videoPath,
+                                        tagList = uploadVideoViewModel.uiState.value.selectedTags,
+                                    )
                                 uploadVideoViewModel.insertPost(
                                     postRequest,
                                     thumbnailRequest,
