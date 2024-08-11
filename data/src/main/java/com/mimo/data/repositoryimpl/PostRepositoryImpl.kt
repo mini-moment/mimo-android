@@ -86,26 +86,28 @@ class PostRepositoryImpl @Inject constructor(private val postRemoteDataSource: P
         }
     }
 
-    override suspend fun getMyPost(): ApiResponse<List<Post>> {
+    override suspend fun getMyPost(): Flow<ApiResponse<List<Post>>> = flow {
         val response = apiHandler {
             val result = postRemoteDataSource.getMyPost()
             val errorData = Gson().fromJson(result.errorBody()?.string(), ErrorResponse::class.java)
             Pair(result, errorData)
         }
-        return when (response) {
+        when (response) {
             is ApiResponse.Success -> {
-                ApiResponse.Success(data = response.data.toPostList())
+                emit(ApiResponse.Success(data = response.data.toPostList()))
             }
 
             is ApiResponse.Error -> {
-                ApiResponse.Error(
-                    errorCode = response.errorCode,
-                    errorMessage = response.errorMessage,
+                emit(
+                    ApiResponse.Error(
+                        errorCode = response.errorCode,
+                        errorMessage = response.errorMessage,
+                    )
                 )
             }
 
             else -> {
-                ApiResponse.Failure
+                emit(ApiResponse.Failure)
             }
         }
     }
