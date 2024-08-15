@@ -2,6 +2,11 @@
     <!-- Base application theme. -->
     <style name="Base.Theme.MiniMoment" parent="Theme.Material3.DayNight.NoActionBar">
         <!-- Customize your light theme here. -->
+
+        <item name="android:windowDrawsSystemBarBackgrounds">true</item>
+        <item name="android:windowLightStatusBar">false</item>
+        <item name="android:statusBarColor">@color/transparent</item>
+        <item name="android:windowTranslucentStatus">true</item>
         <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
     </style>
 
