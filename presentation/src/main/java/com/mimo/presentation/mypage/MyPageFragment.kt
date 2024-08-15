@@ -45,6 +45,7 @@ class MyPageFragment : BaseFragment<FragmentMyPageBinding>(R.layout.fragment_my_
     private fun initAdapter() {
         myPostAdapter = MyPostAdapter()
         binding.vpMyPost.adapter = myPostAdapter
+        binding.dotsIndicator.attachTo(binding.vpMyPost)
     }
 
     private fun observeMyPost() {

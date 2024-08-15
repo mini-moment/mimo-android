@@ -47,32 +47,10 @@
             android:text="@{postData.title}"
             android:textColor="@color/black"
             android:textSize="20sp"
-            app:layout_constraintEnd_toStartOf="@+id/cl_indicator"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/iv_thumbnail" />
 
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/cl_indicator"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="20dp"
-            android:background="@drawable/button_enable"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/text_content">
-
-            <TextView
-                android:id="@+id/tv_indicator"
-                style="@style/Typography.Body01.Regular"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:padding="10dp"
-                android:text="@{indicator}"
-                android:textColor="@color/black"
-                android:textSize="12sp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
-        </androidx.constraintlayout.widget.ConstraintLayout>
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rc_tag_list"
