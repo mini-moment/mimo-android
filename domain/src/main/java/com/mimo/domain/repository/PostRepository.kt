@@ -19,5 +19,5 @@ interface PostRepository {
         ids: List<Int>,
     ): Flow<ApiResponse<List<Post>>>
 
-    suspend fun getMyPost(): ApiResponse<List<Post>>
+    suspend fun getMyPost(): Flow<ApiResponse<List<Post>>>
 }

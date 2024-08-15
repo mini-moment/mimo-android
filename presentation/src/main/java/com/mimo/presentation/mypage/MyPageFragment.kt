@@ -4,6 +4,7 @@ import android.content.Intent
 import android.net.Uri
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import com.mimo.presentation.BuildConfig
@@ -14,6 +15,8 @@ import com.mimo.presentation.databinding.FragmentMyPageBinding
 import com.mimo.presentation.video_detail.VideoDetailActivity
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
@@ -42,12 +45,16 @@ class MyPageFragment : BaseFragment<FragmentMyPageBinding>(R.layout.fragment_my_
     private fun initAdapter() {
         myPostAdapter = MyPostAdapter()
         binding.vpMyPost.adapter = myPostAdapter
+        binding.dotsIndicator.attachTo(binding.vpMyPost)
     }
 
     private fun observeMyPost() {
-        myPageViewModel.myPostList.observe(viewLifecycleOwner) {
-            myPostAdapter.submitList(it)
-        }
+        myPageViewModel.myPostList.flowWithLifecycle(viewLifecycleOwner.lifecycle)
+            .onEach {
+                myPostAdapter.submitList(it)
+                binding.emptyVisible = it.isEmpty()
+            }
+            .launchIn(viewLifecycleOwner.lifecycleScope)
     }
 
     private fun setInformationClickEvent() {

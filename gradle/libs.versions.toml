@@ -6,6 +6,7 @@ androidxDataStore = "1.1.1"
 androidxNavigation = "2.7.7"
 browser = "1.8.0"
 databindingCommon = "8.5.1"
+dotsindicator = "5.0"
 firebaseBom = "33.1.2"
 hiltNavigationFragment = "1.2.0"
 legacySupportCoreUtils = "1.0.0"
@@ -48,6 +49,7 @@ androidx-hilt-navigation-fragment = { module = "androidx.hilt:hilt-navigation-fr
 androidx-legacy-support-core-utils = { module = "androidx.legacy:legacy-support-core-utils", version.ref = "legacySupportCoreUtils" }
 androidx-security-crypto = { module = "androidx.security:security-crypto", version.ref = "securityCrypto" }
 converter-gson = { module = "com.squareup.retrofit2:converter-gson", version.ref = "retrofit" }
+dotsindicator = { module = "com.tbuonomo:dotsindicator", version.ref = "dotsindicator" }
 kotlin-gradlePlugin = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin", version.ref = "kotlin" }
 lifecycle-runtime-ktx = { group = "androidx.lifecycle", name = "lifecycle-runtime-ktx", version.ref = "lifecycle-runtime-ktx" }
 lifecycle-extensions = { group = "androidx.lifecycle", name = "lifecycle-extensions", version.ref = "lifecycle-extensions" }

@@ -74,6 +74,7 @@ dependencies {
     implementation(libs.play.services.location)
     implementation(libs.flex.box)
     implementation(libs.bundles.tedpermission)
+    implementation(libs.dotsindicator)
     implementation(project(":libs"))
     implementation(project(":domain"))
 }

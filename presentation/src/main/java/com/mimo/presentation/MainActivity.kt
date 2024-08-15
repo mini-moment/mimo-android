@@ -1,5 +1,12 @@
 package com.mimo.presentation
 
+import android.view.ViewGroup
+import android.view.ViewGroup.MarginLayoutParams
+import android.view.WindowManager
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowCompat
+import androidx.core.view.WindowInsetsCompat
+import androidx.core.view.updateLayoutParams
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
 import com.mimo.presentation.base.BaseActivity
@@ -10,9 +17,13 @@ import dagger.hilt.android.AndroidEntryPoint
 class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main) {
 
     private lateinit var navHostFragment: NavHostFragment
+
     override fun init() {
         initNavigation()
+
     }
+
+
 
     private fun initNavigation() { // 네비게이션 세팅
         navHostFragment =
