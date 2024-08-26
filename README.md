@@ -2,7 +2,8 @@
 미니모먼트 안드로이드 레퍼지토리입니다.
 
 ## 패키지 구조
-MiMo
+```
+🐶MiMo
 ┣ 📂app
 ┃┣ 📂 di
 ┃┣ 📂 application
@@ -21,8 +22,9 @@ MiMo
 ┣  📂presentation
 ┃┣ 📂base
 ┃┣ 📂component
-┃ ┃ ┣ 📂 adapter
-┃ ┃ ┣ 📂 dialog
+┃┃┣ 📂 adapter
+┃┃┣ 📂 dialog
 ┃┣ 📂view
-┃ ┃ ┣ 📂 viewmodel
+┃┃┣ 📂 viewmodel
 ┗📂utils
+```
