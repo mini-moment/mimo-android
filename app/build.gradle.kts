@@ -29,7 +29,7 @@ android {
         applicationId = "com.mimo.minimoment"
         minSdk = 26
         targetSdk = 34
-        versionCode = 4
+        versionCode = 6
         versionName = "1.0.2"
         buildConfigField("String", "CLIENT_ID", "$clientId")
         buildConfigField("String", "CLIENT_SECRET", "$clientSecret")
