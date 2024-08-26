@@ -378,9 +378,7 @@ class UploadVideoActivity : BaseActivity<ActivityUploadVideoBinding>(R.layout.ac
                         slider.value = minRangeValue
                     } else if (value >= maxRangeValue) {
                         player?.run {
-                            val newPosition =
-                                (videoLength * sliderVideoThumbnail.values[0] / 100).toLong()
-                            seekTo(newPosition)
+                            seekTo((videoLength * sliderVideoThumbnail.values[0] / 100).toLong())
                             pause()
                         }
                     }
@@ -388,7 +386,7 @@ class UploadVideoActivity : BaseActivity<ActivityUploadVideoBinding>(R.layout.ac
                 sliderVideoTime.setLabelFormatter {
                     newPosition.converterTimeLine()
                 }
-                sliderVideoTime.labelBehavior = LabelFormatter.LABEL_VISIBLE
+                sliderVideoTime.labelBehavior = LabelFormatter.LABEL_FLOATING
             }
         }
     }
