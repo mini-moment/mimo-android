@@ -5,6 +5,9 @@
 
     <data>
 
+        <variable
+            name="vm"
+            type="com.mimo.presentation.login.LoginViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -17,7 +20,8 @@
         <ImageView
             android:id="@+id/iv_icon"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="300dp"
+            android:layout_marginTop="30dp"
             android:src="@drawable/ic_icon"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -28,18 +32,56 @@
             style="@style/Typography.Title01"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="50dp"
             android:text="@string/login_app_info"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="@id/iv_icon"
             app:layout_constraintTop_toBottomOf="@id/iv_icon" />
 
-        <com.navercorp.nid.oauth.view.NidOAuthLoginButton
-            android:id="@+id/btn_naver_login"
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/textField_id"
             android:layout_width="match_parent"
-            android:layout_height="45dp"
-            android:layout_marginTop="20dp"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="50dp"
+            android:layout_marginTop="50dp"
+            android:hint="@string/login_id"
+            app:endIconMode="clear_text"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tv_logo" />
+            app:layout_constraintTop_toBottomOf="@id/tv_logo">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/et_id"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="text" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btn_login"
+            style="@style/Typography.Title03"
+            android:layout_width="0dp"
+            android:layout_height="60dp"
+            android:layout_marginTop="30dp"
+            android:layout_weight="1"
+            android:background="@drawable/button_enable"
+            android:text="@string/login_message"
+            android:textColor="@color/white"
+            app:layout_constraintBottom_toTopOf="@id/btn_naver_login"
+            app:layout_constraintEnd_toEndOf="@id/textField_id"
+            app:layout_constraintStart_toStartOf="@id/textField_id"
+            app:layout_constraintTop_toBottomOf="@id/textField_id" />
+
+        <com.navercorp.nid.oauth.view.NidOAuthLoginButton
+            android:id="@+id/btn_naver_login"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:scaleType="fitStart"
+            app:layout_constraintEnd_toEndOf="@id/textField_id"
+            app:layout_constraintStart_toStartOf="@id/textField_id"
+            app:layout_constraintTop_toBottomOf="@id/btn_login" />
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

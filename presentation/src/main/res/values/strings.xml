@@ -8,5 +8,5 @@
     <string name="finish_button_message">완료</string>
     <string name="post_loading_message">게시글 업로드중이예요..\n 조금만 기다려주세요🙏</string>
     <string name="login_id">아이디</string>
-    <string name="login_message">로그인</string>
+    <string name="login_message">관리자 로그인</string>
 </resources>

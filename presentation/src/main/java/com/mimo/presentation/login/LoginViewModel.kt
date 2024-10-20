@@ -71,4 +71,39 @@ class LoginViewModel
                     }
                 }
         }
+
+        fun adminLogin(userName: String) {
+            viewModelScope.launch {
+                if (userName.isEmpty()) {
+                    _event.emit(LoginEvent.Error(errorMessage = "아이디를 입력해주세요"))
+                    return@launch
+                }
+                if (userName != "test") {
+                    _event.emit(LoginEvent.Error(errorMessage = "관리자 계정으로 입력해주세요!"))
+                    return@launch
+                }
+                userRepository
+                    .login(
+                        User(
+                            userName = userName,
+                            accessToken = "test",
+                            refreshToken = "test",
+                            profileImageUrl = "https://ssl.pstatic.net/static/pwe/address/img_profile.png",
+                        ),
+                    ).collectLatest { response ->
+                        when (response) {
+                            is ApiResponse.Error ->
+                                _event.emit(
+                                    LoginEvent.Error(
+                                        errorMessage = response.errorMessage,
+                                        errorCode = response.errorCode,
+                                    ),
+                                )
+
+                            ApiResponse.Failure -> {}
+                            is ApiResponse.Success -> _event.emit(LoginEvent.Success)
+                        }
+                    }
+            }
+        }
     }
