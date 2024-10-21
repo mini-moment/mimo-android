@@ -40,6 +40,10 @@ class LoginActivity : BaseActivity<ActivityLoginBinding>(R.layout.activity_login
             btnNaverLogin.setOnClickListener {
                 NaverLoginManager.login(this@LoginActivity)
             }
+            btnLogin.setOnClickListener {
+                loginViewModel.adminLogin(etId.text.toString())
+            }
+            vm = loginViewModel
         }
     }
 
